@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ConsumerStreams.Application/ConsumerStreams.Application.csproj" />
+    <Project Path="src/ConsumerStreams.Domain/ConsumerStreams.Domain.csproj" />
+    <Project Path="src/ConsumerStreams.Infrastructure/ConsumerStreams.Infrastructure.csproj" />
+    <Project Path="src/ConsumerStreams.Worker/ConsumerStreams.Worker.csproj" />
+  </Folder>
+</Solution>

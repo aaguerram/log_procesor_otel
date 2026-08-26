@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/KafkaDemo.Application/KafkaDemo.Application.csproj" />
+    <Project Path="src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj" />
+    <Project Path="src/KafkaDemo.Domain/KafkaDemo.Domain.csproj" />
+    <Project Path="src/KafkaDemo.Infrastructure/KafkaDemo.Infrastructure.csproj" />
+    <Project Path="src/KafkaDemo.Web/KafkaDemo.Web.csproj" />
+  </Folder>
+</Solution>

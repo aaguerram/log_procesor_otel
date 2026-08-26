@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kafka Hub | Portal Productor y Gestión .NET 10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="logo-group">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title">Kafka Stream Console & Portal</h1>
+          <p class="app-subtitle">Red Hat AMQ Streams &bull; .NET 10 Hexagonal &bull; Consumer Streams AOT</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div id="cluster-status-badge" class="status-badge status-checking">
+          <span class="status-dot"></span>
+          <span id="cluster-status-text">Verificando clúster...</span>
+        </div>
+        <button id="btn-refresh" class="btn btn-secondary btn-icon" title="Actualizar datos">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          Actualizar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <!-- Quick Stats Cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon icon-purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Tópicos Activos</span>
+          <span id="stat-topics-count" class="stat-value">-</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+            <line x1="6" y1="6" x2="6.01" y2="6"/>
+            <line x1="6" y1="18" x2="6.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Particiones Totales</span>
+          <span id="stat-partitions-count" class="stat-value">-</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-emerald">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Estado del Clúster</span>
+          <span id="stat-cluster-health" class="stat-value">Conectado</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon icon-amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Mensajes Enviados (Sesión)</span>
+          <span id="stat-sent-count" class="stat-value">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Navigation Tabs -->
+    <div class="tabs-container">
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-producer">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          Portal de Envío de Mensajes (Productor Web)
+        </button>
+        <button class="tab-btn" data-tab="tab-topics">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M4 6h16M4 12h16M4 18h7"/>
+          </svg>
+          Gestión de Tópicos
+        </button>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="tab-actions">
+        <button id="btn-quick-20" class="btn btn-gradient">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          ⚡ Enviar Lote de 20 Transacciones
+        </button>
+        <button id="btn-open-create-topic" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Crear Tópico
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 1: PRODUCTOR DE DATOS (PORTAL WEB DE ENVÍO) -->
+    <section id="tab-producer" class="tab-content active">
+      <div class="grid-two-cols">
+        <!-- Formulario Productor Manual -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Portal de Publicación de Eventos</h2>
+              <p class="card-subtitle">Redacta o edita el payload JSON transaccional para publicar a Kafka</p>
+            </div>
+            <span class="badge badge-user">.NET 10 Hexagonal</span>
+          </div>
+          <form id="form-send-message" class="form-grid">
+            <div class="form-group">
+              <label for="msg-topic-select">Tópico de Destino en Kafka *</label>
+              <select id="msg-topic-select" class="form-input" required>
+                <option value="produbanco-transactions-v1">produbanco-transactions-v1 (Tópico por defecto)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="msg-key-input">Clave de Partición (Message Key / Cuenta Origen)</label>
+              <input type="text" id="msg-key-input" class="form-input" placeholder="Ej: ACCT-19283746" value="ACCT-10928374">
+            </div>
+
+            <!-- Botones de Presets Rápidos -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="msg-value-input" id="label-json-payload">
+                  Payload del Evento (JSON Estructurado por Defecto) *
+                </label>
+                <div class="presets-row">
+                  <button type="button" class="btn-chip" data-preset="transfer">💳 Transferencia</button>
+                  <button type="button" class="btn-chip" data-preset="atm">🏧 Retiro ATM</button>
+                  <button type="button" class="btn-chip" data-preset="qr">📱 Pago QR</button>
+                  <button type="button" id="btn-sample-json" class="btn-chip btn-chip-active">🎲 Generar Nuevo</button>
+                  <button type="button" id="btn-format-json" class="btn-chip">✨ Formatear</button>
+                </div>
+              </div>
+              <textarea id="msg-value-input" class="form-input code-input" rows="12" required></textarea>
+              <small class="form-hint">El JSON cargado por defecto es procesado en tiempo real por el pipeline de <code>consumer_streams</code> (AOT).</small>
+            </div>
+
+            <button type="submit" id="btn-submit-message" class="btn btn-gradient btn-block btn-lg">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Publicar Evento a Kafka
+            </button>
+          </form>
+        </div>
+
+        <!-- Consola de Resultados y Flujo en Vivo -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Consola de Eventos Publicados</h2>
+              <p class="card-subtitle">Monitoreo de offsets, particiones y latencias en tiempo real</p>
+            </div>
+            <button id="btn-clear-logs" class="btn btn-secondary btn-sm">Limpiar Consola</button>
+          </div>
+          <div id="messages-stream" class="console-stream">
+            <div class="console-empty">
+              <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="1.5" fill="none">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <p>El portal web está listo.<br>Haz clic en <strong>Publicar Evento a Kafka</strong> o usa <strong>Enviar Lote de 20 Transacciones</strong> para ver la actividad en vivo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: GESTIÓN DE TÓPICOS -->
+    <section id="tab-topics" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Tópicos Disponibles en Kafka</h2>
+            <p class="card-subtitle">Administra los canales de eventos de tu clúster Red Hat AMQ Streams</p>
+          </div>
+          <div class="card-tools">
+            <label class="checkbox-label">
+              <input type="checkbox" id="chk-include-internal">
+              <span>Incluir tópicos internos (__consumer_offsets)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nombre del Tópico</th>
+                <th>Particiones</th>
+                <th>Replicación</th>
+                <th>Tipo</th>
+                <th style="text-align: right;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="topics-table-body">
+              <tr>
+                <td colspan="5" class="table-loading">Cargando lista de tópicos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Crear Tópico -->
+  <div id="modal-create-topic" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Crear Nuevo Tópico en Kafka</h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <form id="form-create-topic">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="new-topic-name">Nombre del Tópico *</label>
+            <input type="text" id="new-topic-name" class="form-input" placeholder="ej: clientes-eventos-v1" required pattern="[a-zA-Z0-9\\._\\-]+">
+            <small class="form-hint">Solo letras, números, puntos, guiones y guiones bajos.</small>
+          </div>
+
+          <div class="grid-two-cols">
+            <div class="form-group">
+              <label for="new-topic-partitions">Número de Particiones</label>
+              <input type="number" id="new-topic-partitions" class="form-input" value="3" min="1" max="50" required>
+              <small class="form-hint">Permite paralelismo de consumidores.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="new-topic-replication">Factor de Replicación</label>
+              <input type="number" id="new-topic-replication" class="form-input" value="1" min="1" max="10" required>
+              <small class="form-hint">1 para nodo local / clúster individual.</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+          <button type="submit" id="btn-submit-create" class="btn btn-primary">Crear Tópico</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Detalle Tópico -->
+  <div id="modal-topic-details" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="details-topic-title">Detalles del Tópico</h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="topic-partitions-list" class="partitions-grid">
+          <!-- Partitions rendered via JS -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

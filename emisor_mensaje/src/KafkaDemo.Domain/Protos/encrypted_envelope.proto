@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package produbanco.security.v1;
+
+option csharp_namespace = "Produbanco.Security.V1";
+
+message EncryptedPayloadEnvelope {
+  // 1. El JSON Cifrado
+  bytes data = 1;                    // Ciphertext binario del JSON original (hasta 1 MB o más)
+
+  // 2. Parámetros Criptográficos AEAD
+  bytes nonce = 2;                   // Vector de Inicialización (IV) de 12 bytes
+  bytes auth_tag = 3;                // Tag de autenticación e integridad de 16 bytes
+  int32 algorithm_version = 4;       // 1 = AES-256-GCM
+
+  // 3. Identificación y Tokenización de Azure Key Vault
+  string cert_thumbprint = 5;        // Huella digital del certificado X.509
+  string vault_token_id = 6;         // Token o alias de la clave en Azure Key Vault
+
+  // 4. Metadatos de Trazabilidad
+  string transaction_id = 7;         // ID de la transacción bancaria
+  int64 timestamp_unix_ms = 8;       // Timestamp de emisión
+}

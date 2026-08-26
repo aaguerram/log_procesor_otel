@@ -1,0 +1,32 @@
+# ==========================================
+# Etapa 1: Build y Publicación (.NET 10 SDK)
+# ==========================================
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+COPY ["src/KafkaDemo.Domain/KafkaDemo.Domain.csproj", "src/KafkaDemo.Domain/"]
+COPY ["src/KafkaDemo.Application/KafkaDemo.Application.csproj", "src/KafkaDemo.Application/"]
+COPY ["src/KafkaDemo.Infrastructure/KafkaDemo.Infrastructure.csproj", "src/KafkaDemo.Infrastructure/"]
+COPY ["src/KafkaDemo.Web/KafkaDemo.Web.csproj", "src/KafkaDemo.Web/"]
+
+RUN dotnet restore "src/KafkaDemo.Web/KafkaDemo.Web.csproj"
+
+COPY src/ src/
+WORKDIR "/src/src/KafkaDemo.Web"
+RUN dotnet publish "KafkaDemo.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# ==========================================
+# Etapa 2: Runtime ASP.NET (.NET 10)
+# ==========================================
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+WORKDIR /app
+EXPOSE 5000
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:5000 \
+    DOTNET_ENVIRONMENT=Production \
+    Kafka__BootstrapServers=kafka:29092 \
+    Kafka__ClientId=KafkaDemo-WebDocker
+
+ENTRYPOINT ["dotnet", "KafkaDemo.Web.dll"]

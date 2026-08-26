@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LogSink.Domain/LogSink.Domain.csproj" />
+    <Project Path="src/LogSink.Application/LogSink.Application.csproj" />
+    <Project Path="src/LogSink.Infrastructure/LogSink.Infrastructure.csproj" />
+    <Project Path="src/LogSink.Worker/LogSink.Worker.csproj" />
+  </Folder>
+</Solution>

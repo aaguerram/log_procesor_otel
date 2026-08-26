@@ -1,0 +1,180 @@
+services:
+  # =================================================================
+  # 1. RED HAT AMQ STREAMS (Strimzi Kafka - Modo KRaft)
+  # =================================================================
+  kafka:
+    image: quay.io/strimzi/kafka:latest-kafka-3.8.0
+    container_name: kafka-broker
+    ports:
+      - "9092:9092"
+    command:
+      - /bin/sh
+      - -c
+      - |
+        export LOG_DIR=/tmp/logs
+        mkdir -p /tmp/logs /tmp/kraft-combined-logs
+        cat << 'EOF' > /tmp/kraft.properties
+        node.id=1
+        process.roles=broker,controller
+        inter.broker.listener.name=DOCKER
+        controller.listener.names=CONTROLLER
+        listeners=PLAINTEXT://0.0.0.0:9092,DOCKER://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093
+        advertised.listeners=PLAINTEXT://localhost:9092,DOCKER://kafka:29092
+        listener.security.protocol.map=PLAINTEXT:PLAINTEXT,DOCKER:PLAINTEXT,CONTROLLER:PLAINTEXT
+        controller.quorum.voters=1@kafka:9093
+        num.partitions=3
+        offsets.topic.replication.factor=1
+        transaction.state.log.replication.factor=1
+        transaction.state.log.min.isr=1
+        log.dirs=/tmp/kraft-combined-logs
+        EOF
+        export CLUSTER_ID=$$(/opt/kafka/bin/kafka-storage.sh random-uuid)
+        /opt/kafka/bin/kafka-storage.sh format -t $$CLUSTER_ID -c /tmp/kraft.properties --ignore-formatted
+        exec /opt/kafka/bin/kafka-server-start.sh /tmp/kraft.properties
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 2. CONSOLA WEB .NET 10 (Gestión de Tópicos y Productor Hexagonal)
+  # =================================================================
+  kafka-web:
+    build:
+      context: ./emisor_mensaje
+      dockerfile: Dockerfile.web
+    container_name: kafka-web-dashboard
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - Kafka__BootstrapServers=kafka:29092
+      - Kafka__ClientId=KafkaDemo-WebAdmin
+      - KeyVault__VaultUri=https://azure-keyvault:8443
+      - KeyVault__VaultName=produbanco-local-vault
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 3. KAFKA UI (Provectus - Consola Web de la Industria)
+  # =================================================================
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui-pro
+    ports:
+      - "6000:8080"
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: redhat-amq-streams
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      DYNAMIC_CONFIG_ENABLED: "true"
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 4. APLICATIVO CONSOLA (.NET 10 - Envío inicial de 20 mensajes a Kafka)
+  # =================================================================
+  kafka-console-producer:
+    build:
+      context: ./emisor_mensaje
+      dockerfile: Dockerfile
+    container_name: kafka-console-producer
+    environment:
+      - Kafka__BootstrapServers=kafka:29092
+      - Kafka__ClientId=KafkaDemo-ConsoleDocker
+      - KeyVault__VaultUri=https://azure-keyvault:8443
+      - KeyVault__VaultName=produbanco-local-vault
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 5. KAFKA STREAMING PROCESSOR (.NET 10 Native AOT)
+  # =================================================================
+  kafka-consumer-streams:
+    build:
+      context: ./consumer_streams
+      dockerfile: Dockerfile
+    container_name: kafka-consumer-streams-aot
+    environment:
+      - KafkaStream__BootstrapServers=kafka:29092
+      - KafkaStream__GroupId=consumer-streams-produbanco-v1
+      - KafkaStream__SourceTopic=produbanco-transactions-v1
+      - KafkaStream__TargetTopic=produbanco-transactions-processed-v1
+      - KafkaStream__AutoOffsetReset=Earliest
+      - KeyVault__VaultUri=https://azure-keyvault:8443
+      - KeyVault__VaultName=produbanco-local-vault
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 6. AZURE COSMOS DB / DOCUMENTDB (Data Explorer & NoSQL Engine)
+  # =================================================================
+  azure-documentdb:
+    build:
+      context: ./documentdb_emulator
+      dockerfile: Dockerfile
+    container_name: azure-cosmos-emulator
+    hostname: azure-documentdb
+    ports:
+      - "8081:8081"                  # Data Explorer Web UI & NoSQL API
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 7. AZURE KEY VAULT EMULATOR (Lowkey Vault - Versión 7.3.74)
+  # =================================================================
+  azure-keyvault:
+    image: nagyesta/lowkey-vault:7.3.74
+    container_name: azure-keyvault-emulator
+    hostname: azure-keyvault
+    ports:
+      - "8443:8443"                  # API HTTPS compatible con Azure Key Vault SDK
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 8. COSMOS DB BULK SINK (.NET 10 Native AOT - Lotes de 500 datos)
+  # =================================================================
+  kafka-log-sink:
+    build:
+      context: ./log_sink
+      dockerfile: Dockerfile
+    container_name: kafka-log-sink-aot
+    environment:
+      - LogSink__BootstrapServers=kafka:29092
+      - LogSink__SourceTopic=produbanco-transactions-processed-v1
+      - LogSink__GroupId=log-sink-cosmosdb-group-v1
+      - LogSink__BatchSize=500
+      - LogSink__BatchTimeoutMs=250
+      - LogSink__CosmosEndpoint=http://azure-documentdb:8081
+      - LogSink__CosmosPrimaryKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==
+      - LogSink__DatabaseName=ProdubancoObservability
+      - LogSink__ContainerName=audit_logs
+      - LogSink__PartitionKeyPath=/partitionKey
+      - LogSink__KeyVaultEndpoint=https://azure-keyvault:8443
+      - LogSink__VaultTokenId=TKN-COSMOS-PRODUBANCO-V1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge

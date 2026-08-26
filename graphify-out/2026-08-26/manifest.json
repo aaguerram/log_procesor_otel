@@ -1,0 +1,1112 @@
+{
+  "README.md": {
+    "mtime": 1787760307.0065286,
+    "seen": 1787761621.0186248,
+    "ast_hash": "1898948503ee230e73854c8f2145c1e7",
+    "semantic_hash": ""
+  },
+  "docker-compose.yml": {
+    "mtime": 1787773124.3059614,
+    "seen": 1787773199.432557,
+    "ast_hash": "0b477ae330998b99e1cdcacf12d44eee",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/KafkaDemoHexagonal.slnx": {
+    "mtime": 1787753621.8252594,
+    "seen": 1787757351.9382458,
+    "ast_hash": "5790997c55e114bb64ef35544c07fd2c",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs": {
+    "mtime": 1787753706.4991176,
+    "seen": 1787757351.9382534,
+    "ast_hash": "d1e554d2b13c3b7c1a1cb599b0cd6b65",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/KafkaDemo.Application.csproj": {
+    "mtime": 1787753622.8325994,
+    "seen": 1787757351.938256,
+    "ast_hash": "6d6615b2c437d5b2dc2d6dffd14c9e89",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/UseCases/ManageTopicsUseCase.cs": {
+    "mtime": 1787753717.238694,
+    "seen": 1787757351.938258,
+    "ast_hash": "8e0a2a42db90fc1dd0ddbb9a424158d0",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs": {
+    "mtime": 1787764869.0883076,
+    "seen": 1787765170.041928,
+    "ast_hash": "0264dd9b3233c379f4558a7fb369ca93",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/bin/Debug/net10.0/KafkaDemo.Application.deps.json": {
+    "mtime": 1787761237.2157052,
+    "seen": 1787761621.0184848,
+    "ast_hash": "76a4b99f138af59708f0aea046dcc805",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787753849.0351574,
+    "seen": 1787757351.9382632,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/obj/Debug/net10.0/KafkaDemo.Application.AssemblyInfo.cs": {
+    "mtime": 1787753849.0907023,
+    "seen": 1787757351.9382648,
+    "ast_hash": "ded3c5f5984a577817fc875a14b58fd2",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/obj/Debug/net10.0/KafkaDemo.Application.GlobalUsings.g.cs": {
+    "mtime": 1787753839.7169273,
+    "seen": 1787757351.9382665,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/obj/KafkaDemo.Application.csproj.nuget.dgspec.json": {
+    "mtime": 1787761225.0213037,
+    "seen": 1787761621.0184934,
+    "ast_hash": "9f665646ec9da24e173213de1594417f",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/obj/project.assets.json": {
+    "mtime": 1787761225.003268,
+    "seen": 1787761621.0184956,
+    "ast_hash": "63b30364aa4362d6893962ca994114c4",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj": {
+    "mtime": 1787753752.2053819,
+    "seen": 1787757351.9382722,
+    "ast_hash": "9ab0f85e29176da790a8931bc366677d",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/Program.cs": {
+    "mtime": 1787753758.8047433,
+    "seen": 1787757351.938274,
+    "ast_hash": "b9ac2e406a55f1b907f04851be9f90da",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/appsettings.json": {
+    "mtime": 1787753747.2214925,
+    "seen": 1787757351.9382756,
+    "ast_hash": "28f35e0da2b9744dac404240ca6a68af",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/bin/Debug/net10.0/KafkaDemo.ConsoleApp.deps.json": {
+    "mtime": 1787761239.9449272,
+    "seen": 1787761621.018504,
+    "ast_hash": "40d17f85da82e13ff5161cb0214c8d2b",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/bin/Debug/net10.0/KafkaDemo.ConsoleApp.runtimeconfig.json": {
+    "mtime": 1787761240.0249994,
+    "seen": 1787761621.0185058,
+    "ast_hash": "fac892e9b5d89d2db8c87684820b33b8",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/bin/Debug/net10.0/appsettings.json": {
+    "mtime": 1787753747.2214925,
+    "seen": 1787757351.9382803,
+    "ast_hash": "28f35e0da2b9744dac404240ca6a68af",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787753851.6075892,
+    "seen": 1787757351.938282,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/obj/Debug/net10.0/KafkaDemo.ConsoleApp.AssemblyInfo.cs": {
+    "mtime": 1787753851.6887336,
+    "seen": 1787757351.938284,
+    "ast_hash": "04d3523aff229f25993e722ac205287f",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/obj/Debug/net10.0/KafkaDemo.ConsoleApp.GlobalUsings.g.cs": {
+    "mtime": 1787753839.2872598,
+    "seen": 1787757351.9382856,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/obj/KafkaDemo.ConsoleApp.csproj.nuget.dgspec.json": {
+    "mtime": 1787761227.4497402,
+    "seen": 1787761621.0185163,
+    "ast_hash": "8a1f89859d8570e788f480e5b7dc05dc",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/obj/project.assets.json": {
+    "mtime": 1787761227.443643,
+    "seen": 1787761621.018518,
+    "ast_hash": "09b4f3c003afd428357b0a5b888d0909",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/KafkaDemo.Domain.csproj": {
+    "mtime": 1787761208.4817815,
+    "seen": 1787761621.0185196,
+    "ast_hash": "1eb892cfd2190c72b0704557ab5a26f4",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs": {
+    "mtime": 1787761316.8706093,
+    "seen": 1787761621.0185213,
+    "ast_hash": "c4cdcf101586df5bd93132e7eebb0c5a",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs": {
+    "mtime": 1787753680.0280552,
+    "seen": 1787757351.9382942,
+    "ast_hash": "5a82bea9cd9a6e69d2b41f1bfc04b948",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Models/TopicCreationRequest.cs": {
+    "mtime": 1787753689.7667074,
+    "seen": 1787757351.9382958,
+    "ast_hash": "dddd8dd779ef87749615ea5cd797b0aa",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Models/TopicInfo.cs": {
+    "mtime": 1787753685.659937,
+    "seen": 1787757351.938297,
+    "ast_hash": "8b94f07016b98e603a6f412792fea05d",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Ports/IMessageProducerPort.cs": {
+    "mtime": 1787753696.087798,
+    "seen": 1787757351.9382987,
+    "ast_hash": "addac877a5f3ac8b220cb8f6b86419c7",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Ports/ITopicManagementPort.cs": {
+    "mtime": 1787753700.741618,
+    "seen": 1787757351.9383004,
+    "ast_hash": "eabd13e838aa13d9bb12c50d9d03585e",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/bin/Debug/net10.0/KafkaDemo.Domain.deps.json": {
+    "mtime": 1787761236.4515831,
+    "seen": 1787761621.018536,
+    "ast_hash": "8e08a0b9f192d35a0ac1067ed7b8fe91",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787753839.8305583,
+    "seen": 1787757351.938304,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/Debug/net10.0/KafkaDemo.Domain.AssemblyInfo.cs": {
+    "mtime": 1787753841.4721034,
+    "seen": 1787757351.9383056,
+    "ast_hash": "83f0716f7cbe9ad8a265a6cbf1b0f657",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/Debug/net10.0/KafkaDemo.Domain.GlobalUsings.g.cs": {
+    "mtime": 1787753839.2983797,
+    "seen": 1787757351.938307,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/KafkaDemo.Domain.csproj.nuget.dgspec.json": {
+    "mtime": 1787761225.0213037,
+    "seen": 1787761621.0185475,
+    "ast_hash": "1fc25b85a2e71e1e0db9ac6ca48dd116",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/project.assets.json": {
+    "mtime": 1787761138.0049267,
+    "seen": 1787761621.0185492,
+    "ast_hash": "62ff43c048c9af9e5dc70efb5484227a",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/KafkaAdminAdapter.cs": {
+    "mtime": 1787753738.571126,
+    "seen": 1787757351.9383116,
+    "ast_hash": "34c2d07b45b947c831e879109041143f",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/KafkaProducerAdapter.cs": {
+    "mtime": 1787761329.8152933,
+    "seen": 1787761621.0185566,
+    "ast_hash": "81ceb288dc81136a5777af1ff7908c6a",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/Configuration/KafkaSettings.cs": {
+    "mtime": 1787753722.3987103,
+    "seen": 1787757351.9383147,
+    "ast_hash": "1dbe459a703a17ae272b2afd384bbf59",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs": {
+    "mtime": 1787761342.759633,
+    "seen": 1787761621.018561,
+    "ast_hash": "e7362febb271a88616b85be6a8b2b46b",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/KafkaDemo.Infrastructure.csproj": {
+    "mtime": 1787761175.8603415,
+    "seen": 1787761621.0185626,
+    "ast_hash": "05d0b154be061fbd75c2a47912b4638c",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/bin/Debug/net10.0/KafkaDemo.Infrastructure.deps.json": {
+    "mtime": 1787761239.104643,
+    "seen": 1787761621.0185647,
+    "ast_hash": "96e316c306ab05d520cc55704c4484d5",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787753850.163411,
+    "seen": 1787757351.9383218,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/obj/Debug/net10.0/KafkaDemo.Infrastructure.AssemblyInfo.cs": {
+    "mtime": 1787753850.2135758,
+    "seen": 1787757351.9383237,
+    "ast_hash": "d9d02202acdb0a3116a7a96cdabb4995",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/obj/Debug/net10.0/KafkaDemo.Infrastructure.GlobalUsings.g.cs": {
+    "mtime": 1787753839.3731382,
+    "seen": 1787757351.938325,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/obj/KafkaDemo.Infrastructure.csproj.nuget.dgspec.json": {
+    "mtime": 1787761226.6731384,
+    "seen": 1787761621.0185728,
+    "ast_hash": "f3a4659d81f453b962bcdfca4c17ebd0",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/obj/project.assets.json": {
+    "mtime": 1787761175.8686934,
+    "seen": 1787761621.0185745,
+    "ast_hash": "f7629abcb84bce3b989eb7a6ad21a17a",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/KafkaDemo.Web.csproj": {
+    "mtime": 1787753764.1415217,
+    "seen": 1787757351.9383297,
+    "ast_hash": "b235d623777fea6b977a30be3161c6e6",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/Program.cs": {
+    "mtime": 1787753774.00465,
+    "seen": 1787757351.9383311,
+    "ast_hash": "859a7a63959459df2827ac0f2610ae6b",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/Properties/launchSettings.json": {
+    "mtime": 1787753612.531805,
+    "seen": 1787757351.9383326,
+    "ast_hash": "96e99385ceacda263c5fd9abbd79fec2",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/appsettings.Development.json": {
+    "mtime": 1787753612.4975977,
+    "seen": 1787757351.9383345,
+    "ast_hash": "804b473502a4c415cf75db61c56c32aa",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/appsettings.json": {
+    "mtime": 1787753768.055632,
+    "seen": 1787757351.938336,
+    "ast_hash": "8f073ce06b8b0e096dfe687a3d2fcb10",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/bin/Debug/net10.0/KafkaDemo.Web.deps.json": {
+    "mtime": 1787761241.5500295,
+    "seen": 1787761621.0185866,
+    "ast_hash": "562bbd3ecf06e2ed0c8c94f9418fc888",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/bin/Debug/net10.0/KafkaDemo.Web.runtimeconfig.json": {
+    "mtime": 1787761241.5991447,
+    "seen": 1787761621.0185888,
+    "ast_hash": "956d14c3cf7df124fa7c71cf141f2b48",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/bin/Debug/net10.0/KafkaDemo.Web.staticwebassets.endpoints.json": {
+    "mtime": 1787761241.4352808,
+    "seen": 1787761621.0185907,
+    "ast_hash": "441e73abcab8370639dde31e67044f5b",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/bin/Debug/net10.0/KafkaDemo.Web.staticwebassets.runtime.json": {
+    "mtime": 1787761241.4569733,
+    "seen": 1787761621.0185926,
+    "ast_hash": "e8a5346372a2794d13698d4c25f27cb0",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/bin/Debug/net10.0/appsettings.Development.json": {
+    "mtime": 1787753612.4975977,
+    "seen": 1787757351.9383447,
+    "ast_hash": "804b473502a4c415cf75db61c56c32aa",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/bin/Debug/net10.0/appsettings.json": {
+    "mtime": 1787753768.055632,
+    "seen": 1787757351.9383464,
+    "ast_hash": "8f073ce06b8b0e096dfe687a3d2fcb10",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787753852.9371965,
+    "seen": 1787757351.9383483,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/KafkaDemo.Web.AssemblyInfo.cs": {
+    "mtime": 1787753853.0167577,
+    "seen": 1787757351.9383497,
+    "ast_hash": "ccd5a6d02c8366056e9f3766a51037c4",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/KafkaDemo.Web.GlobalUsings.g.cs": {
+    "mtime": 1787753839.3653727,
+    "seen": 1787757351.9383514,
+    "ast_hash": "5b3fdaae7b59d230d7d136eab049a98a",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/rbcswa.dswa.cache.json": {
+    "mtime": 1787761241.3334117,
+    "seen": 1787761621.018605,
+    "ast_hash": "2f835ce69a8041beee4503932276dc0f",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/rjimswa.dswa.cache.json": {
+    "mtime": 1787761241.2788663,
+    "seen": 1787761621.018607,
+    "ast_hash": "aa5e959471df7c8ba555c0b0ba376942",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json": {
+    "mtime": 1787765045.2557619,
+    "seen": 1787765170.0420475,
+    "ast_hash": "8ea2f76acd13a0aae6a40562400b5de0",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/rjsmrazor.dswa.cache.json": {
+    "mtime": 1787765045.250996,
+    "seen": 1787765170.042049,
+    "ast_hash": "6b45cfb14690cb423a3b7a3340e63e51",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/rpswa.dswa.cache.json": {
+    "mtime": 1787761239.4632125,
+    "seen": 1787761621.018612,
+    "ast_hash": "437479ba3fcefeed79846a0818bb9268",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/staticwebassets.build.endpoints.json": {
+    "mtime": 1787761241.4352808,
+    "seen": 1787761621.0186136,
+    "ast_hash": "441e73abcab8370639dde31e67044f5b",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/staticwebassets.build.json": {
+    "mtime": 1787761241.4252417,
+    "seen": 1787761621.0186155,
+    "ast_hash": "b8eb539c058b773bb0b4ae3db5e8d568",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/staticwebassets.development.json": {
+    "mtime": 1787761241.4569733,
+    "seen": 1787761621.0186174,
+    "ast_hash": "e8a5346372a2794d13698d4c25f27cb0",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/KafkaDemo.Web.csproj.nuget.dgspec.json": {
+    "mtime": 1787761226.674143,
+    "seen": 1787761621.018619,
+    "ast_hash": "3feb3b934478513f11d859b63cafbb8f",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/project.assets.json": {
+    "mtime": 1787761226.6630507,
+    "seen": 1787761621.018621,
+    "ast_hash": "7ee2ded992febec186802afcdd155792",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
+    "mtime": 1787758554.9843495,
+    "seen": 1787761621.0186226,
+    "ast_hash": "2e897ea7e2c461492de9e188f3ca39c2",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Application/obj/Debug/net10.0/KafkaDemo.Application.csproj.FileListAbsolute.txt": {
+    "mtime": 1787754525.334886,
+    "seen": 1787757351.9383771,
+    "ast_hash": "c5ee3779ff817a8cb6f4c6db0470cfd9",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.ConsoleApp/obj/Debug/net10.0/KafkaDemo.ConsoleApp.csproj.FileListAbsolute.txt": {
+    "mtime": 1787761240.045496,
+    "seen": 1787761621.018638,
+    "ast_hash": "10c071cc246fed360f4a63bbe73df1ad",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/Debug/net10.0/KafkaDemo.Domain.csproj.FileListAbsolute.txt": {
+    "mtime": 1787761236.4765325,
+    "seen": 1787761621.0186396,
+    "ast_hash": "b2ed3575ab60965d307ab173158ad9bc",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/obj/Debug/net10.0/KafkaDemo.Infrastructure.csproj.FileListAbsolute.txt": {
+    "mtime": 1787754527.719603,
+    "seen": 1787757351.9383824,
+    "ast_hash": "4c6d35c5acad2ccf1fe9373927134890",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/obj/Debug/net10.0/KafkaDemo.Web.csproj.FileListAbsolute.txt": {
+    "mtime": 1787761241.621938,
+    "seen": 1787761621.0186436,
+    "ast_hash": "9eeee2622ff3180d4747211d8cd24f17",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
+    "mtime": 1787758509.3191702,
+    "seen": 1787761621.0186455,
+    "ast_hash": "4db19f8127765898bea73536d5fe5632",
+    "semantic_hash": ""
+  },
+  "consumer_streams/ConsumerStreams.slnx": {
+    "mtime": 1787757734.8688972,
+    "seen": 1787761621.0183804,
+    "ast_hash": "80f247c78f8657f70f01bf00f1af4ec7",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/ConsumerStreams.Application.csproj": {
+    "mtime": 1787757894.8720765,
+    "seen": 1787761621.0183878,
+    "ast_hash": "0e7ec3bdc055933880a06d84d31eecbf",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/Serialization/StreamJsonContext.cs": {
+    "mtime": 1787757778.8511136,
+    "seen": 1787761621.018391,
+    "ast_hash": "977a12c01ef7e1ab5831f57818fc3c90",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs": {
+    "mtime": 1787757790.806684,
+    "seen": 1787761621.0183926,
+    "ast_hash": "5418e29fd9ac18d86a3dde81750693a7",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs": {
+    "mtime": 1787765025.6317244,
+    "seen": 1787765170.0418282,
+    "ast_hash": "c685b6b4240ab13f8a6d5c50473c71a3",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/bin/Debug/net10.0/ConsumerStreams.Application.deps.json": {
+    "mtime": 1787761246.029945,
+    "seen": 1787761621.0183964,
+    "ast_hash": "f379d0b2937503f25dd668e95f5db9d9",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/obj/ConsumerStreams.Application.csproj.nuget.dgspec.json": {
+    "mtime": 1787761244.227885,
+    "seen": 1787761621.0183983,
+    "ast_hash": "f8b2704379ff4e0971dfef3167f80310",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787757882.0740266,
+    "seen": 1787761621.0184028,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/obj/Debug/net10.0/ConsumerStreams.Application.AssemblyInfo.cs": {
+    "mtime": 1787757882.1505418,
+    "seen": 1787761621.0184047,
+    "ast_hash": "463bbe32e2776473dd139dee115733b2",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/obj/Debug/net10.0/ConsumerStreams.Application.GlobalUsings.g.cs": {
+    "mtime": 1787757876.2832127,
+    "seen": 1787761621.0184064,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/obj/project.assets.json": {
+    "mtime": 1787761244.20598,
+    "seen": 1787761621.0184078,
+    "ast_hash": "2637d1b9efa0993ff1d2cafd7f3b6229",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/ConsumerStreams.Domain.csproj": {
+    "mtime": 1787761215.0906115,
+    "seen": 1787761621.0184095,
+    "ast_hash": "1eb892cfd2190c72b0704557ab5a26f4",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/Models/TransactionEvents.cs": {
+    "mtime": 1787757762.1364977,
+    "seen": 1787761621.018411,
+    "ast_hash": "ce0f39513c5bacdc10ba4f73e643484b",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/Ports/ICryptoPorts.cs": {
+    "mtime": 1787761265.7228384,
+    "seen": 1787761621.0184128,
+    "ast_hash": "afb94986f186d5af634399319d1fd3b9",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs": {
+    "mtime": 1787761388.040357,
+    "seen": 1787761621.0184143,
+    "ast_hash": "2a91b1b0a0a3aaffeff5a5d3bc597c53",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/bin/Debug/net10.0/ConsumerStreams.Domain.deps.json": {
+    "mtime": 1787761244.8358064,
+    "seen": 1787761621.018416,
+    "ast_hash": "b4b52365e6fcbb50225a9f8612dbecfd",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/ConsumerStreams.Domain.csproj.nuget.dgspec.json": {
+    "mtime": 1787761244.223727,
+    "seen": 1787761621.0184176,
+    "ast_hash": "f84a5ba482878b28ee4cb12381a159ec",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787757876.1353197,
+    "seen": 1787761621.0184193,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/Debug/net10.0/ConsumerStreams.Domain.AssemblyInfo.cs": {
+    "mtime": 1787757876.226435,
+    "seen": 1787761621.018421,
+    "ast_hash": "f9e939529615110be55ad0aeafa8c2cd",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/Debug/net10.0/ConsumerStreams.Domain.GlobalUsings.g.cs": {
+    "mtime": 1787757875.9046948,
+    "seen": 1787761621.0184226,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/Debug/net10.0/Protos/EncryptedEnvelope.cs": {
+    "mtime": 1787763423.5140538,
+    "seen": 1787763566.836281,
+    "ast_hash": "69c67f651247d76329f6975063832ca9",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/project.assets.json": {
+    "mtime": 1787761143.22881,
+    "seen": 1787761621.0184257,
+    "ast_hash": "0de7876742cda865e606a96301d4f612",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs": {
+    "mtime": 1787763432.213558,
+    "seen": 1787763566.836285,
+    "ast_hash": "725f96cbff42564eda51e08484bf8722",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs": {
+    "mtime": 1787763054.129553,
+    "seen": 1787763186.3458164,
+    "ast_hash": "d05816fc81860d581dfe23282214071e",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs": {
+    "mtime": 1787761401.5941918,
+    "seen": 1787761621.0184302,
+    "ast_hash": "a8f4574057b68931adbe27239cff3a13",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs": {
+    "mtime": 1787757813.0498226,
+    "seen": 1787761621.0184317,
+    "ast_hash": "2f1acb6565969e261130a820c2d7343e",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/Configuration/KafkaStreamSettings.cs": {
+    "mtime": 1787757804.9917629,
+    "seen": 1787761621.0184333,
+    "ast_hash": "128852e58da3a5855bc3bb13b6faf85c",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/ConsumerStreams.Infrastructure.csproj": {
+    "mtime": 1787761184.5878136,
+    "seen": 1787761621.0184348,
+    "ast_hash": "b48271e35c65e50558f79d5be01f0d6a",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/DependencyInjection.cs": {
+    "mtime": 1787761373.932942,
+    "seen": 1787761621.0184367,
+    "ast_hash": "51bb8336df4ea91635dc12bfa7eb160d",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/bin/Debug/net10.0/ConsumerStreams.Infrastructure.deps.json": {
+    "mtime": 1787761246.4822452,
+    "seen": 1787761621.0184379,
+    "ast_hash": "8614f0c5b5394a942012920964fe7724",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/obj/ConsumerStreams.Infrastructure.csproj.nuget.dgspec.json": {
+    "mtime": 1787761244.227885,
+    "seen": 1787761621.0184398,
+    "ast_hash": "d162f0b72af89f1e2343a3e2f086d1d7",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787757904.0828593,
+    "seen": 1787761621.0184412,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/obj/Debug/net10.0/ConsumerStreams.Infrastructure.AssemblyInfo.cs": {
+    "mtime": 1787757904.098667,
+    "seen": 1787761621.0184424,
+    "ast_hash": "46652a648268c492b1ac0206d7ba0c30",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/obj/Debug/net10.0/ConsumerStreams.Infrastructure.GlobalUsings.g.cs": {
+    "mtime": 1787757875.967534,
+    "seen": 1787761621.018444,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/obj/project.assets.json": {
+    "mtime": 1787761184.5939066,
+    "seen": 1787761621.0184457,
+    "ast_hash": "f21e8b2ce3d00a3d26f89444670d2427",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/ConsumerStreams.Worker.csproj": {
+    "mtime": 1787761450.7684085,
+    "seen": 1787761621.0184474,
+    "ast_hash": "bff63499240b0176ae2521b99656ccf3",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/Program.cs": {
+    "mtime": 1787758127.628232,
+    "seen": 1787761621.0184488,
+    "ast_hash": "22f393152c5a12b6334ff8465698775b",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/StreamWorkerService.cs": {
+    "mtime": 1787758250.0689309,
+    "seen": 1787761621.0184505,
+    "ast_hash": "a605be4000ae555732f8105554b8bcb4",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/appsettings.json": {
+    "mtime": 1787757850.725346,
+    "seen": 1787761621.018452,
+    "ast_hash": "3a1791743001315ee9a87ace0c8743c3",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/bin/Debug/net10.0/ConsumerStreams.Worker.deps.json": {
+    "mtime": 1787763079.3487737,
+    "seen": 1787763186.3458903,
+    "ast_hash": "655578ce4b3e1876c2fc73c829d0687f",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/bin/Debug/net10.0/ConsumerStreams.Worker.runtimeconfig.json": {
+    "mtime": 1787761247.9781232,
+    "seen": 1787761621.018455,
+    "ast_hash": "fd8edcd87cb74f3352299a3747d1fe92",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/bin/Debug/net10.0/appsettings.json": {
+    "mtime": 1787757850.725346,
+    "seen": 1787761621.0184565,
+    "ast_hash": "3a1791743001315ee9a87ace0c8743c3",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/obj/ConsumerStreams.Worker.csproj.nuget.dgspec.json": {
+    "mtime": 1787761244.2294722,
+    "seen": 1787761621.0184584,
+    "ast_hash": "21029f4e750935a56558974aa0d551ca",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787757905.1071637,
+    "seen": 1787761621.0184598,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/obj/Debug/net10.0/ConsumerStreams.Worker.AssemblyInfo.cs": {
+    "mtime": 1787757905.2136621,
+    "seen": 1787761621.0184612,
+    "ast_hash": "37bb665dfae1a43cecac1eba9d71bd71",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/obj/Debug/net10.0/ConsumerStreams.Worker.GlobalUsings.g.cs": {
+    "mtime": 1787757876.0316846,
+    "seen": 1787761621.018463,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/obj/project.assets.json": {
+    "mtime": 1787761244.2144604,
+    "seen": 1787761621.0184646,
+    "ast_hash": "225dac5fdb4fff9fe2a4b80fa36cca98",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs": {
+    "mtime": 1787761255.5757825,
+    "seen": 1787761621.01853,
+    "ast_hash": "d3b4d3736a7b5d3f6d9eabf461e661be",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/obj/Debug/net10.0/Protos/EncryptedEnvelope.cs": {
+    "mtime": 1787763419.2364874,
+    "seen": 1787763566.836409,
+    "ast_hash": "69c67f651247d76329f6975063832ca9",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs": {
+    "mtime": 1787763385.9812138,
+    "seen": 1787763566.8364155,
+    "ast_hash": "9f43cf1e74d7b4f62d092fbc95005803",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs": {
+    "mtime": 1787763047.5246437,
+    "seen": 1787763186.3460941,
+    "ast_hash": "2d3ec52d3ae74fb7596744ea455331bc",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Application/obj/Debug/net10.0/ConsumerStreams.Application.csproj.FileListAbsolute.txt": {
+    "mtime": 1787757903.9892242,
+    "seen": 1787761621.0186262,
+    "ast_hash": "fbb9b9151e09df983f77037c3b5a9236",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/obj/Debug/net10.0/ConsumerStreams.Domain.csproj.FileListAbsolute.txt": {
+    "mtime": 1787761244.8578548,
+    "seen": 1787761621.0186281,
+    "ast_hash": "5c1379f49d442fc3bc0596bce3809ae8",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Infrastructure/obj/Debug/net10.0/ConsumerStreams.Infrastructure.csproj.FileListAbsolute.txt": {
+    "mtime": 1787757904.9372373,
+    "seen": 1787761621.0186298,
+    "ast_hash": "111bf479455486d498ea6d407370d3a3",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Worker/obj/Debug/net10.0/ConsumerStreams.Worker.csproj.FileListAbsolute.txt": {
+    "mtime": 1787761247.998926,
+    "seen": 1787761621.0186315,
+    "ast_hash": "2abd33f7fd8980ac9f2373f555481c6b",
+    "semantic_hash": ""
+  },
+  "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs": {
+    "mtime": 1787764856.6992517,
+    "seen": 1787765170.0418525,
+    "ast_hash": "5370dc0fcdec2b096dd2eed0071f0ec0",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs": {
+    "mtime": 1787764850.2989242,
+    "seen": 1787765170.0419767,
+    "ast_hash": "42defc72f9d33f94c6be3452040e409d",
+    "semantic_hash": ""
+  },
+  "log_sink/LogSink.slnx": {
+    "mtime": 1787770798.5553179,
+    "seen": 1787772656.469933,
+    "ast_hash": "aa19ded1ab7dd520e7051da62d4be2dc",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/LogSink.Application.csproj": {
+    "mtime": 1787770708.7060142,
+    "seen": 1787772656.4699361,
+    "ast_hash": "1f194ac48debb9e04126514f8b79de49",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/Serialization/SinkJsonContext.cs": {
+    "mtime": 1787770715.442433,
+    "seen": 1787772656.4699378,
+    "ast_hash": "b1592c0c4616e9c4b1fc4da8710d1329",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs": {
+    "mtime": 1787770722.944971,
+    "seen": 1787772656.4699397,
+    "ast_hash": "c0dcd46789947331d2437f442ed59200",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/bin/Debug/net10.0/LogSink.Application.deps.json": {
+    "mtime": 1787770834.8736603,
+    "seen": 1787772656.4699416,
+    "ast_hash": "876e6577d07c2abae4dacadb263f00bd",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787770833.3566113,
+    "seen": 1787772656.4699433,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/obj/Debug/net10.0/LogSink.Application.AssemblyInfo.cs": {
+    "mtime": 1787770833.4132934,
+    "seen": 1787772656.4699447,
+    "ast_hash": "a3054cc749abe88729d41030f5da840e",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/obj/Debug/net10.0/LogSink.Application.GlobalUsings.g.cs": {
+    "mtime": 1787770826.7157724,
+    "seen": 1787772656.4699464,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/obj/LogSink.Application.csproj.nuget.dgspec.json": {
+    "mtime": 1787770823.666345,
+    "seen": 1787772656.4699476,
+    "ast_hash": "b69ec23b9779ee3a1f97c048c2caef23",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/obj/project.assets.json": {
+    "mtime": 1787770823.666345,
+    "seen": 1787772656.4699492,
+    "ast_hash": "8153677a752ea4a34c888944c99f38ac",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/LogSink.Domain.csproj": {
+    "mtime": 1787770685.6746733,
+    "seen": 1787772656.469951,
+    "ast_hash": "6e76afd36d0fc706c9776f1d67d8f39d",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/Models/LogDocument.cs": {
+    "mtime": 1787771200.9586627,
+    "seen": 1787772656.4699523,
+    "ast_hash": "0755fb362c2a20ec991e3a28531039ff",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs": {
+    "mtime": 1787771585.720757,
+    "seen": 1787772656.4699538,
+    "ast_hash": "46db67ab21aebfe4dcc961fe73e557f0",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/bin/Debug/net10.0/LogSink.Domain.deps.json": {
+    "mtime": 1787770833.2062151,
+    "seen": 1787772656.4699557,
+    "ast_hash": "7e242747118d21cf4dbe2e310029fa2e",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787770826.75236,
+    "seen": 1787772656.4699574,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/obj/Debug/net10.0/LogSink.Domain.AssemblyInfo.cs": {
+    "mtime": 1787770826.855534,
+    "seen": 1787772656.469959,
+    "ast_hash": "f6bebbb9d2577bf7c3cc3773663fc869",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/obj/Debug/net10.0/LogSink.Domain.GlobalUsings.g.cs": {
+    "mtime": 1787770826.441894,
+    "seen": 1787772656.4699605,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/obj/LogSink.Domain.csproj.nuget.dgspec.json": {
+    "mtime": 1787770822.603142,
+    "seen": 1787772656.469962,
+    "ast_hash": "34dbecd8e078c22722b94b01ee71e5b5",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/obj/project.assets.json": {
+    "mtime": 1787770822.5727134,
+    "seen": 1787772656.4699636,
+    "ast_hash": "e855b277ed3ed062b61860388d8663f3",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs": {
+    "mtime": 1787770741.8570845,
+    "seen": 1787772656.4699647,
+    "ast_hash": "9444fb6c36b4d1f03a6e9a6c0c5f0513",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs": {
+    "mtime": 1787771984.6933956,
+    "seen": 1787772656.4699664,
+    "ast_hash": "b8eeb055b166505664073d139f0bdeb1",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs": {
+    "mtime": 1787772537.0248976,
+    "seen": 1787772656.4699678,
+    "ast_hash": "47fa61568b6edd217a3d14b541bcdb3a",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs": {
+    "mtime": 1787770735.7719274,
+    "seen": 1787772656.4699695,
+    "ast_hash": "5fffe600b85bd76bebb7a31d36f063af",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs": {
+    "mtime": 1787770844.0113616,
+    "seen": 1787772656.4699712,
+    "ast_hash": "67357380bbd6e91b57bd6596c7343d87",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/LogSink.Infrastructure.csproj": {
+    "mtime": 1787770729.381037,
+    "seen": 1787772656.469973,
+    "ast_hash": "f2b9e11bc7e46e9b3b6cdbd4f56b2124",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/bin/Debug/net10.0/LogSink.Infrastructure.deps.json": {
+    "mtime": 1787770836.2730384,
+    "seen": 1787772656.4699745,
+    "ast_hash": "568505f8bdb3c5e907b450955ef1eaa7",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787770834.9974296,
+    "seen": 1787772656.469976,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/obj/Debug/net10.0/LogSink.Infrastructure.AssemblyInfo.cs": {
+    "mtime": 1787770835.0836384,
+    "seen": 1787772656.4699776,
+    "ast_hash": "39c19442658c795526ba5e2e8215dd9d",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/obj/Debug/net10.0/LogSink.Infrastructure.GlobalUsings.g.cs": {
+    "mtime": 1787770826.419564,
+    "seen": 1787772656.469979,
+    "ast_hash": "9706b2dbf69f7db452e8b0d5baf54dcf",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/obj/LogSink.Infrastructure.csproj.nuget.dgspec.json": {
+    "mtime": 1787770824.423787,
+    "seen": 1787772656.4699807,
+    "ast_hash": "51d2559d080c6f9e0e7f65588f5f9392",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/obj/project.assets.json": {
+    "mtime": 1787770824.4148846,
+    "seen": 1787772656.469982,
+    "ast_hash": "cfc1858b2e8ceca8e0426e9ea6a61620",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs": {
+    "mtime": 1787770780.4441235,
+    "seen": 1787772656.4699836,
+    "ast_hash": "c6be9f529ade3bc140ad71bd2dcb6fab",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/LogSink.Worker.csproj": {
+    "mtime": 1787770774.0198412,
+    "seen": 1787772656.469985,
+    "ast_hash": "75c6fd13c1fe3fdc0b0b0747051a90ab",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/Program.cs": {
+    "mtime": 1787770786.5100956,
+    "seen": 1787772656.469987,
+    "ast_hash": "1cb0c16e7a706c77ea8c1a8bd9a33845",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/appsettings.json": {
+    "mtime": 1787770793.340701,
+    "seen": 1787772656.4699883,
+    "ast_hash": "39a14e5e490a6551b59fed3d59cf2a8f",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/bin/Debug/net10.0/LogSink.Worker.deps.json": {
+    "mtime": 1787770837.7823455,
+    "seen": 1787772656.4699943,
+    "ast_hash": "840fbce9ad27369618579253e4f35d44",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/bin/Debug/net10.0/LogSink.Worker.runtimeconfig.json": {
+    "mtime": 1787770837.9217927,
+    "seen": 1787772656.469996,
+    "ast_hash": "d6c0c777b6ab3a0ece49cc91996075a2",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/bin/Debug/net10.0/appsettings.json": {
+    "mtime": 1787770793.340701,
+    "seen": 1787772656.4699974,
+    "ast_hash": "39a14e5e490a6551b59fed3d59cf2a8f",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/obj/Debug/net10.0/.NETCoreApp,Version=v10.0.AssemblyAttributes.cs": {
+    "mtime": 1787770836.4739914,
+    "seen": 1787772656.469999,
+    "ast_hash": "8479efdf06e2d26e053d27ffa6964185",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/obj/Debug/net10.0/LogSink.Worker.AssemblyInfo.cs": {
+    "mtime": 1787770836.5703654,
+    "seen": 1787772656.470001,
+    "ast_hash": "2182608f2c90472c9708cbbaf62baa3e",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/obj/Debug/net10.0/LogSink.Worker.GlobalUsings.g.cs": {
+    "mtime": 1787770826.441894,
+    "seen": 1787772656.470003,
+    "ast_hash": "71b24f90f0d6cc8ddfa59df8d384463c",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/obj/LogSink.Worker.csproj.nuget.dgspec.json": {
+    "mtime": 1787770826.038138,
+    "seen": 1787772656.4700043,
+    "ast_hash": "262650a53524c4d113fe29cf05566ea6",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/obj/project.assets.json": {
+    "mtime": 1787770826.027806,
+    "seen": 1787772656.4700058,
+    "ast_hash": "07c188949aaeacb4ae3ff63cb447d6d4",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Application/obj/Debug/net10.0/LogSink.Application.csproj.FileListAbsolute.txt": {
+    "mtime": 1787770834.8953242,
+    "seen": 1787772656.4700346,
+    "ast_hash": "909009f49d214f10f65665e42c281168",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Domain/obj/Debug/net10.0/LogSink.Domain.csproj.FileListAbsolute.txt": {
+    "mtime": 1787770833.2287903,
+    "seen": 1787772656.4700367,
+    "ast_hash": "51d0a5af7dd7eee512068e597119c3a8",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/obj/Debug/net10.0/LogSink.Infrastructure.csproj.FileListAbsolute.txt": {
+    "mtime": 1787770836.2934077,
+    "seen": 1787772656.4700384,
+    "ast_hash": "a822dec74d8681b1c5378f328c87be17",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Worker/obj/Debug/net10.0/LogSink.Worker.csproj.FileListAbsolute.txt": {
+    "mtime": 1787770837.9676998,
+    "seen": 1787772656.47004,
+    "ast_hash": "2a12fcba47d58acfaa0b6a5606f0d32e",
+    "semantic_hash": ""
+  },
+  "documentdb_emulator/DocumentDbEmulator.csproj": {
+    "mtime": 1787773088.558273,
+    "seen": 1787773199.4323273,
+    "ast_hash": "6754289bdd2782ef2efc4f15c106507e",
+    "semantic_hash": ""
+  },
+  "documentdb_emulator/Program.cs": {
+    "mtime": 1787773105.4125755,
+    "seen": 1787773199.4323297,
+    "ast_hash": "5c740cef825f0e4fb99da2c1d8fd7a4f",
+    "semantic_hash": ""
+  }
+}

@@ -1,0 +1,36 @@
+## .NET Core / C#
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Visual Studio / VS Code / JetBrains
+.vs/
+.vscode/
+.idea/
+*.DotSettings.user
+
+# Build artifacts and published folders
+publish/
+/app/publish/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and local overrides
+*.local.json
+*.override.json
+appsettings.Development.json
