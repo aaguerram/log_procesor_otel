@@ -1,23 +1,29 @@
 namespace LogSink.Infrastructure.Configuration;
 
+/// <summary>
+/// Opciones de configuración para el microservicio Bulk Sink.
+/// Las propiedades son desacopladas y no contienen valores quemados;
+/// se pueblan dinámicamente desde IConfiguration (appsettings.json / variables de entorno).
+/// </summary>
 public class SinkSettings
 {
     public const string SectionName = "LogSink";
 
-    public string BootstrapServers { get; set; } = "localhost:9092";
-    public string SourceTopic { get; set; } = "tp.observability.application-log.processed.v1";
-    public string GroupId { get; set; } = "log-sink-cosmosdb-group-v1";
-    public int BatchSize { get; set; } = 500;
-    public int BatchTimeoutMs { get; set; } = 250;
+    // Kafka Settings
+    public string BootstrapServers { get; set; } = string.Empty;
+    public string SourceTopic { get; set; } = string.Empty;
+    public string GroupId { get; set; } = string.Empty;
+    public int BatchSize { get; set; }
+    public int BatchTimeoutMs { get; set; }
 
     // Cosmos DB Settings
-    public string CosmosEndpoint { get; set; } = "http://azure-documentdb:8081";
-    public string CosmosPrimaryKey { get; set; } = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-    public string DatabaseName { get; set; } = "ProdubancoObservability";
-    public string ContainerName { get; set; } = "audit_logs";
-    public string PartitionKeyPath { get; set; } = "/partitionKey";
+    public string CosmosEndpoint { get; set; } = string.Empty;
+    public string CosmosPrimaryKey { get; set; } = string.Empty;
+    public string DatabaseName { get; set; } = string.Empty;
+    public string ContainerName { get; set; } = string.Empty;
+    public string PartitionKeyPath { get; set; } = string.Empty;
 
-    // Azure Key Vault
-    public string KeyVaultEndpoint { get; set; } = "https://azure-keyvault:8443";
-    public string VaultTokenId { get; set; } = "TKN-COSMOS-PRODUBANCO-V1";
+    // Azure Key Vault Settings
+    public string KeyVaultEndpoint { get; set; } = string.Empty;
+    public string VaultTokenId { get; set; } = string.Empty;
 }
