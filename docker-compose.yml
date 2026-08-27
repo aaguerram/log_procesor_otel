@@ -144,11 +144,29 @@ services:
     ports:
       - "8081:8081"                  # Endpoint REST Oficial de Cosmos DB / DocumentDB
       - "8082:8082"                  # Interfaz Gráfica Ligera Cosmos DB Data Explorer UI
+    environment:
+      - Mongo__ConnectionString=mongodb://azure-documentdb-engine:27017
+    depends_on:
+      - azure-documentdb-engine
     networks:
       - kafka-net
 
   # =================================================================
-  # 6.1 NOSQL WEB GUI (NoSQLclient - Consola Web Gráfica Preconstruida)
+  # 6.1 AZURE DOCUMENTDB WIRE ENGINE (Protocolo TCP 27017 para NoSQL GUIs)
+  # =================================================================
+  azure-documentdb-engine:
+    image: mongo:6.0
+    container_name: azure-documentdb-engine
+    hostname: azure-documentdb-engine
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=ProdubancoObservability
+    networks:
+      - kafka-net
+
+  # =================================================================
+  # 6.2 NOSQL WEB GUI (NoSQLclient - Consola Web Gráfica Preconstruida)
   # =================================================================
   nosql-web-gui:
     image: mongoclient/mongoclient:latest
@@ -156,9 +174,9 @@ services:
     ports:
       - "3000:3000"                  # NoSQL Web GUI Interface (Puerto 3000)
     environment:
-      - MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://azure-documentdb:27017
+      - MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://azure-documentdb-engine:27017
     depends_on:
-      - azure-documentdb
+      - azure-documentdb-engine
     networks:
       - kafka-net
 

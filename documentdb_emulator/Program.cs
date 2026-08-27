@@ -1,6 +1,9 @@
 using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,18 @@ builder.WebHost.ConfigureKestrel(options =>
 });
 
 var app = builder.Build();
+
+// Cliente MongoDB para alimentar NoSQL Web GUI en tiempo real
+var mongoConn = Environment.GetEnvironmentVariable("Mongo__ConnectionString") ?? "mongodb://azure-documentdb-engine:27017";
+MongoClient? mongoClient = null;
+try
+{
+    mongoClient = new MongoClient(mongoConn);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"[DocumentDB] Warning: No se pudo conectar a MongoDB: {ex.Message}");
+}
 
 // Almacén en memoria de Cosmos DB / DocumentDB
 var documentStore = new ConcurrentDictionary<string, StoredDocument>();
@@ -73,6 +88,29 @@ app.MapPost("/dbs/{databaseName}/colls/{containerName}/docs", async (
             StoredAt: DateTime.UtcNow);
 
         documentStore[storageKey] = stored;
+
+        // Replicar inmediatamente a NoSQL Engine para NoSQL Web GUI
+        if (mongoClient != null)
+        {
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var db = mongoClient.GetDatabase(databaseName);
+                    var coll = db.GetCollection<BsonDocument>(containerName);
+                    var bsonDoc = BsonSerializer.Deserialize<BsonDocument>(body);
+                    if (!bsonDoc.Contains("_id"))
+                    {
+                        bsonDoc["_id"] = storageKey;
+                    }
+                    await coll.InsertOneAsync(bsonDoc);
+                }
+                catch (Exception mEx)
+                {
+                    Console.WriteLine($"[DocumentDB -> NoSQL Engine] Error al sincronizar: {mEx.Message}");
+                }
+            });
+        }
 
         lock (lockObj)
         {
