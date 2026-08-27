@@ -48,12 +48,13 @@ public class StreamProcessingPipelineUseCase(
                 try
                 {
                     var envelope = EncryptedPayloadEnvelope.Parser.ParseFrom(rawBytes);
-                    if (envelope != null && !string.IsNullOrEmpty(envelope.VaultTokenId) && envelope.Data.Length > 0)
+                    if (envelope != null)
                     {
-                        tokenUsed = envelope.VaultTokenId;
+                        // 1.1 Validación estricta: Todos los campos del proto excepto Swagger son obligatorios
+                        ValidateMandatoryEnvelopeFields(envelope);
 
-                        if (!string.IsNullOrWhiteSpace(envelope.ServiceName))
-                            serviceName = envelope.ServiceName;
+                        tokenUsed = envelope.VaultTokenId;
+                        serviceName = envelope.ServiceName;
 
                         telemetryTypeStr = envelope.TelemetryType switch
                         {
@@ -94,6 +95,11 @@ public class StreamProcessingPipelineUseCase(
                 {
                     // Si viene en texto JSON plano legacy
                     decryptedJson = Encoding.UTF8.GetString(rawBytes);
+                }
+                catch (InvalidOperationException valEx)
+                {
+                    logger.LogError("❌ [Protobuf Schema Validation Error] Sobre rechazado por campos obligatorios faltantes: {Error}", valEx.Message);
+                    return false;
                 }
 
                 // 4. Deserialización segura Native AOT del JSON descifrado
@@ -156,5 +162,42 @@ public class StreamProcessingPipelineUseCase(
                 return false;
             }
         }, cancellationToken);
+    }
+
+    private static void ValidateMandatoryEnvelopeFields(EncryptedPayloadEnvelope envelope)
+    {
+        ArgumentNullException.ThrowIfNull(envelope, nameof(envelope));
+
+        if (envelope.Data == null || envelope.Data.Length == 0)
+            throw new InvalidOperationException("El campo 'data' del sobre protobuf es obligatorio y no puede estar vacío.");
+
+        if (envelope.Nonce == null || envelope.Nonce.Length != 12)
+            throw new InvalidOperationException($"El campo 'nonce' es obligatorio y debe tener exactamente 12 bytes (recibido: {envelope.Nonce?.Length ?? 0}).");
+
+        if (envelope.AuthTag == null || envelope.AuthTag.Length != 16)
+            throw new InvalidOperationException($"El campo 'auth_tag' es obligatorio y debe tener exactamente 16 bytes (recibido: {envelope.AuthTag?.Length ?? 0}).");
+
+        if (envelope.AlgorithmVersion <= 0)
+            throw new InvalidOperationException("El campo 'algorithm_version' es obligatorio y debe ser mayor a 0 (1 = AES-256-GCM).");
+
+        if (string.IsNullOrWhiteSpace(envelope.CertThumbprint))
+            throw new InvalidOperationException("El campo 'cert_thumbprint' es obligatorio.");
+
+        if (string.IsNullOrWhiteSpace(envelope.VaultTokenId))
+            throw new InvalidOperationException("El campo 'vault_token_id' es obligatorio.");
+
+        if (string.IsNullOrWhiteSpace(envelope.TransactionId))
+            throw new InvalidOperationException("El campo 'transaction_id' es obligatorio.");
+
+        if (envelope.TimestampUnixMs <= 0)
+            throw new InvalidOperationException("El campo 'timestamp_unix_ms' es obligatorio y debe ser mayor a 0.");
+
+        if (envelope.TelemetryType == TelemetryType.Unspecified)
+            throw new InvalidOperationException("El campo 'telemetry_type' es obligatorio y debe ser Trace (1), Metric (2) o Log (3).");
+
+        if (string.IsNullOrWhiteSpace(envelope.ServiceName))
+            throw new InvalidOperationException("El campo 'service_name' es obligatorio.");
+
+        // NOTA: envelope.Swagger es el ÚNICO campo opcional permitido.
     }
 }

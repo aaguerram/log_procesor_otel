@@ -4,25 +4,6 @@
   "graph": {},
   "nodes": [
     {
-      "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator_consumerstreams_domain_utils_uniformpartitionkeygenerator",
-      "label": "UniformPartitionKeyGenerator",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": ".ExecutePipelineAsync",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Domain.Utils",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "uniformpartitionkeygenerator",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L7"
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto",
       "label": "BatchSendResultDto",
       "_callable": true,
@@ -39,26 +20,7 @@
       },
       "norm_label": "batchsendresultdto",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L14"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
-      "label": "SendMessagesUseCase",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.UseCases",
-        "scope_chain": [
-          "s267"
-        ]
-      },
-      "norm_label": "sendmessagesusecase",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L16"
+      "source_location": "L15"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage_kafkademo_domain_models_kafkamessage",
@@ -143,7 +105,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "norm_label": "sendbatchrequest",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
@@ -289,7 +251,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Application.UseCases",
@@ -308,7 +270,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Models",
@@ -327,7 +289,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -346,7 +308,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -355,6 +317,25 @@
         ]
       },
       "norm_label": "idocumentdbbulksinkport",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L40"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_logsinkitem",
+      "label": "LogSinkItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": ".AddLogSinkInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Ports",
+        "scope_chain": [
+          "s30"
+        ]
+      },
+      "norm_label": "logsinkitem",
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
       "source_location": "L32"
     },
@@ -416,51 +397,13 @@
       "source_location": "L13"
     },
     {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_cosmosdbcredentials",
-      "label": "CosmosDbCredentials",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Ports",
-        "scope_chain": [
-          "s30"
-        ]
-      },
-      "norm_label": "cosmosdbcredentials",
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L56"
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport",
-      "label": "IVaultTokenProviderPort",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Ports",
-        "scope_chain": [
-          "s30"
-        ]
-      },
-      "norm_label": "ivaulttokenproviderport",
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L46"
-    },
-    {
       "id": "log_sink_src_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_logsink_infrastructure_adapters_azurekeyvaulttokenadapter",
       "label": "AzureKeyVaultTokenAdapter",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Infrastructure.Adapters",
@@ -479,7 +422,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "metadata": {
         "is_nested_type": true,
@@ -491,6 +434,44 @@
       "norm_label": "cachedcredentialsentry",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
       "source_location": "L19"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_cosmosdbcredentials",
+      "label": "CosmosDbCredentials",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Ports",
+        "scope_chain": [
+          "s30"
+        ]
+      },
+      "norm_label": "cosmosdbcredentials",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L64"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport",
+      "label": "IVaultTokenProviderPort",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 25,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Ports",
+        "scope_chain": [
+          "s30"
+        ]
+      },
+      "norm_label": "ivaulttokenproviderport",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L54"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter",
@@ -704,51 +685,13 @@
       "source_location": "L16"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_domain_ports_icontractrulescacheport_consumerstreams_domain_ports_icontractrulescacheport",
-      "label": "IContractRulesCachePort",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Domain.Ports",
-        "scope_chain": [
-          "s38"
-        ]
-      },
-      "norm_label": "icontractrulescacheport",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs",
-      "source_location": "L8"
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter",
-      "label": "KafkaStreamProducerAdapter",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Infrastructure.Adapters",
-        "scope_chain": [
-          "s203"
-        ]
-      },
-      "norm_label": "kafkastreamproduceradapter",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
-      "source_location": "L13"
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto",
       "label": "CreateTopicDto",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 36,
-      "community_name": "SendMessageRequestDto",
+      "community": 35,
+      "community_name": "CreateTopicDto",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -758,7 +701,7 @@
       },
       "norm_label": "createtopicdto",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L23"
+      "source_location": "L24"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_sendmessagerequestdto",
@@ -799,44 +742,6 @@
       "source_location": "L7"
     },
     {
-      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings",
-      "label": "TracePruningSettings",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "tracepruningsettings",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
-      "source_location": "L6"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_kafkademo_infrastructure_dependencyinjection",
-      "label": "DependencyInjection",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Infrastructure",
-        "scope_chain": [
-          "s320"
-        ]
-      },
-      "norm_label": "dependencyinjection",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
-      "source_location": "L12"
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator_kafkademo_domain_utils_uniformpartitionkeygenerator",
       "label": "UniformPartitionKeyGenerator",
       "_callable": true,
@@ -872,7 +777,45 @@
       },
       "norm_label": "clusterhealthdto",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L31"
+      "source_location": "L32"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
+      "label": "SendMessagesUseCase",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.UseCases",
+        "scope_chain": [
+          "s267"
+        ]
+      },
+      "norm_label": "sendmessagesusecase",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L16"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings",
+      "label": "TracePruningSettings",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Domain.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "tracepruningsettings",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
+      "source_location": "L6"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport",
@@ -881,7 +824,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -900,7 +843,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -919,7 +862,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -938,7 +881,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -957,7 +900,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -976,7 +919,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "is_nested_type": true,
@@ -988,6 +931,25 @@
       "norm_label": "cachedvaultentry",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
       "source_location": "L24"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_kafkademo_infrastructure_dependencyinjection",
+      "label": "DependencyInjection",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Infrastructure",
+        "scope_chain": [
+          "s320"
+        ]
+      },
+      "norm_label": "dependencyinjection",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
+      "source_location": "L12"
     },
     {
       "id": "consumer_streams_src_consumerstreams_domain_ports_icryptoports_consumerstreams_domain_ports_ivaulttokenproviderport",
@@ -1084,6 +1046,25 @@
       "norm_label": "streamworkerservice",
       "source_file": "consumer_streams/src/ConsumerStreams.Worker/StreamWorkerService.cs",
       "source_location": "L13"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher_consumerstreams_application_services_transactionenricher",
+      "label": "TransactionEnricher",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 48,
+      "community_name": "ConsumerStreams.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Application.Services",
+        "scope_chain": [
+          "s74"
+        ]
+      },
+      "norm_label": "transactionenricher",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
+      "source_location": "L9"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_usecases_managetopicsusecase_kafkademo_application_usecases_managetopicsusecase",
@@ -1220,6 +1201,25 @@
       "source_location": "L9"
     },
     {
+      "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator_consumerstreams_domain_utils_uniformpartitionkeygenerator",
+      "label": "UniformPartitionKeyGenerator",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "ConsumerStreams.Domain.Models",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Domain.Utils",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "uniformpartitionkeygenerator",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "source_location": "L7"
+    },
+    {
       "id": "log_sink_src_logsink_application_serialization_sinkjsoncontext_logsink_application_serialization_sinkjsoncontext",
       "label": "SinkJsonContext",
       "_callable": true,
@@ -1240,25 +1240,6 @@
       "source_location": "L10"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher_consumerstreams_application_services_transactionenricher",
-      "label": "TransactionEnricher",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 6,
-      "community_name": ".AddConsumerStreamsInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Application.Services",
-        "scope_chain": [
-          "s74"
-        ]
-      },
-      "norm_label": "transactionenricher",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
-      "source_location": "L9"
-    },
-    {
       "id": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_consumerstreams_application_usecases_streamprocessingpipelineusecase",
       "label": "StreamProcessingPipelineUseCase",
       "_callable": true,
@@ -1276,6 +1257,25 @@
       "norm_label": "streamprocessingpipelineusecase",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
       "source_location": "L22"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_domain_ports_icontractrulescacheport_consumerstreams_domain_ports_icontractrulescacheport",
+      "label": "IContractRulesCachePort",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Domain.Ports",
+        "scope_chain": [
+          "s38"
+        ]
+      },
+      "norm_label": "icontractrulescacheport",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs",
+      "source_location": "L8"
     },
     {
       "id": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_istreamconsumerport",
@@ -1335,6 +1335,25 @@
       "source_location": "L32"
     },
     {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter",
+      "label": "KafkaStreamProducerAdapter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Infrastructure.Adapters",
+        "scope_chain": [
+          "s203"
+        ]
+      },
+      "norm_label": "kafkastreamproduceradapter",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
+      "source_location": "L13"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_infrastructure_dependencyinjection_consumerstreams_infrastructure_dependencyinjection",
       "label": "DependencyInjection",
       "_callable": true,
@@ -1364,7 +1383,7 @@
       "file_type": "code",
       "norm_label": "storeddocument",
       "source_file": "documentdb_emulator/Program.cs",
-      "source_location": "L520"
+      "source_location": "L569"
     },
     {
       "id": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_consumerstreams_application_usecases_streamprocessingpipelineusecase_executepipelineasync",
@@ -1421,76 +1440,22 @@
       "source_location": "L21"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator_consumerstreams_domain_utils_uniformpartitionkeygenerator_generatedispersedkey",
-      "label": ".GenerateDispersedKey()",
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_forwardeventasync",
+      "label": ".ForwardEventAsync()",
       "_callable": true,
       "_origin": "ast",
       "community": 0,
       "community_name": ".ExecutePipelineAsync",
       "file_type": "code",
       "metadata": {
-        "namespace": "ConsumerStreams.Domain.Utils",
+        "namespace": "ConsumerStreams.Infrastructure.Adapters",
         "scope_chain": [
-          "s0"
+          "s203"
         ]
       },
-      "norm_label": ".generatedispersedkey()",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L16"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
-      "label": ".GenerateAndSendBatchAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.UseCases",
-        "scope_chain": [
-          "s267"
-        ]
-      },
-      "norm_label": ".generateandsendbatchasync()",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L135"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_getswaggeryamlcontent",
-      "label": ".GetSwaggerYamlContent()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.UseCases",
-        "scope_chain": [
-          "s267"
-        ]
-      },
-      "norm_label": ".getswaggeryamlcontent()",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L29"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
-      "label": ".SendCustomMessageAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.UseCases",
-        "scope_chain": [
-          "s267"
-        ]
-      },
-      "norm_label": ".sendcustommessageasync()",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L69"
+      "norm_label": ".forwardeventasync()",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
+      "source_location": "L39"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport_kafkademo_domain_ports_imessageproducerport_sendbatchasync",
@@ -1527,24 +1492,6 @@
       "norm_label": ".sendmessageasync()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/IMessageProducerPort.cs",
       "source_location": "L10"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator_kafkademo_domain_utils_uniformpartitionkeygenerator_generatedispersedkey",
-      "label": ".GenerateDispersedKey()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Utils",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": ".generatedispersedkey()",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L16"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_kafkaproduceradapter_kafkademo_infrastructure_adapters_kafkaproduceradapter_dispose",
@@ -1732,7 +1679,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Application.UseCases",
@@ -1750,7 +1697,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -1768,7 +1715,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -1778,7 +1725,7 @@
       },
       "norm_label": ".bulkinsertlogsasync()",
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34"
+      "source_location": "L42"
     },
     {
       "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
@@ -1786,7 +1733,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -1796,7 +1743,25 @@
       },
       "norm_label": ".bulkinsertrawjsonlogsasync()",
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38"
+      "source_location": "L46"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_logsink_infrastructure_dependencyinjection_addlogsinkinfrastructure",
+      "label": ".AddLogSinkInfrastructure()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 21,
+      "community_name": ".AddLogSinkInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure",
+        "scope_chain": [
+          "s274"
+        ]
+      },
+      "norm_label": ".addlogsinkinfrastructure()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs",
+      "source_location": "L13"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_dispose",
@@ -1871,30 +1836,12 @@
       "source_location": "L20"
     },
     {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
-      "label": ".ResolveCosmosCredentialsAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Ports",
-        "scope_chain": [
-          "s30"
-        ]
-      },
-      "norm_label": ".resolvecosmoscredentialsasync()",
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L48"
-    },
-    {
       "id": "log_sink_src_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_resolvecosmoscredentialsasync",
       "label": ".ResolveCosmosCredentialsAsync()",
       "_callable": true,
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Infrastructure.Adapters",
@@ -1907,22 +1854,22 @@
       "source_location": "L30"
     },
     {
-      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_logsink_infrastructure_dependencyinjection_addlogsinkinfrastructure",
-      "label": ".AddLogSinkInfrastructure()",
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
+      "label": ".ResolveCosmosCredentialsAsync()",
       "_callable": true,
       "_origin": "ast",
-      "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 25,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
-        "namespace": "LogSink.Infrastructure",
+        "namespace": "LogSink.Domain.Ports",
         "scope_chain": [
-          "s274"
+          "s30"
         ]
       },
-      "norm_label": ".addlogsinkinfrastructure()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs",
-      "source_location": "L13"
+      "norm_label": ".resolvecosmoscredentialsasync()",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L56"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertlogsasync",
@@ -1976,7 +1923,7 @@
       },
       "norm_label": ".generatecosmosauthtoken()",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L300"
+      "source_location": "L305"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
@@ -1994,7 +1941,7 @@
       },
       "norm_label": ".insertsingledocumentwithretryasync()",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235"
+      "source_location": "L240"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
@@ -2441,58 +2388,58 @@
       "source_location": "L33"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_dispose",
-      "label": ".Dispose()",
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
+      "label": ".GenerateAndSendBatchAsync()",
       "_callable": true,
       "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Infrastructure.Adapters",
-        "scope_chain": [
-          "s203"
-        ]
-      },
-      "norm_label": ".dispose()",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
-      "source_location": "L82"
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_forwardeventasync",
-      "label": ".ForwardEventAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Infrastructure.Adapters",
-        "scope_chain": [
-          "s203"
-        ]
-      },
-      "norm_label": ".forwardeventasync()",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
-      "source_location": "L39"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_kafkademo_infrastructure_dependencyinjection_addkafkainfrastructure",
-      "label": ".AddKafkaInfrastructure()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 38,
+      "community": 42,
       "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
-        "namespace": "KafkaDemo.Infrastructure",
+        "namespace": "KafkaDemo.Application.UseCases",
         "scope_chain": [
-          "s320"
+          "s267"
         ]
       },
-      "norm_label": ".addkafkainfrastructure()",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
-      "source_location": "L14"
+      "norm_label": ".generateandsendbatchasync()",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L136"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_getswaggeryamlcontent",
+      "label": ".GetSwaggerYamlContent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.UseCases",
+        "scope_chain": [
+          "s267"
+        ]
+      },
+      "norm_label": ".getswaggeryamlcontent()",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L29"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
+      "label": ".SendCustomMessageAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.UseCases",
+        "scope_chain": [
+          "s267"
+        ]
+      },
+      "norm_label": ".sendcustommessageasync()",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L69"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_decryptenvelopetojson",
@@ -2500,7 +2447,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -2510,7 +2457,7 @@
       },
       "norm_label": ".decryptenvelopetojson()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L40"
+      "source_location": "L41"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_encryptjsontoenvelope",
@@ -2518,7 +2465,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -2536,7 +2483,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -2554,7 +2501,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -2567,12 +2514,30 @@
       "source_location": "L22"
     },
     {
+      "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator_kafkademo_domain_utils_uniformpartitionkeygenerator_generatedispersedkey",
+      "label": ".GenerateDispersedKey()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Domain.Utils",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": ".generatedispersedkey()",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "source_location": "L16"
+    },
+    {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_decryptenvelopetojson",
       "label": ".DecryptEnvelopeToJson()",
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -2582,7 +2547,7 @@
       },
       "norm_label": ".decryptenvelopetojson()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L94"
+      "source_location": "L96"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_detecttelemetrytype",
@@ -2590,7 +2555,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -2600,7 +2565,7 @@
       },
       "norm_label": ".detecttelemetrytype()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L68"
+      "source_location": "L70"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_encryptjsontoenvelope",
@@ -2608,7 +2573,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -2626,7 +2591,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -2644,7 +2609,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -2655,6 +2620,24 @@
       "norm_label": ".resolvekeybytokenasync()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
       "source_location": "L105"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_kafkademo_infrastructure_dependencyinjection_addkafkainfrastructure",
+      "label": ".AddKafkaInfrastructure()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Infrastructure",
+        "scope_chain": [
+          "s320"
+        ]
+      },
+      "norm_label": ".addkafkainfrastructure()",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
+      "source_location": "L14"
     },
     {
       "id": "consumer_streams_src_consumerstreams_domain_ports_icryptoports_consumerstreams_domain_ports_ivaulttokenproviderport_resolvekeybytokenasync",
@@ -2999,6 +2982,42 @@
       "source_location": "L141"
     },
     {
+      "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator_consumerstreams_domain_utils_uniformpartitionkeygenerator_generatedispersedkey",
+      "label": ".GenerateDispersedKey()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "ConsumerStreams.Domain.Models",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Domain.Utils",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": ".generatedispersedkey()",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "source_location": "L16"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_dispose",
+      "label": ".Dispose()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Infrastructure.Adapters",
+        "scope_chain": [
+          "s203"
+        ]
+      },
+      "norm_label": ".dispose()",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
+      "source_location": "L82"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_infrastructure_dependencyinjection_consumerstreams_infrastructure_dependencyinjection_addconsumerstreamsinfrastructure",
       "label": ".AddConsumerStreamsInfrastructure()",
       "_callable": true,
@@ -3026,7 +3045,7 @@
       "file_type": "code",
       "norm_label": "appendbatchtostream()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L471"
+      "source_location": "L473"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_appendsingletostream",
@@ -3038,7 +3057,7 @@
       "file_type": "code",
       "norm_label": "appendsingletostream()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L501"
+      "source_location": "L503"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_checkhealth",
@@ -3050,7 +3069,7 @@
       "file_type": "code",
       "norm_label": "checkhealth()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L182"
+      "source_location": "L183"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_escapehtml",
@@ -3062,7 +3081,7 @@
       "file_type": "code",
       "norm_label": "escapehtml()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L765"
+      "source_location": "L767"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_fetchtopics",
@@ -3074,7 +3093,7 @@
       "file_type": "code",
       "norm_label": "fetchtopics()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L208"
+      "source_location": "L209"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_formattextareajson",
@@ -3086,7 +3105,7 @@
       "file_type": "code",
       "norm_label": "formattextareajson()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L741"
+      "source_location": "L743"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_generatedispersedkey",
@@ -3098,7 +3117,7 @@
       "file_type": "code",
       "norm_label": "generatedispersedkey()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L46"
+      "source_location": "L47"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_getbusinesskeyforcurrentpreset",
@@ -3110,7 +3129,7 @@
       "file_type": "code",
       "norm_label": "getbusinesskeyforcurrentpreset()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L730"
+      "source_location": "L732"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_handlecreatetopic",
@@ -3122,7 +3141,7 @@
       "file_type": "code",
       "norm_label": "handlecreatetopic()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L293"
+      "source_location": "L294"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_handlesendmessage",
@@ -3134,7 +3153,7 @@
       "file_type": "code",
       "norm_label": "handlesendmessage()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L411"
+      "source_location": "L412"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_inittelemetrycatalog",
@@ -3146,7 +3165,7 @@
       "file_type": "code",
       "norm_label": "inittelemetrycatalog()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L637"
+      "source_location": "L639"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_loadselectedpreset",
@@ -3158,7 +3177,7 @@
       "file_type": "code",
       "norm_label": "loadselectedpreset()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L690"
+      "source_location": "L692"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_populatepresetdropdown",
@@ -3170,7 +3189,7 @@
       "file_type": "code",
       "norm_label": "populatepresetdropdown()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L651"
+      "source_location": "L653"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_refreshall",
@@ -3182,7 +3201,7 @@
       "file_type": "code",
       "norm_label": "refreshall()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L177"
+      "source_location": "L178"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_removeemptystreamnotice",
@@ -3194,7 +3213,7 @@
       "file_type": "code",
       "norm_label": "removeemptystreamnotice()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L521"
+      "source_location": "L523"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_rendertopicstable",
@@ -3206,7 +3225,7 @@
       "file_type": "code",
       "norm_label": "rendertopicstable()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L223"
+      "source_location": "L224"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_send20demotransactions",
@@ -3218,7 +3237,7 @@
       "file_type": "code",
       "norm_label": "send20demotransactions()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L373"
+      "source_location": "L374"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_setupevents",
@@ -3230,7 +3249,7 @@
       "file_type": "code",
       "norm_label": "setupevents()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L119"
+      "source_location": "L120"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_setupmodals",
@@ -3242,7 +3261,7 @@
       "file_type": "code",
       "norm_label": "setupmodals()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L105"
+      "source_location": "L106"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_setuptabs",
@@ -3254,7 +3273,7 @@
       "file_type": "code",
       "norm_label": "setuptabs()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L88"
+      "source_location": "L89"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_showtoast",
@@ -3266,7 +3285,7 @@
       "file_type": "code",
       "norm_label": "showtoast()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L752"
+      "source_location": "L754"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_updatestats",
@@ -3278,7 +3297,7 @@
       "file_type": "code",
       "norm_label": "updatestats()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L284"
+      "source_location": "L285"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_updatetelemetrybadge",
@@ -3290,7 +3309,7 @@
       "file_type": "code",
       "norm_label": "updatetelemetrybadge()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L162"
+      "source_location": "L163"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_updatetopicsselect",
@@ -3302,7 +3321,7 @@
       "file_type": "code",
       "norm_label": "updatetopicsselect()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L267"
+      "source_location": "L268"
     },
     {
       "id": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_cs_cancellationtoken",
@@ -3371,15 +3390,37 @@
       "source_location": ""
     },
     {
-      "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator",
-      "label": "ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_cancellationtoken",
+      "label": "CancellationToken",
       "_origin": "ast",
       "community": 0,
       "community_name": ".ExecutePipelineAsync",
       "file_type": "code",
-      "norm_label": "consumerstreams.domain/utils/uniformpartitionkeygenerator.cs",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L1"
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_idictionary",
+      "label": "IDictionary",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "norm_label": "idictionary",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_ireadonlylist",
@@ -3407,7 +3448,7 @@
       },
       "norm_label": "elapsedmilliseconds",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L19"
+      "source_location": "L20"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_results",
@@ -3424,7 +3465,7 @@
       },
       "norm_label": "results",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L20"
+      "source_location": "L21"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_targettopic",
@@ -3441,7 +3482,7 @@
       },
       "norm_label": "targettopic",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L18"
+      "source_location": "L19"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_totalrequested",
@@ -3458,7 +3499,7 @@
       },
       "norm_label": "totalrequested",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L16"
+      "source_location": "L17"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_totalsent",
@@ -3475,29 +3516,7 @@
       },
       "norm_label": "totalsent",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L17"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_cs_cancellationtoken",
-      "label": "CancellationToken",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
+      "source_location": "L18"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage_cs_datetime",
@@ -3735,17 +3754,6 @@
       "norm_label": "topic",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
       "source_location": "L8"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport",
-      "label": "IMessageProducerPort.cs",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "KafkaMessage",
-      "file_type": "code",
-      "norm_label": "imessageproducerport.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/IMessageProducerPort.cs",
-      "source_location": "L1"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport_cs_cancellationtoken",
@@ -4038,7 +4046,7 @@
       "label": "KafkaDemo.Application.DTOs",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -4054,7 +4062,7 @@
       "label": "KafkaDemo.Application.UseCases",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -4070,7 +4078,7 @@
       "label": "KafkaDemo.Infrastructure",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -4082,27 +4090,11 @@
       "type": "namespace"
     },
     {
-      "id": "csharp_namespace:d5a64b220d7c19e9",
-      "label": "KafkaDemo.Domain.Models",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Domain.Models"
-      },
-      "norm_label": "kafkademo.domain.models",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
-      "source_location": "L1",
-      "type": "namespace"
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos",
       "label": "KafkaDtos.cs",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "norm_label": "kafkadtos.cs",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
@@ -4113,7 +4105,7 @@
       "label": "ManageTopicsUseCase.cs",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "norm_label": "managetopicsusecase.cs",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/ManageTopicsUseCase.cs",
@@ -4124,43 +4116,10 @@
       "label": "KafkaDemo.ConsoleApp/Program.cs",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "norm_label": "kafkademo.consoleapp/program.cs",
       "source_file": "emisor_mensaje/src/KafkaDemo.ConsoleApp/Program.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage",
-      "label": "KafkaMessage.cs",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "kafkamessage.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_messageresult",
-      "label": "MessageResult.cs",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "messageresult.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest",
-      "label": "TopicCreationRequest.cs",
-      "_origin": "ast",
-      "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "topiccreationrequest.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/TopicCreationRequest.cs",
       "source_location": "L1"
     },
     {
@@ -4168,7 +4127,7 @@
       "label": "KafkaDemo.Web/Program.cs",
       "_origin": "ast",
       "community": 11,
-      "community_name": "KafkaDemo.Domain.Models",
+      "community_name": "KafkaDtos.cs",
       "file_type": "code",
       "norm_label": "kafkademo.web/program.cs",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
@@ -4322,6 +4281,17 @@
       "file_type": "code",
       "norm_label": "bulksinkpipelineusecase.cs",
       "source_file": "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_models_logdocument",
+      "label": "LogDocument.cs",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "ISinkPorts.cs",
+      "file_type": "code",
+      "norm_label": "logdocument.cs",
+      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
       "source_location": "L1"
     },
     {
@@ -6198,7 +6168,7 @@
       "label": "CancellationToken",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "cancellationtoken",
       "source_file": "",
@@ -6209,7 +6179,7 @@
       "label": "ILogger",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "ilogger",
       "source_file": "",
@@ -6220,7 +6190,7 @@
       "label": "Task",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "task",
       "source_file": "",
@@ -6231,29 +6201,18 @@
       "label": "TimeSpan",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "timespan",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "log_sink_src_logsink_domain_models_logdocument",
-      "label": "LogDocument.cs",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
-      "file_type": "code",
-      "norm_label": "logdocument.cs",
-      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
-      "source_location": "L1"
-    },
-    {
       "id": "log_sink_src_logsink_domain_ports_isinkports_cs_cancellationtoken",
       "label": "CancellationToken",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "cancellationtoken",
       "source_file": "",
@@ -6264,7 +6223,7 @@
       "label": "Func",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "func",
       "source_file": "",
@@ -6275,20 +6234,9 @@
       "label": "IReadOnlyList",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "ireadonlylist",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_rawjson",
-      "label": "RawJson",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
-      "file_type": "code",
-      "norm_label": "rawjson",
       "source_file": "",
       "source_location": ""
     },
@@ -6297,7 +6245,7 @@
       "label": "Task",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "task",
       "source_file": "",
@@ -6308,9 +6256,31 @@
       "label": "TimeSpan",
       "_origin": "ast",
       "community": 21,
-      "community_name": ".StartBatchConsumerAsync",
+      "community_name": ".AddLogSinkInfrastructure",
       "file_type": "code",
       "norm_label": "timespan",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iconfiguration",
+      "label": "IConfiguration",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": ".AddLogSinkInfrastructure",
+      "file_type": "code",
+      "norm_label": "iconfiguration",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iservicecollection",
+      "label": "IServiceCollection",
+      "_origin": "ast",
+      "community": 21,
+      "community_name": ".AddLogSinkInfrastructure",
+      "file_type": "code",
+      "norm_label": "iservicecollection",
       "source_file": "",
       "source_location": ""
     },
@@ -6431,6 +6401,17 @@
       "source_location": ""
     },
     {
+      "id": "backgroundservice",
+      "label": "BackgroundService",
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "BulkSinkWorkerService",
+      "file_type": "code",
+      "norm_label": "backgroundservice",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_cancellationtoken",
       "label": "CancellationToken",
       "_origin": "ast",
@@ -6479,7 +6460,7 @@
       "label": "CachedCredentialsEntry",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "cachedcredentialsentry",
       "source_file": "",
@@ -6490,7 +6471,7 @@
       "label": "CancellationToken",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "cancellationtoken",
       "source_file": "",
@@ -6501,7 +6482,7 @@
       "label": "ConcurrentDictionary",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "concurrentdictionary",
       "source_file": "",
@@ -6512,7 +6493,7 @@
       "label": "DateTimeOffset",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "datetimeoffset",
       "source_file": "",
@@ -6523,7 +6504,7 @@
       "label": "ILogger",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "ilogger",
       "source_file": "",
@@ -6534,7 +6515,7 @@
       "label": "Task",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "task",
       "source_file": "",
@@ -6545,7 +6526,7 @@
       "label": "TimeSpan",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "timespan",
       "source_file": "",
@@ -6556,7 +6537,7 @@
       "label": "IsExpired",
       "_origin": "ast",
       "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Infrastructure.Adapters",
@@ -6567,45 +6548,6 @@
       "norm_label": "isexpired",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
       "source_location": "L21"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iconfiguration",
-      "label": "IConfiguration",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "iconfiguration",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iservicecollection",
-      "label": "IServiceCollection",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "iservicecollection",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
-      "label": "PartitionKey",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "CosmosDbBulkSinkAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Models",
-        "scope_chain": [
-          "s39"
-        ]
-      },
-      "norm_label": "partitionkey",
-      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
-      "source_location": "L92"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_cancellationtoken",
@@ -6637,17 +6579,6 @@
       "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "norm_label": "ireadonlylist",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_rawjson",
-      "label": "RawJson",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "CosmosDbBulkSinkAdapter",
-      "file_type": "code",
-      "norm_label": "rawjson",
       "source_file": "",
       "source_location": ""
     },
@@ -6983,6 +6914,23 @@
       "norm_label": "parentspanid",
       "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
       "source_location": "L29"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
+      "label": "PartitionKey",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "LogDocument",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Models",
+        "scope_chain": [
+          "s39"
+        ]
+      },
+      "norm_label": "partitionkey",
+      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
+      "source_location": "L92"
     },
     {
       "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_persistedat",
@@ -7906,105 +7854,11 @@
       "source_location": ""
     },
     {
-      "id": "consumer_streams_src_consumerstreams_domain_ports_icontractrulescacheport",
-      "label": "IContractRulesCachePort.cs",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "icontractrulescacheport.cs",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_domain_ports_icontractrulescacheport_consumerstreams_domain_ports_icontractrulescacheport_activecontractscount",
-      "label": "ActiveContractsCount",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Domain.Ports",
-        "scope_chain": [
-          "s38"
-        ]
-      },
-      "norm_label": "activecontractscount",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs",
-      "source_location": "L19"
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_cancellationtoken",
-      "label": "CancellationToken",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_idictionary",
-      "label": "IDictionary",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "idictionary",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_ilogger",
-      "label": "ILogger",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "ilogger",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_iproducer",
-      "label": "IProducer",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "iproducer",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "idisposable",
-      "label": "IDisposable",
-      "_origin": "ast",
-      "community": 35,
-      "community_name": "KafkaStreamProducerAdapter",
-      "file_type": "code",
-      "norm_label": "idisposable",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_dictionary",
       "label": "Dictionary",
       "_origin": "ast",
-      "community": 36,
-      "community_name": "SendMessageRequestDto",
+      "community": 35,
+      "community_name": "CreateTopicDto",
       "file_type": "code",
       "norm_label": "dictionary",
       "source_file": "",
@@ -8014,8 +7868,8 @@
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto_configs",
       "label": "Configs",
       "_origin": "ast",
-      "community": 36,
-      "community_name": "SendMessageRequestDto",
+      "community": 35,
+      "community_name": "CreateTopicDto",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -8025,14 +7879,14 @@
       },
       "norm_label": "configs",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L28"
+      "source_location": "L29"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto_partitions",
       "label": "Partitions",
       "_origin": "ast",
-      "community": 36,
-      "community_name": "SendMessageRequestDto",
+      "community": 35,
+      "community_name": "CreateTopicDto",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -8042,14 +7896,14 @@
       },
       "norm_label": "partitions",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L26"
+      "source_location": "L27"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto_replicationfactor",
       "label": "ReplicationFactor",
       "_origin": "ast",
-      "community": 36,
-      "community_name": "SendMessageRequestDto",
+      "community": 35,
+      "community_name": "CreateTopicDto",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -8059,14 +7913,14 @@
       },
       "norm_label": "replicationfactor",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L27"
+      "source_location": "L28"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto_topicname",
       "label": "TopicName",
       "_origin": "ast",
-      "community": 36,
-      "community_name": "SendMessageRequestDto",
+      "community": 35,
+      "community_name": "CreateTopicDto",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -8076,7 +7930,7 @@
       },
       "norm_label": "topicname",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L25"
+      "source_location": "L26"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_sendmessagerequestdto_headers",
@@ -8111,6 +7965,23 @@
       "norm_label": "key",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
       "source_location": "L8"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_sendmessagerequestdto_servicename",
+      "label": "ServiceName",
+      "_origin": "ast",
+      "community": 36,
+      "community_name": "SendMessageRequestDto",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "servicename",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L12"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_sendmessagerequestdto_telemetrytype",
@@ -8328,90 +8199,6 @@
       "source_location": "L17"
     },
     {
-      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings",
-      "label": "TracePruningSettings.cs",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "norm_label": "tracepruningsettings.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings_enabled",
-      "label": "Enabled",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "enabled",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
-      "source_location": "L11"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings_maxarrayitems",
-      "label": "MaxArrayItems",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "maxarrayitems",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
-      "source_location": "L16"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings_maxdepth",
-      "label": "MaxDepth",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "maxdepth",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
-      "source_location": "L21"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_cs_iconfiguration",
-      "label": "IConfiguration",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "norm_label": "iconfiguration",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_cs_iservicecollection",
-      "label": "IServiceCollection",
-      "_origin": "ast",
-      "community": 38,
-      "community_name": ".AddKafkaInfrastructure",
-      "file_type": "code",
-      "norm_label": "iservicecollection",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "csharp_namespace:47b86398598bc1ab",
       "label": "KafkaDemo.Domain.Ports",
       "_origin": "ast",
@@ -8458,6 +8245,55 @@
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
       "source_location": "L7",
       "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:d5a64b220d7c19e9",
+      "label": "KafkaDemo.Domain.Models",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Domain.Models"
+      },
+      "norm_label": "kafkademo.domain.models",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
+      "source_location": "L1",
+      "type": "namespace"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage",
+      "label": "KafkaMessage.cs",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkamessage.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_messageresult",
+      "label": "MessageResult.cs",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "messageresult.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport",
+      "label": "IMessageProducerPort.cs",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "imessageproducerport.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/IMessageProducerPort.cs",
+      "source_location": "L1"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter",
@@ -8569,6 +8405,17 @@
       "source_location": "L1"
     },
     {
+      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings",
+      "label": "TracePruningSettings.cs",
+      "_origin": "ast",
+      "community": 40,
+      "community_name": "SendMessagesUseCase.cs",
+      "file_type": "code",
+      "norm_label": "tracepruningsettings.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
+      "source_location": "L1"
+    },
+    {
       "id": "emisor_mensaje_src_kafkademo_domain_utils_oteltracepruner",
       "label": "OTelTracePruner.cs",
       "_origin": "ast",
@@ -8616,7 +8463,7 @@
       },
       "norm_label": "checkedat",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L36"
+      "source_location": "L37"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_isconnected",
@@ -8633,7 +8480,7 @@
       },
       "norm_label": "isconnected",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L33"
+      "source_location": "L34"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_status",
@@ -8650,7 +8497,7 @@
       },
       "norm_label": "status",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L35"
+      "source_location": "L36"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_totaltopics",
@@ -8667,14 +8514,87 @@
       },
       "norm_label": "totaltopics",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L34"
+      "source_location": "L35"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_cs_cancellationtoken",
+      "label": "CancellationToken",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings_enabled",
+      "label": "Enabled",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Domain.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "enabled",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
+      "source_location": "L11"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings_maxarrayitems",
+      "label": "MaxArrayItems",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Domain.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "maxarrayitems",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
+      "source_location": "L16"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_configuration_tracepruningsettings_kafkademo_domain_configuration_tracepruningsettings_maxdepth",
+      "label": "MaxDepth",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Domain.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "maxdepth",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs",
+      "source_location": "L21"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports",
       "label": "KafkaDemo.Domain/Ports/ICryptoPorts.cs",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "kafkademo.domain/ports/icryptoports.cs",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
@@ -8685,7 +8605,7 @@
       "label": "CancellationToken",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "cancellationtoken",
       "source_file": "",
@@ -8696,7 +8616,7 @@
       "label": "EncryptedPayloadEnvelope",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "encryptedpayloadenvelope",
       "source_file": "",
@@ -8707,7 +8627,7 @@
       "label": "IDictionary",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "idictionary",
       "source_file": "",
@@ -8718,7 +8638,7 @@
       "label": "Task",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "task",
       "source_file": "",
@@ -8729,7 +8649,7 @@
       "label": "TelemetryType",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "telemetrytype",
       "source_file": "",
@@ -8740,7 +8660,7 @@
       "label": "AesKey256",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -8757,7 +8677,7 @@
       "label": "CertThumbprint",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -8774,7 +8694,7 @@
       "label": "KeyVersion",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -8791,7 +8711,7 @@
       "label": "VaultTokenId",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Domain.Ports",
@@ -8808,7 +8728,7 @@
       "label": "EncryptedPayloadEnvelope",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "encryptedpayloadenvelope",
       "source_file": "",
@@ -8819,7 +8739,7 @@
       "label": "IDictionary",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "idictionary",
       "source_file": "",
@@ -8830,7 +8750,7 @@
       "label": "TelemetryType",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "telemetrytype",
       "source_file": "",
@@ -8841,7 +8761,7 @@
       "label": "CachedVaultEntry",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "cachedvaultentry",
       "source_file": "",
@@ -8852,7 +8772,7 @@
       "label": "CancellationToken",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "cancellationtoken",
       "source_file": "",
@@ -8863,7 +8783,7 @@
       "label": "ConcurrentDictionary",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "concurrentdictionary",
       "source_file": "",
@@ -8874,7 +8794,7 @@
       "label": "DateTimeOffset",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "datetimeoffset",
       "source_file": "",
@@ -8885,7 +8805,7 @@
       "label": "ILogger",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "ilogger",
       "source_file": "",
@@ -8896,7 +8816,7 @@
       "label": "Task",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "task",
       "source_file": "",
@@ -8907,7 +8827,7 @@
       "label": "TimeSpan",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "timespan",
       "source_file": "",
@@ -8918,7 +8838,7 @@
       "label": "VaultKeyMaterial",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "vaultkeymaterial",
       "source_file": "",
@@ -8929,7 +8849,7 @@
       "label": "IsExpired",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Infrastructure.Adapters",
@@ -8942,11 +8862,33 @@
       "source_location": "L26"
     },
     {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_cs_iconfiguration",
+      "label": "IConfiguration",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "norm_label": "iconfiguration",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection_cs_iservicecollection",
+      "label": "IServiceCollection",
+      "_origin": "ast",
+      "community": 42,
+      "community_name": ".AddKafkaInfrastructure",
+      "file_type": "code",
+      "norm_label": "iservicecollection",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "httpclient",
       "label": "HttpClient",
       "_origin": "ast",
       "community": 42,
-      "community_name": "VaultKeyMaterial",
+      "community_name": ".AddKafkaInfrastructure",
       "file_type": "code",
       "norm_label": "httpclient",
       "source_file": "",
@@ -9076,17 +9018,6 @@
       "community_name": "AzureKeyVaultTokenAdapter",
       "file_type": "code",
       "norm_label": "vaultkeymaterial",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backgroundservice",
-      "label": "BackgroundService",
-      "_origin": "ast",
-      "community": 46,
-      "community_name": "KafkaStreamSettings",
-      "file_type": "code",
-      "norm_label": "backgroundservice",
       "source_file": "",
       "source_location": ""
     },
@@ -9265,6 +9196,17 @@
       "source_location": ""
     },
     {
+      "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher",
+      "label": "TransactionEnricher.cs",
+      "_origin": "ast",
+      "community": 48,
+      "community_name": "ConsumerStreams.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "transactionenricher.cs",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
+      "source_location": "L1"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_aesgcmpayloadcryptoadapter",
       "label": "ConsumerStreams.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
       "_origin": "ast",
@@ -9306,6 +9248,17 @@
       "file_type": "code",
       "norm_label": "kafkastreamproduceradapter.cs",
       "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_threadsafecontractrulescacheadapter",
+      "label": "ThreadSafeContractRulesCacheAdapter.cs",
+      "_origin": "ast",
+      "community": 48,
+      "community_name": "ConsumerStreams.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "threadsafecontractrulescacheadapter.cs",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/ThreadSafeContractRulesCacheAdapter.cs",
       "source_location": "L1"
     },
     {
@@ -9422,6 +9375,22 @@
       "type": "namespace"
     },
     {
+      "id": "csharp_namespace:7dafdb6de0fb6060",
+      "label": "ConsumerStreams.Application.Services",
+      "_origin": "ast",
+      "community": 48,
+      "community_name": "ConsumerStreams.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "ConsumerStreams.Application.Services"
+      },
+      "norm_label": "consumerstreams.application.services",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
+      "source_location": "L4",
+      "type": "namespace"
+    },
+    {
       "id": "csharp_namespace:f2ad720383c54001",
       "label": "ConsumerStreams.Worker",
       "_origin": "ast",
@@ -9469,6 +9438,17 @@
       "norm_label": "task",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest",
+      "label": "TopicCreationRequest.cs",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "TopicInfo",
+      "file_type": "code",
+      "norm_label": "topiccreationrequest.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/TopicCreationRequest.cs",
+      "source_location": "L1"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest_cs_idictionary",
@@ -9989,6 +9969,17 @@
       "source_location": "L1"
     },
     {
+      "id": "consumer_streams_src_consumerstreams_domain_ports_icontractrulescacheport",
+      "label": "IContractRulesCachePort.cs",
+      "_origin": "ast",
+      "community": 54,
+      "community_name": "ConsumerStreams.Domain.Models",
+      "file_type": "code",
+      "norm_label": "icontractrulescacheport.cs",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs",
+      "source_location": "L1"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_domain_utils_openapicontractcompiler",
       "label": "OpenApiContractCompiler.cs",
       "_origin": "ast",
@@ -10000,14 +9991,14 @@
       "source_location": "L1"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_threadsafecontractrulescacheadapter",
-      "label": "ThreadSafeContractRulesCacheAdapter.cs",
+      "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator",
+      "label": "ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
       "_origin": "ast",
       "community": 54,
       "community_name": "ConsumerStreams.Domain.Models",
       "file_type": "code",
-      "norm_label": "threadsafecontractrulescacheadapter.cs",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/ThreadSafeContractRulesCacheAdapter.cs",
+      "norm_label": "consumerstreams.domain/utils/uniformpartitionkeygenerator.cs",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Utils/UniformPartitionKeyGenerator.cs",
       "source_location": "L1"
     },
     {
@@ -10070,17 +10061,6 @@
       "source_location": ""
     },
     {
-      "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher",
-      "label": "TransactionEnricher.cs",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": ".AddConsumerStreamsInfrastructure",
-      "file_type": "code",
-      "norm_label": "transactionenricher.cs",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
-      "source_location": "L1"
-    },
-    {
       "id": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_cs_ilogger",
       "label": "ILogger",
       "_origin": "ast",
@@ -10092,6 +10072,23 @@
       "source_location": ""
     },
     {
+      "id": "consumer_streams_src_consumerstreams_domain_ports_icontractrulescacheport_consumerstreams_domain_ports_icontractrulescacheport_activecontractscount",
+      "label": "ActiveContractsCount",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Domain.Ports",
+        "scope_chain": [
+          "s38"
+        ]
+      },
+      "norm_label": "activecontractscount",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs",
+      "source_location": "L19"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_domain_ports_istreamports",
       "label": "IStreamPorts.cs",
       "_origin": "ast",
@@ -10101,6 +10098,28 @@
       "norm_label": "istreamports.cs",
       "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs",
       "source_location": "L1"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_ilogger",
+      "label": "ILogger",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "norm_label": "ilogger",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamproduceradapter_cs_iproducer",
+      "label": "IProducer",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "norm_label": "iproducer",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "consumer_streams_src_consumerstreams_infrastructure_dependencyinjection_cs_iconfiguration",
@@ -10125,20 +10144,15 @@
       "source_location": ""
     },
     {
-      "id": "csharp_namespace:7dafdb6de0fb6060",
-      "label": "ConsumerStreams.Application.Services",
+      "id": "idisposable",
+      "label": "IDisposable",
       "_origin": "ast",
       "community": 6,
       "community_name": ".AddConsumerStreamsInfrastructure",
       "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "ConsumerStreams.Application.Services"
-      },
-      "norm_label": "consumerstreams.application.services",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
-      "source_location": "L4",
-      "type": "namespace"
+      "norm_label": "idisposable",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "documentdb_emulator_documentdbemulator",
@@ -10226,7 +10240,7 @@
       "file_type": "code",
       "norm_label": "otellogs",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L583"
+      "source_location": "L585"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_otelmetricdefinitions",
@@ -10237,7 +10251,7 @@
       "file_type": "code",
       "norm_label": "otelmetricdefinitions",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L555"
+      "source_location": "L557"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_oteltraces",
@@ -10248,7 +10262,7 @@
       "file_type": "code",
       "norm_label": "oteltraces",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L529"
+      "source_location": "L531"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_state",
@@ -10887,7 +10901,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L114",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -10899,7 +10913,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L66",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -11187,7 +11201,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L158",
+      "source_location": "L159",
       "weight": 1.0
     },
     {
@@ -11199,7 +11213,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L173",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -11211,7 +11225,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L234",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -11379,7 +11393,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L50",
+      "source_location": "L51",
       "weight": 1.0
     },
     {
@@ -11391,7 +11405,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L53",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -11499,7 +11513,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L472",
+      "source_location": "L474",
       "weight": 1.0
     },
     {
@@ -11511,7 +11525,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L502",
+      "source_location": "L504",
       "weight": 1.0
     },
     {
@@ -11523,7 +11537,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L516",
+      "source_location": "L518",
       "weight": 1.0
     },
     {
@@ -11535,7 +11549,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L214",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -11547,7 +11561,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L215",
+      "source_location": "L216",
       "weight": 1.0
     },
     {
@@ -11559,7 +11573,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L216",
+      "source_location": "L217",
       "weight": 1.0
     },
     {
@@ -11571,7 +11585,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L218",
+      "source_location": "L219",
       "weight": 1.0
     },
     {
@@ -11583,7 +11597,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L745",
+      "source_location": "L747",
       "weight": 1.0
     },
     {
@@ -11595,7 +11609,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L300",
+      "source_location": "L301",
       "weight": 1.0
     },
     {
@@ -11607,7 +11621,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L325",
+      "source_location": "L326",
       "weight": 1.0
     },
     {
@@ -11619,7 +11633,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L418",
+      "source_location": "L419",
       "weight": 1.0
     },
     {
@@ -11631,7 +11645,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L450",
+      "source_location": "L452",
       "weight": 1.0
     },
     {
@@ -11643,7 +11657,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L454",
+      "source_location": "L456",
       "weight": 1.0
     },
     {
@@ -11655,7 +11669,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L455",
+      "source_location": "L457",
       "weight": 1.0
     },
     {
@@ -11667,7 +11681,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L647",
+      "source_location": "L649",
       "weight": 1.0
     },
     {
@@ -11679,7 +11693,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L700",
+      "source_location": "L702",
       "weight": 1.0
     },
     {
@@ -11691,7 +11705,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L701",
+      "source_location": "L703",
       "weight": 1.0
     },
     {
@@ -11703,7 +11717,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L656",
+      "source_location": "L658",
       "weight": 1.0
     },
     {
@@ -11715,7 +11729,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L663",
+      "source_location": "L665",
       "weight": 1.0
     },
     {
@@ -11727,7 +11741,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L178",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -11739,7 +11753,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L178",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -11751,24 +11765,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L239",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
       "source": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_send20demotransactions",
       "target": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_showtoast",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L394",
-      "weight": 1.0
-    },
-    {
-      "source": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_send20demotransactions",
-      "target": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_appendbatchtostream",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -11780,7 +11782,7 @@
     },
     {
       "source": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_send20demotransactions",
-      "target": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_fetchtopics",
+      "target": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_appendbatchtostream",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -11788,6 +11790,18 @@
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
       "source_location": "L396",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_send20demotransactions",
+      "target": "emisor_mensaje_src_kafkademo_web_wwwroot_js_app_fetchtopics",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
+      "source_location": "L397",
       "weight": 1.0
     },
     {
@@ -11799,7 +11813,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L124",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -11811,7 +11825,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L135",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -11823,7 +11837,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L136",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -11835,7 +11849,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L137",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -11847,7 +11861,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L143",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -11859,7 +11873,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L144",
+      "source_location": "L145",
       "weight": 1.0
     },
     {
@@ -11871,7 +11885,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L149",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -11883,7 +11897,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L277",
+      "source_location": "L278",
       "weight": 1.0
     },
     {
@@ -11967,7 +11981,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L260",
+      "source_location": "L265",
       "weight": 1.0
     },
     {
@@ -11979,7 +11993,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L197",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
@@ -12170,7 +12184,7 @@
         "ref_token": "DateTime"
       },
       "source_file": "documentdb_emulator/Program.cs",
-      "source_location": "L526",
+      "source_location": "L575",
       "weight": 1.0
     },
     {
@@ -12185,7 +12199,7 @@
         "ref_token": "DateTime"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -12320,7 +12334,7 @@
         "ref_token": "Dictionary"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -12845,7 +12859,7 @@
         "ref_token": "IReadOnlyList"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -14099,7 +14113,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0
     },
     {
@@ -14111,7 +14125,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -14123,7 +14137,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -14135,7 +14149,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -14147,7 +14161,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -14159,7 +14173,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0
     },
     {
@@ -14171,7 +14185,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -14183,7 +14197,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -14195,7 +14209,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -14207,7 +14221,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L25",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -14219,7 +14233,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L26",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -14231,7 +14245,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -14243,7 +14257,7 @@
       "confidence_score": 1.0,
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -14268,6 +14282,18 @@
       "context": "field",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
       "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_sendmessagerequestdto",
+      "target": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_sendmessagerequestdto_servicename",
+      "relation": "defines",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "field",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -15428,7 +15454,7 @@
         "ref_token": "BulkSinkResult"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -15443,7 +15469,7 @@
         "ref_token": "BulkSinkResult"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -15533,7 +15559,7 @@
         "ref_token": "CosmosDbCredentials"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L48",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -16028,7 +16054,7 @@
         "ref_token": "LogDocument"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -16044,6 +16070,36 @@
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_logsinkitem",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "LogSinkItem"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_logsinkitem",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "LogSinkItem"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -16073,7 +16129,7 @@
         "ref_token": "MessageResult"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -16152,36 +16208,6 @@
       "weight": 1.0
     },
     {
-      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
-      "target": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "generic_arg",
-      "metadata": {
-        "ref_token": "PartitionKey"
-      },
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
-      "weight": 1.0
-    },
-    {
-      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
-      "target": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "generic_arg",
-      "metadata": {
-        "ref_token": "PartitionKey"
-      },
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L117",
-      "weight": 1.0
-    },
-    {
       "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
       "target": "rus",
       "relation": "references",
@@ -16193,7 +16219,7 @@
         "ref_token": "RUs"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -16209,36 +16235,6 @@
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L175",
-      "weight": 1.0
-    },
-    {
-      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
-      "target": "log_sink_src_logsink_domain_ports_isinkports_cs_rawjson",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "generic_arg",
-      "metadata": {
-        "ref_token": "RawJson"
-      },
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
-      "weight": 1.0
-    },
-    {
-      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
-      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_rawjson",
-      "relation": "references",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "generic_arg",
-      "metadata": {
-        "ref_token": "RawJson"
-      },
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -16283,7 +16279,7 @@
         "ref_token": "Success"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -18112,7 +18108,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L135",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -18442,7 +18438,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -18457,7 +18453,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -18472,7 +18468,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L48",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -18532,7 +18528,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -18652,7 +18648,7 @@
         "ref_token": "CosmosDbCredentials"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -18802,7 +18798,7 @@
         "ref_token": "EncryptedPayloadEnvelope"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -18817,7 +18813,7 @@
         "ref_token": "EncryptedPayloadEnvelope"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L94",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -19027,7 +19023,7 @@
         "ref_token": "IReadOnlyList"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -19042,7 +19038,7 @@
         "ref_token": "IReadOnlyList"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -19117,7 +19113,7 @@
         "ref_token": "LogDocument"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -19477,7 +19473,7 @@
         "ref_token": "VaultKeyMaterial"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -19507,7 +19503,7 @@
         "ref_token": "VaultKeyMaterial"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L94",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -19912,7 +19908,7 @@
         "ref_token": "Task"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L135",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -20242,7 +20238,7 @@
         "ref_token": "Task"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -20257,7 +20253,7 @@
         "ref_token": "Task"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -20272,7 +20268,7 @@
         "ref_token": "Task"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L48",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -20332,7 +20328,7 @@
         "ref_token": "Task"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -20392,7 +20388,7 @@
         "ref_token": "TelemetryType"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L68",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -21843,7 +21839,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "documentdb_emulator/Program.cs",
-      "source_location": "L520",
+      "source_location": "L569",
       "weight": 1.0
     },
     {
@@ -21904,7 +21900,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -21915,7 +21911,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0
     },
     {
@@ -21937,7 +21933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0
     },
     {
@@ -22597,7 +22593,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L105",
+      "source_location": "L106",
       "weight": 1.0
     },
     {
@@ -22608,7 +22604,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L119",
+      "source_location": "L120",
       "weight": 1.0
     },
     {
@@ -22619,7 +22615,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L162",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -22630,7 +22626,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L177",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -22641,7 +22637,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L182",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -22663,7 +22659,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L208",
+      "source_location": "L209",
       "weight": 1.0
     },
     {
@@ -22674,7 +22670,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L223",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -22685,7 +22681,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L267",
+      "source_location": "L268",
       "weight": 1.0
     },
     {
@@ -22696,7 +22692,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L284",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -22707,7 +22703,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L293",
+      "source_location": "L294",
       "weight": 1.0
     },
     {
@@ -22718,7 +22714,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L373",
+      "source_location": "L374",
       "weight": 1.0
     },
     {
@@ -22729,7 +22725,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L411",
+      "source_location": "L412",
       "weight": 1.0
     },
     {
@@ -22740,7 +22736,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L46",
+      "source_location": "L47",
       "weight": 1.0
     },
     {
@@ -22751,7 +22747,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L471",
+      "source_location": "L473",
       "weight": 1.0
     },
     {
@@ -22762,7 +22758,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L501",
+      "source_location": "L503",
       "weight": 1.0
     },
     {
@@ -22773,7 +22769,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L521",
+      "source_location": "L523",
       "weight": 1.0
     },
     {
@@ -22784,7 +22780,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L529",
+      "source_location": "L531",
       "weight": 1.0
     },
     {
@@ -22795,7 +22791,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L555",
+      "source_location": "L557",
       "weight": 1.0
     },
     {
@@ -22806,7 +22802,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L583",
+      "source_location": "L585",
       "weight": 1.0
     },
     {
@@ -22817,7 +22813,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L637",
+      "source_location": "L639",
       "weight": 1.0
     },
     {
@@ -22828,7 +22824,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L651",
+      "source_location": "L653",
       "weight": 1.0
     },
     {
@@ -22839,7 +22835,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L690",
+      "source_location": "L692",
       "weight": 1.0
     },
     {
@@ -22850,7 +22846,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L730",
+      "source_location": "L732",
       "weight": 1.0
     },
     {
@@ -22861,7 +22857,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L741",
+      "source_location": "L743",
       "weight": 1.0
     },
     {
@@ -22872,7 +22868,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L752",
+      "source_location": "L754",
       "weight": 1.0
     },
     {
@@ -22883,7 +22879,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L765",
+      "source_location": "L767",
       "weight": 1.0
     },
     {
@@ -22894,7 +22890,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L88",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -23038,7 +23034,7 @@
     },
     {
       "source": "log_sink_src_logsink_domain_ports_isinkports",
-      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_logsinkitem",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -23049,13 +23045,24 @@
     },
     {
       "source": "log_sink_src_logsink_domain_ports_isinkports",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_domain_ports_isinkports",
       "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L46",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -23066,7 +23073,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L56",
+      "source_location": "L64",
       "weight": 1.0
     },
     {
@@ -24241,7 +24248,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L135",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -24285,7 +24292,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -24472,7 +24479,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L68",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -24483,7 +24490,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L94",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -24648,7 +24655,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L34",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -24659,7 +24666,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L38",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -24670,7 +24677,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L48",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -24714,7 +24721,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L235",
+      "source_location": "L240",
       "weight": 1.0
     },
     {
@@ -24725,7 +24732,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L300",
+      "source_location": "L305",
       "weight": 1.0
     },
     {
@@ -25076,6 +25083,18 @@
     },
     {
       "source": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_consumerstreams_application_usecases_streamprocessingpipelineusecase_executepipelineasync",
+      "target": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_itransactiontransformerport_transformandenrich",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "context": "call",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_consumerstreams_application_usecases_streamprocessingpipelineusecase_executepipelineasync",
       "target": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_istreamproducerport_forwardeventasync",
       "relation": "calls",
       "_origin": "ast",
@@ -25083,7 +25102,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L116",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -25107,7 +25126,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L53",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -25119,7 +25138,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L59",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -25131,19 +25150,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L65",
-      "weight": 1.0
-    },
-    {
-      "source": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_consumerstreams_application_usecases_streamprocessingpipelineusecase_executepipelineasync",
-      "target": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_itransactiontransformerport_transformandenrich",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "context": "call",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs",
-      "source_location": "L97",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
@@ -25251,7 +25258,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L143",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -25263,7 +25270,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L146",
+      "source_location": "L147",
       "weight": 1.0
     },
     {
@@ -25275,7 +25282,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L149",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -25287,7 +25294,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L201",
+      "source_location": "L202",
       "weight": 1.0
     },
     {
@@ -25299,7 +25306,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L231",
+      "source_location": "L232",
       "weight": 1.0
     },
     {
@@ -25311,7 +25318,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L129",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -25359,7 +25366,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs",
-      "source_location": "L56",
+      "source_location": "L70",
       "weight": 1.0
     },
     {
@@ -25407,7 +25414,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L120",
+      "source_location": "L121",
       "weight": 1.0
     },
     {
@@ -25419,7 +25426,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L127",
+      "source_location": "L128",
       "weight": 1.0
     },
     {
@@ -25431,7 +25438,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L129",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
@@ -25443,7 +25450,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L130",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -25455,7 +25462,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js",
-      "source_location": "L152",
+      "source_location": "L153",
       "weight": 1.0
     },
     {
@@ -25503,7 +25510,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L149",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -25515,7 +25522,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L212",
+      "source_location": "L213",
       "weight": 1.0
     },
     {
@@ -25527,7 +25534,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L119",
+      "source_location": "L120",
       "weight": 1.0
     },
     {
@@ -25576,6 +25583,18 @@
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
       "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_logsink_application_usecases_bulksinkpipelineusecase_executebulksinkpipelineasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_logsinkitem",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "call",
+      "source_file": "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs",
+      "source_location": "L60",
       "weight": 1.0
     },
     {
@@ -25856,5 +25875,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3f37ae5ba720a4c8a3e52715cbf43b51b57b6930"
+  "built_at_commit": "c579205840adc239acd8c74df2d518dea01a6c8c"
 }

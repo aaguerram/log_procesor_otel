@@ -51,7 +51,7 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
         var effectiveTelemetryType = telemetryType ?? DetectTelemetryType(jsonPayload);
 
         // 4. Empaquetado binario en Protocol Buffers Autosuficiente
-        return new EncryptedPayloadEnvelope
+        var envelope = new EncryptedPayloadEnvelope
         {
             Data = ByteString.CopyFrom(ciphertext),
             Nonce = ByteString.CopyFrom(nonce),
@@ -61,10 +61,52 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
             VaultTokenId = keyMaterial.VaultTokenId,
             TransactionId = transactionId,
             TimestampUnixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-            Swagger = swaggerYaml ?? string.Empty,
+            Swagger = swaggerYaml ?? string.Empty, // ÚNICO CAMPO OPCIONAL
             TelemetryType = effectiveTelemetryType,
             ServiceName = string.IsNullOrWhiteSpace(serviceName) ? "Transfer.Mspx.Prometeus.Management" : serviceName
         };
+
+        // 5. Garantía estricta: Todos los campos del proto excepto Swagger son obligatorios
+        ValidateMandatoryEnvelopeFields(envelope);
+
+        return envelope;
+    }
+
+    public static void ValidateMandatoryEnvelopeFields(EncryptedPayloadEnvelope envelope)
+    {
+        ArgumentNullException.ThrowIfNull(envelope, nameof(envelope));
+
+        if (envelope.Data == null || envelope.Data.Length == 0)
+            throw new InvalidOperationException("El campo 'data' del sobre protobuf es obligatorio y no puede estar vacío.");
+
+        if (envelope.Nonce == null || envelope.Nonce.Length != 12)
+            throw new InvalidOperationException($"El campo 'nonce' es obligatorio y debe tener exactamente 12 bytes (recibido: {envelope.Nonce?.Length ?? 0}).");
+
+        if (envelope.AuthTag == null || envelope.AuthTag.Length != 16)
+            throw new InvalidOperationException($"El campo 'auth_tag' es obligatorio y debe tener exactamente 16 bytes (recibido: {envelope.AuthTag?.Length ?? 0}).");
+
+        if (envelope.AlgorithmVersion <= 0)
+            throw new InvalidOperationException("El campo 'algorithm_version' es obligatorio y debe ser mayor a 0 (1 = AES-256-GCM).");
+
+        if (string.IsNullOrWhiteSpace(envelope.CertThumbprint))
+            throw new InvalidOperationException("El campo 'cert_thumbprint' es obligatorio.");
+
+        if (string.IsNullOrWhiteSpace(envelope.VaultTokenId))
+            throw new InvalidOperationException("El campo 'vault_token_id' es obligatorio.");
+
+        if (string.IsNullOrWhiteSpace(envelope.TransactionId))
+            throw new InvalidOperationException("El campo 'transaction_id' es obligatorio.");
+
+        if (envelope.TimestampUnixMs <= 0)
+            throw new InvalidOperationException("El campo 'timestamp_unix_ms' es obligatorio y debe ser mayor a 0.");
+
+        if (envelope.TelemetryType == TelemetryType.Unspecified)
+            throw new InvalidOperationException("El campo 'telemetry_type' es obligatorio y debe ser Trace (1), Metric (2) o Log (3).");
+
+        if (string.IsNullOrWhiteSpace(envelope.ServiceName))
+            throw new InvalidOperationException("El campo 'service_name' es obligatorio.");
+
+        // Nota: envelope.Swagger es el ÚNICO campo opcional permitido.
     }
 
     private static TelemetryType DetectTelemetryType(string json)
