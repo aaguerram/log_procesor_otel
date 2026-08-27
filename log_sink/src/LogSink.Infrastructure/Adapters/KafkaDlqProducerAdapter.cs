@@ -1,7 +1,7 @@
-using System.Text;
 using Confluent.Kafka;
 using LogSink.Domain.Ports;
 using LogSink.Infrastructure.Configuration;
+using LogSink.Infrastructure.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -48,23 +48,11 @@ public class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var kafkaHeaders = new Headers();
-        if (headers != null)
-        {
-            foreach (var (k, v) in headers)
-            {
-                if (v != null)
-                {
-                    kafkaHeaders.Add(k, Encoding.UTF8.GetBytes(v));
-                }
-            }
-        }
-
         var message = new Message<string, string>
         {
             Key = partitionKey ?? string.Empty,
             Value = rawJson ?? string.Empty,
-            Headers = kafkaHeaders,
+            Headers = KafkaHeaderMapper.ToKafkaHeaders(headers),
             Timestamp = new Timestamp(DateTime.UtcNow)
         };
 

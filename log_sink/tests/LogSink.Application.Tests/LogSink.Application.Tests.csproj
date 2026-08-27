@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LogSink.Application\LogSink.Application.csproj" />
+  </ItemGroup>
+
+</Project>

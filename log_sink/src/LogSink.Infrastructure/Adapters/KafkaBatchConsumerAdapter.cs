@@ -3,6 +3,7 @@ using System.Text;
 using Confluent.Kafka;
 using LogSink.Domain.Ports;
 using LogSink.Infrastructure.Configuration;
+using LogSink.Infrastructure.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -124,33 +125,32 @@ public class KafkaBatchConsumerAdapter : IBatchConsumerPort, IDisposable
 
     private static KafkaBatchItem MapToBatchItem(ConsumeResult<string, byte[]> result)
     {
-        var headersDict = new Dictionary<string, string>();
-        if (result.Message.Headers != null)
-        {
-            foreach (var h in result.Message.Headers)
-            {
-                headersDict[h.Key] = Encoding.UTF8.GetString(h.GetValueBytes());
-            }
-        }
-
-        var json = Encoding.UTF8.GetString(result.Message.Value);
-
         return new KafkaBatchItem(
             Key: result.Message.Key ?? string.Empty,
             RawBytes: result.Message.Value,
-            RawJson: json,
+            RawJson: Encoding.UTF8.GetString(result.Message.Value),
             Partition: result.Partition.Value,
             Offset: result.Offset.Value,
-            Headers: headersDict);
+            Headers: KafkaHeaderMapper.ToDictionary(result.Message.Headers));
     }
 
     public void Dispose()
     {
-        if (!_disposed)
+        if (_disposed)
         {
-            _disposed = true;
-            try { _consumer.Close(); } catch { }
-            _consumer.Dispose();
+            return;
         }
+
+        _disposed = true;
+        try
+        {
+            _consumer.Close();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Error cerrando el batch consumer de Kafka");
+        }
+
+        _consumer.Dispose();
     }
 }

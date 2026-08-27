@@ -5,4 +5,9 @@
     <Project Path="src/LogSink.Infrastructure/LogSink.Infrastructure.csproj" />
     <Project Path="src/LogSink.Worker/LogSink.Worker.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LogSink.Domain.Tests/LogSink.Domain.Tests.csproj" />
+    <Project Path="tests/LogSink.Application.Tests/LogSink.Application.Tests.csproj" />
+    <Project Path="tests/LogSink.Infrastructure.Tests/LogSink.Infrastructure.Tests.csproj" />
+  </Folder>
 </Solution>
