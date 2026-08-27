@@ -36,6 +36,15 @@
           </svg>
           Actualizar
         </button>
+        <button id="btn-purge-db" class="btn btn-danger btn-icon" title="Vaciar toda la data de Cosmos DB y MongoDB">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+          Vaciar Base de Datos
+        </button>
       </div>
     </div>
   </header>
@@ -335,9 +344,37 @@
     </div>
   </div>
 
+  <!-- Modal Confirm Purge Database -->
+  <div id="modal-confirm-purge" class="modal">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-content" style="max-width: 480px; border-color: rgba(244, 63, 94, 0.4);">
+      <div class="modal-header" style="background: rgba(244, 63, 94, 0.08);">
+        <h3 class="modal-title" style="color: #fb7185; display: flex; align-items: center; gap: 8px;">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          ¿Vaciar Toda la Base de Datos?
+        </h3>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body" style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.6;">
+        <p>Esta acción eliminará de forma <strong>irreversible</strong> todas las colecciones y documentos de auditoría (trazas, métricas, logs) tanto en memoria como en el motor NoSQL <strong>MongoDB / Cosmos DB</strong>.</p>
+        <p style="margin-top: 8px; color: #94a3b8; font-size: 0.8rem;">Los tópicos de Kafka permanecerán intactos.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close-modal>Cancelar</button>
+        <button type="button" id="btn-confirm-purge-execute" class="btn btn-danger" style="background: #e11d48; color: #fff;">
+          Sí, Vaciar Base de Datos
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container"></div>
 
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>

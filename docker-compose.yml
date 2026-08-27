@@ -60,6 +60,8 @@ services:
       - TracePruning__Enabled=true
       - TracePruning__MaxArrayItems=10
       - TracePruning__MaxDepth=5
+      - LogSink__CosmosEndpoint=http://azure-documentdb:8081
+      - TECH-INT-DB-AUDI_URL=http://azure-documentdb:8081
     depends_on:
       kafka:
         condition: service_healthy

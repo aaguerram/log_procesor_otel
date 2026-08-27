@@ -134,6 +134,32 @@ app.MapGet("/api/contracts/swagger", () =>
     return Results.Content(yaml, "text/yaml; charset=utf-8");
 });
 
+// Vaciar toda la base de datos de Cosmos DB / MongoDB
+app.MapMethods("/api/database/purge", new[] { "POST", "DELETE" }, async (IConfiguration config) =>
+{
+    var documentDbUrl = config["TECH-INT-DB-AUDI_URL"] 
+        ?? config["TECH_INT_DB_AUDI_URL"] 
+        ?? config["LogSink:CosmosEndpoint"] 
+        ?? "http://azure-documentdb:8081";
+
+    try
+    {
+        using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+        var purgeUrl = $"{documentDbUrl.TrimEnd('/')}/api/purge";
+        var resp = await client.PostAsync(purgeUrl, null);
+        if (resp.IsSuccessStatusCode)
+        {
+            return Results.Ok(new { success = true, message = "Base de datos Cosmos DB / MongoDB vaciada correctamente." });
+        }
+        var errorContent = await resp.Content.ReadAsStringAsync();
+        return Results.Problem(detail: errorContent, title: "Error devuelto por DocumentDB Emulator");
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(detail: ex.Message, title: "No se pudo conectar a DocumentDB Emulator");
+    }
+});
+
 // Fallback a index.html
 app.MapFallbackToFile("index.html");
 

@@ -38,6 +38,7 @@ const dom = {
   btnFormatJson: document.getElementById('btn-format-json'),
   messagesStream: document.getElementById('messages-stream'),
   btnClearLogs: document.getElementById('btn-clear-logs'),
+  btnPurgeDb: document.getElementById('btn-purge-db'),
   toastContainer: document.getElementById('toast-container')
 };
 
@@ -155,6 +156,55 @@ function setupEvents() {
       <div class="console-empty">
         <p>Historial limpiado. Los nuevos eventos aparecerán aquí.</p>
       </div>`;
+  });
+
+  // Botón para Abrir Modal de Purga
+  dom.btnPurgeDb?.addEventListener('click', () => {
+    const modal = document.getElementById('modal-confirm-purge');
+    if (modal) modal.classList.add('active');
+  });
+
+  // Ejecutar Purga desde el Modal
+  document.getElementById('btn-confirm-purge-execute')?.addEventListener('click', async () => {
+    const modal = document.getElementById('modal-confirm-purge');
+    const btnConfirm = document.getElementById('btn-confirm-purge-execute');
+    if (btnConfirm) {
+      btnConfirm.disabled = true;
+      btnConfirm.textContent = 'Vaciando base de datos...';
+    }
+
+    try {
+      const res = await fetch('/api/database/purge', { method: 'POST' });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast('🗑️ Base de datos Cosmos DB / MongoDB vaciada completamente (0 colecciones, 0 documentos).', 'success');
+        
+        removeEmptyStreamNotice();
+        const logItem = document.createElement('div');
+        logItem.className = 'log-item log-batch';
+        logItem.style.borderLeft = '4px solid #ef4444';
+        logItem.innerHTML = `
+          <div class="log-header">
+            <span class="log-meta" style="color:#fb7185">🗑️ PURGA DE BASE DE DATOS: Cosmos DB / MongoDB</span>
+            <span>${new Date().toLocaleTimeString()}</span>
+          </div>
+          <div class="log-preview" style="color:#e2e8f0">
+            Todas las colecciones y documentos de auditoría fueron eliminados con éxito.
+          </div>
+        `;
+        dom.messagesStream.prepend(logItem);
+        if (modal) modal.classList.remove('active');
+      } else {
+        showToast(`Error al vaciar DB: ${data.message || data.detail || 'Error desconocido'}`, 'error');
+      }
+    } catch (err) {
+      showToast(`Error de conexión al vaciar DB: ${err.message}`, 'error');
+    } finally {
+      if (btnConfirm) {
+        btnConfirm.disabled = false;
+        btnConfirm.textContent = 'Sí, Vaciar Base de Datos';
+      }
+    }
   });
 }
 
