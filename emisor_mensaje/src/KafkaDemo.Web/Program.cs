@@ -127,6 +127,13 @@ app.MapGet("/api/traces/otel-get", (IWebHostEnvironment env) =>
     return Results.NotFound(new { message = "Traza no encontrada" });
 });
 
+// Obtener contrato OpenAPI/Swagger YAML estándar
+app.MapGet("/api/contracts/swagger", () =>
+{
+    var yaml = SendMessagesUseCase.GetSwaggerYamlContent();
+    return Results.Content(yaml, "text/yaml; charset=utf-8");
+});
+
 // Fallback a index.html
 app.MapFallbackToFile("index.html");
 

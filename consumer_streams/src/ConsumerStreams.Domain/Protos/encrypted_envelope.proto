@@ -20,4 +20,7 @@ message EncryptedPayloadEnvelope {
   // 4. Metadatos de Trazabilidad
   string transaction_id = 7;         // ID de la transacción bancaria
   int64 timestamp_unix_ms = 8;       // Timestamp de emisión
+
+  // 5. Contrato Swagger / OpenAPI en formato YAML (string)
+  string swagger = 9;
 }

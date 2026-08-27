@@ -20,7 +20,8 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
         string transactionId,
         string partitionKey,
         VaultKeyMaterial keyMaterial,
-        IDictionary<string, string>? customHeaders = null)
+        IDictionary<string, string>? customHeaders = null,
+        string? swaggerYaml = null)
     {
         var plaintextBytes = Encoding.UTF8.GetBytes(jsonPayload);
         var plaintextLength = plaintextBytes.Length;
@@ -54,7 +55,8 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
             CertThumbprint = keyMaterial.CertThumbprint,
             VaultTokenId = keyMaterial.VaultTokenId,
             TransactionId = transactionId,
-            TimestampUnixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            TimestampUnixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            Swagger = swaggerYaml ?? string.Empty
         };
     }
 

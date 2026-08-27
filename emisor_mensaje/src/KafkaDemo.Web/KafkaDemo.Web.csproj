@@ -12,4 +12,10 @@
     <ProjectReference Include="..\KafkaDemo.Infrastructure\KafkaDemo.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Contracts\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

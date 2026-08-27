@@ -20,6 +20,45 @@ public class SendMessagesUseCase(
     private static readonly string[] TransactionTypes = ["TRANSFER", "PAYMENT", "DEPOSIT", "WITHDRAWAL", "QR_PAYMENT"];
     private static readonly string[] Channels = ["MOBILE_APP", "WEB_BANKING", "ATM", "BRANCH", "API_GATEWAY"];
     private static readonly string[] Currencies = ["USD", "EUR"];
+    private static string? _cachedSwaggerYaml;
+    private static readonly object _swaggerLock = new();
+
+    public static string GetSwaggerYamlContent()
+    {
+        if (_cachedSwaggerYaml != null) return _cachedSwaggerYaml;
+
+        lock (_swaggerLock)
+        {
+            if (_cachedSwaggerYaml != null) return _cachedSwaggerYaml;
+
+            var possiblePaths = new[]
+            {
+                Path.Combine(AppContext.BaseDirectory, "Contracts", "transfer-mspx-prometeus.management.standard.yaml"),
+                Path.Combine(AppContext.BaseDirectory, "wwwroot", "data", "transfer-mspx-prometeus.management.standard.yaml"),
+                Path.Combine(Directory.GetCurrentDirectory(), "Contracts", "transfer-mspx-prometeus.management.standard.yaml"),
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "transfer-mspx-prometeus.management.standard.yaml"),
+                Path.Combine(Directory.GetCurrentDirectory(), "data_guia", "transfer-mspx-prometeus.management.standard.yaml")
+            };
+
+            foreach (var path in possiblePaths)
+            {
+                if (File.Exists(path))
+                {
+                    try
+                    {
+                        _cachedSwaggerYaml = File.ReadAllText(path);
+                        return _cachedSwaggerYaml;
+                    }
+                    catch
+                    {
+                        // Fallback a siguiente ruta
+                    }
+                }
+            }
+
+            return _cachedSwaggerYaml ?? string.Empty;
+        }
+    }
 
     /// <summary>
     /// Envía un mensaje individual cifrado con AES-256-GCM y clave de partición de alta dispersión (SplitMix64).
@@ -35,6 +74,9 @@ public class SendMessagesUseCase(
         // Generar clave de particionamiento con dispersión matemática de efecto avalancha
         var partitionKey = UniformPartitionKeyGenerator.GenerateDispersedKey(request.Key ?? txnId);
 
+        // Obtener contrato Swagger en YAML
+        var swaggerYaml = GetSwaggerYamlContent();
+
         // 2. Cifrar con AES-256-GCM y construir Envelope Protobuf Autosuficiente
         var envelope = cryptoPort.EncryptJsonToEnvelope(
             request.Value,
@@ -42,7 +84,8 @@ public class SendMessagesUseCase(
             txnId,
             partitionKey,
             keyMaterial,
-            request.Headers);
+            request.Headers,
+            swaggerYaml);
 
         var protobufBytes = envelope.ToByteArray();
 
@@ -93,6 +136,7 @@ public class SendMessagesUseCase(
         }
 
         // 3. Generar y cifrar los mensajes del lote
+        var swaggerYaml = GetSwaggerYamlContent();
         var random = new Random();
         var messages = new List<KafkaMessage>(count);
 
@@ -141,7 +185,8 @@ public class SendMessagesUseCase(
                 transactionId,
                 dispersedPartitionKey,
                 keyMaterial,
-                new Dictionary<string, string> { { "index", i.ToString() } });
+                new Dictionary<string, string> { { "index", i.ToString() } },
+                swaggerYaml);
 
             var protobufBytes = envelope.ToByteArray();
 

@@ -33,7 +33,8 @@ public interface IPayloadCryptoPort
         string transactionId,
         string partitionKey,
         VaultKeyMaterial keyMaterial,
-        IDictionary<string, string>? customHeaders = null);
+        IDictionary<string, string>? customHeaders = null,
+        string? swaggerYaml = null);
 
     string DecryptEnvelopeToJson(
         EncryptedPayloadEnvelope envelope,

@@ -4,6 +4,44 @@
   "graph": {},
   "nodes": [
     {
+      "id": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_istreamproducerport",
+      "label": "IStreamProducerPort",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Domain.Ports",
+        "scope_chain": [
+          "s38"
+        ]
+      },
+      "norm_label": "istreamproducerport",
+      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs",
+      "source_location": "L19"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto",
+      "label": "BatchSendResultDto",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "batchsendresultdto",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L13"
+    },
+    {
       "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage_kafkademo_domain_models_kafkamessage",
       "label": "KafkaMessage",
       "_callable": true,
@@ -80,13 +118,32 @@
       "source_location": "L14"
     },
     {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto",
+      "label": "ClusterHealthDto",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "clusterhealthdto",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L30"
+    },
+    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto",
       "label": "CreateTopicDto",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -105,7 +162,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -118,24 +175,36 @@
       "source_location": "L5"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_application_serialization_streamjsoncontext_consumerstreams_application_serialization_streamjsoncontext",
-      "label": "StreamJsonContext",
+      "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator_kafkademo_domain_utils_uniformpartitionkeygenerator",
+      "label": "UniformPartitionKeyGenerator",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
-        "is_partial": true,
-        "namespace": "ConsumerStreams.Application.Serialization",
+        "namespace": "KafkaDemo.Domain.Utils",
         "scope_chain": [
-          "s76"
+          "s0"
         ]
       },
-      "norm_label": "streamjsoncontext",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/Serialization/StreamJsonContext.cs",
-      "source_location": "L9"
+      "norm_label": "uniformpartitionkeygenerator",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "source_location": "L7"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_web_program_sendbatchrequest",
+      "label": "SendBatchRequest",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "sendbatchrequest",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
+      "source_location": "L142"
     },
     {
       "id": "log_sink_src_logsink_application_serialization_sinkjsoncontext_logsink_application_serialization_sinkjsoncontext",
@@ -144,7 +213,7 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "is_partial": true,
@@ -158,13 +227,32 @@
       "source_location": "L10"
     },
     {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings",
+      "label": "SinkSettings",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "sinksettings",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L8"
+    },
+    {
       "id": "log_sink_src_logsink_infrastructure_dependencyinjection_logsink_infrastructure_dependencyinjection",
       "label": "DependencyInjection",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Infrastructure",
@@ -175,6 +263,25 @@
       "norm_label": "dependencyinjection",
       "source_file": "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs",
       "source_location": "L11"
+    },
+    {
+      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_logsink_worker_bulksinkworkerservice",
+      "label": "BulkSinkWorkerService",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Worker",
+        "scope_chain": [
+          "s189"
+        ]
+      },
+      "norm_label": "bulksinkworkerservice",
+      "source_file": "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs",
+      "source_location": "L13"
     },
     {
       "id": "consumer_streams_src_consumerstreams_domain_ports_icryptoports_consumerstreams_domain_ports_ipayloadcryptoport",
@@ -234,25 +341,6 @@
       "source_location": "L11"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter",
-      "label": "KafkaStreamConsumerAdapter",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Infrastructure.Adapters",
-        "scope_chain": [
-          "s203"
-        ]
-      },
-      "norm_label": "kafkastreamconsumeradapter",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs",
-      "source_location": "L13"
-    },
-    {
       "id": "consumer_streams_src_consumerstreams_domain_models_transactionevents_consumerstreams_domain_models_rawtransactionevent",
       "label": "RawTransactionEvent",
       "_callable": true,
@@ -310,76 +398,6 @@
       "source_location": "L7"
     },
     {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto",
-      "label": "BatchSendResultDto",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "batchsendresultdto",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L13"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto",
-      "label": "ClusterHealthDto",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 24,
-      "community_name": "ClusterHealthDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "clusterhealthdto",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L30"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_web_program_sendbatchrequest",
-      "label": "SendBatchRequest",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "KafkaDemo.Application.UseCases",
-      "file_type": "code",
-      "norm_label": "sendbatchrequest",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
-      "source_location": "L135"
-    },
-    {
-      "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_bulksinkresult",
-      "label": "BulkSinkResult",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Models",
-        "scope_chain": [
-          "s39"
-        ]
-      },
-      "norm_label": "bulksinkresult",
-      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
-      "source_location": "L102"
-    },
-    {
       "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument",
       "label": "LogDocument",
       "_callable": true,
@@ -397,25 +415,6 @@
       "norm_label": "logdocument",
       "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
       "source_location": "L9"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings",
-      "label": "SinkSettings",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "sinksettings",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L8"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
@@ -492,25 +491,6 @@
       "norm_label": "vaultkeymaterial",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
       "source_location": "L8"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator_kafkademo_domain_utils_uniformpartitionkeygenerator",
-      "label": "UniformPartitionKeyGenerator",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 42,
-      "community_name": "VaultKeyMaterial",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Utils",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "uniformpartitionkeygenerator",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L7"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter",
@@ -653,8 +633,8 @@
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Application.UseCases",
@@ -667,42 +647,23 @@
       "source_location": "L17"
     },
     {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ibatchconsumerport",
-      "label": "IBatchConsumerPort",
+      "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_bulksinkresult",
+      "label": "BulkSinkResult",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
-        "namespace": "LogSink.Domain.Ports",
+        "namespace": "LogSink.Domain.Models",
         "scope_chain": [
-          "s30"
+          "s39"
         ]
       },
-      "norm_label": "ibatchconsumerport",
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L8"
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport",
-      "label": "IDocumentDbBulkSinkPort",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Ports",
-        "scope_chain": [
-          "s30"
-        ]
-      },
-      "norm_label": "idocumentdbbulksinkport",
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L32"
+      "norm_label": "bulksinkresult",
+      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
+      "source_location": "L102"
     },
     {
       "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_cosmosdbcredentials",
@@ -721,7 +682,45 @@
       },
       "norm_label": "cosmosdbcredentials",
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L52"
+      "source_location": "L56"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ibatchconsumerport",
+      "label": "IBatchConsumerPort",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Ports",
+        "scope_chain": [
+          "s30"
+        ]
+      },
+      "norm_label": "ibatchconsumerport",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L8"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport",
+      "label": "IDocumentDbBulkSinkPort",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Ports",
+        "scope_chain": [
+          "s30"
+        ]
+      },
+      "norm_label": "idocumentdbbulksinkport",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L32"
     },
     {
       "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport",
@@ -740,7 +739,26 @@
       },
       "norm_label": "ivaulttokenproviderport",
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L42"
+      "source_location": "L46"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_kafkabatchitem",
+      "label": "KafkaBatchItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Ports",
+        "scope_chain": [
+          "s30"
+        ]
+      },
+      "norm_label": "kafkabatchitem",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L21"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_logsink_infrastructure_adapters_azurekeyvaulttokenadapter",
@@ -801,6 +819,25 @@
       "source_location": "L21"
     },
     {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter",
+      "label": "KafkaBatchConsumerAdapter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s213"
+        ]
+      },
+      "norm_label": "kafkabatchconsumeradapter",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
+      "source_location": "L15"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_infrastructure_configuration_kafkastreamsettings_consumerstreams_infrastructure_configuration_kafkastreamsettings",
       "label": "KafkaStreamSettings",
       "_callable": true,
@@ -837,44 +874,6 @@
       "norm_label": "streamworkerservice",
       "source_file": "consumer_streams/src/ConsumerStreams.Worker/StreamWorkerService.cs",
       "source_location": "L13"
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_kafkabatchitem",
-      "label": "KafkaBatchItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Ports",
-        "scope_chain": [
-          "s30"
-        ]
-      },
-      "norm_label": "kafkabatchitem",
-      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L21"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter",
-      "label": "KafkaBatchConsumerAdapter",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Adapters",
-        "scope_chain": [
-          "s213"
-        ]
-      },
-      "norm_label": "kafkabatchconsumeradapter",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
-      "source_location": "L15"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_usecases_managetopicsusecase_kafkademo_application_usecases_managetopicsusecase",
@@ -991,23 +990,24 @@
       "source_location": "L14"
     },
     {
-      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_logsink_worker_bulksinkworkerservice",
-      "label": "BulkSinkWorkerService",
+      "id": "consumer_streams_src_consumerstreams_application_serialization_streamjsoncontext_consumerstreams_application_serialization_streamjsoncontext",
+      "label": "StreamJsonContext",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
+      "community": 54,
+      "community_name": "StreamProcessingPipelineUseCase.cs",
       "file_type": "code",
       "metadata": {
-        "namespace": "LogSink.Worker",
+        "is_partial": true,
+        "namespace": "ConsumerStreams.Application.Serialization",
         "scope_chain": [
-          "s189"
+          "s76"
         ]
       },
-      "norm_label": "bulksinkworkerservice",
-      "source_file": "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs",
-      "source_location": "L13"
+      "norm_label": "streamjsoncontext",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/Serialization/StreamJsonContext.cs",
+      "source_location": "L9"
     },
     {
       "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator_consumerstreams_domain_utils_uniformpartitionkeygenerator",
@@ -1105,25 +1105,6 @@
       "source_location": "L8"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_istreamproducerport",
-      "label": "IStreamProducerPort",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 6,
-      "community_name": ".AddConsumerStreamsInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Domain.Ports",
-        "scope_chain": [
-          "s38"
-        ]
-      },
-      "norm_label": "istreamproducerport",
-      "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs",
-      "source_location": "L19"
-    },
-    {
       "id": "consumer_streams_src_consumerstreams_domain_ports_istreamports_consumerstreams_domain_ports_itransactiontransformerport",
       "label": "ITransactionTransformerPort",
       "_callable": true,
@@ -1141,6 +1122,25 @@
       "norm_label": "itransactiontransformerport",
       "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs",
       "source_location": "L32"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter",
+      "label": "KafkaStreamConsumerAdapter",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Infrastructure.Adapters",
+        "scope_chain": [
+          "s203"
+        ]
+      },
+      "norm_label": "kafkastreamconsumeradapter",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs",
+      "source_location": "L13"
     },
     {
       "id": "consumer_streams_src_consumerstreams_infrastructure_dependencyinjection_consumerstreams_infrastructure_dependencyinjection",
@@ -1172,7 +1172,7 @@
       "file_type": "code",
       "norm_label": "storeddocument",
       "source_file": "documentdb_emulator/Program.cs",
-      "source_location": "L506"
+      "source_location": "L520"
     },
     {
       "id": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_consumerstreams_application_usecases_streamprocessingpipelineusecase_executepipelineasync",
@@ -1227,6 +1227,24 @@
       "norm_label": ".forwardeventasync()",
       "source_file": "consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs",
       "source_location": "L21"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_startstreamingasync",
+      "label": ".StartStreamingAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Infrastructure.Adapters",
+        "scope_chain": [
+          "s203"
+        ]
+      },
+      "norm_label": ".startstreamingasync()",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs",
+      "source_location": "L50"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport_kafkademo_domain_ports_imessageproducerport_sendbatchasync",
@@ -1319,6 +1337,24 @@
       "source_location": "L57"
     },
     {
+      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_logsink_worker_bulksinkworkerservice_executeasync",
+      "label": ".ExecuteAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Worker",
+        "scope_chain": [
+          "s189"
+        ]
+      },
+      "norm_label": ".executeasync()",
+      "source_file": "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs",
+      "source_location": "L20"
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_domain_ports_icryptoports_consumerstreams_domain_ports_ipayloadcryptoport_decryptenvelopetojson",
       "label": ".DecryptEnvelopeToJson()",
       "_callable": true,
@@ -1353,42 +1389,6 @@
       "norm_label": ".decryptenvelopetojson()",
       "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
       "source_location": "L13"
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_dispose",
-      "label": ".Dispose()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Infrastructure.Adapters",
-        "scope_chain": [
-          "s203"
-        ]
-      },
-      "norm_label": ".dispose()",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs",
-      "source_location": "L114"
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_startstreamingasync",
-      "label": ".StartStreamingAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "ConsumerStreams.Infrastructure.Adapters",
-        "scope_chain": [
-          "s203"
-        ]
-      },
-      "norm_label": ".startstreamingasync()",
-      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs",
-      "source_location": "L50"
     },
     {
       "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher_consumerstreams_application_services_transactionenricher_transformandenrich",
@@ -1439,42 +1439,6 @@
       "source_location": "L19"
     },
     {
-      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertlogsasync",
-      "label": ".BulkInsertLogsAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Adapters",
-        "scope_chain": [
-          "s396"
-        ]
-      },
-      "norm_label": ".bulkinsertlogsasync()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L56"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
-      "label": ".InsertSingleDocumentWithRetryAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Adapters",
-        "scope_chain": [
-          "s396"
-        ]
-      },
-      "norm_label": ".insertsingledocumentwithretryasync()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L117"
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
       "label": ".GenerateAndSendBatchAsync()",
       "_callable": true,
@@ -1490,7 +1454,25 @@
       },
       "norm_label": ".generateandsendbatchasync()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L73"
+      "source_location": "L116"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_getswaggeryamlcontent",
+      "label": ".GetSwaggerYamlContent()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 42,
+      "community_name": "VaultKeyMaterial",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.UseCases",
+        "scope_chain": [
+          "s199"
+        ]
+      },
+      "norm_label": ".getswaggeryamlcontent()",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L26"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
@@ -1508,7 +1490,7 @@
       },
       "norm_label": ".sendcustommessageasync()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L27"
+      "source_location": "L66"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_decryptenvelopetojson",
@@ -1526,7 +1508,7 @@
       },
       "norm_label": ".decryptenvelopetojson()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L38"
+      "source_location": "L39"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_encryptjsontoenvelope",
@@ -1616,7 +1598,7 @@
       },
       "norm_label": ".decryptenvelopetojson()",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L61"
+      "source_location": "L63"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_encryptjsontoenvelope",
@@ -1731,8 +1713,8 @@
       "label": ".ExecuteBulkSinkPipelineAsync()",
       "_callable": true,
       "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Application.UseCases",
@@ -1749,8 +1731,8 @@
       "label": ".StartBatchConsumerAsync()",
       "_callable": true,
       "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -1767,8 +1749,8 @@
       "label": ".BulkInsertLogsAsync()",
       "_callable": true,
       "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
         "namespace": "LogSink.Domain.Ports",
@@ -1781,22 +1763,22 @@
       "source_location": "L34"
     },
     {
-      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_logsink_infrastructure_dependencyinjection_addlogsinkinfrastructure",
-      "label": ".AddLogSinkInfrastructure()",
+      "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "label": ".BulkInsertRawJsonLogsAsync()",
       "_callable": true,
       "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "metadata": {
-        "namespace": "LogSink.Infrastructure",
+        "namespace": "LogSink.Domain.Ports",
         "scope_chain": [
-          "s274"
+          "s30"
         ]
       },
-      "norm_label": ".addlogsinkinfrastructure()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs",
-      "source_location": "L13"
+      "norm_label": ".bulkinsertrawjsonlogsasync()",
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38"
     },
     {
       "id": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
@@ -1814,7 +1796,7 @@
       },
       "norm_label": ".resolvecosmoscredentialsasync()",
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L44"
+      "source_location": "L48"
     },
     {
       "id": "log_sink_src_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_resolvecosmoscredentialsasync",
@@ -1835,6 +1817,42 @@
       "source_location": "L30"
     },
     {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertlogsasync",
+      "label": ".BulkInsertLogsAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s396"
+        ]
+      },
+      "norm_label": ".bulkinsertlogsasync()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L56"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "label": ".BulkInsertRawJsonLogsAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s396"
+        ]
+      },
+      "norm_label": ".bulkinsertrawjsonlogsasync()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L117"
+    },
+    {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_generatecosmosauthtoken",
       "label": ".GenerateCosmosAuthToken()",
       "_callable": true,
@@ -1850,7 +1868,115 @@
       },
       "norm_label": ".generatecosmosauthtoken()",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L182"
+      "source_location": "L300"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "label": ".InsertSingleDocumentWithRetryAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s396"
+        ]
+      },
+      "norm_label": ".insertsingledocumentwithretryasync()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L235"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "label": ".InsertSingleRawJsonWithRetryAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s396"
+        ]
+      },
+      "norm_label": ".insertsinglerawjsonwithretryasync()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_dispose",
+      "label": ".Dispose()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s213"
+        ]
+      },
+      "norm_label": ".dispose()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
+      "source_location": "L147"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_maptobatchitem",
+      "label": ".MapToBatchItem()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s213"
+        ]
+      },
+      "norm_label": ".maptobatchitem()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
+      "source_location": "L125"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_startbatchconsumerasync",
+      "label": ".StartBatchConsumerAsync()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Adapters",
+        "scope_chain": [
+          "s213"
+        ]
+      },
+      "norm_label": ".startbatchconsumerasync()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
+      "source_location": "L51"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_logsink_infrastructure_dependencyinjection_addlogsinkinfrastructure",
+      "label": ".AddLogSinkInfrastructure()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure",
+        "scope_chain": [
+          "s274"
+        ]
+      },
+      "norm_label": ".addlogsinkinfrastructure()",
+      "source_file": "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs",
+      "source_location": "L13"
     },
     {
       "id": "consumer_streams_src_consumerstreams_worker_streamworkerservice_consumerstreams_worker_streamworkerservice_executeasync",
@@ -1869,60 +1995,6 @@
       "norm_label": ".executeasync()",
       "source_file": "consumer_streams/src/ConsumerStreams.Worker/StreamWorkerService.cs",
       "source_location": "L20"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_dispose",
-      "label": ".Dispose()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Adapters",
-        "scope_chain": [
-          "s213"
-        ]
-      },
-      "norm_label": ".dispose()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
-      "source_location": "L147"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_maptobatchitem",
-      "label": ".MapToBatchItem()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Adapters",
-        "scope_chain": [
-          "s213"
-        ]
-      },
-      "norm_label": ".maptobatchitem()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
-      "source_location": "L125"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_logsink_infrastructure_adapters_kafkabatchconsumeradapter_startbatchconsumerasync",
-      "label": ".StartBatchConsumerAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Adapters",
-        "scope_chain": [
-          "s213"
-        ]
-      },
-      "norm_label": ".startbatchconsumerasync()",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
-      "source_location": "L51"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_application_usecases_managetopicsusecase_kafkademo_application_usecases_managetopicsusecase_checkclusterhealthasync",
@@ -2213,24 +2285,6 @@
       "source_location": "L141"
     },
     {
-      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_logsink_worker_bulksinkworkerservice_executeasync",
-      "label": ".ExecuteAsync()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Worker",
-        "scope_chain": [
-          "s189"
-        ]
-      },
-      "norm_label": ".executeasync()",
-      "source_file": "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs",
-      "source_location": "L20"
-    },
-    {
       "id": "consumer_streams_src_consumerstreams_domain_utils_uniformpartitionkeygenerator_consumerstreams_domain_utils_uniformpartitionkeygenerator_generatedispersedkey",
       "label": ".GenerateDispersedKey()",
       "_callable": true,
@@ -2283,6 +2337,24 @@
       "norm_label": ".forwardeventasync()",
       "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamProducerAdapter.cs",
       "source_location": "L39"
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_dispose",
+      "label": ".Dispose()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "ConsumerStreams.Infrastructure.Adapters",
+        "scope_chain": [
+          "s203"
+        ]
+      },
+      "norm_label": ".dispose()",
+      "source_file": "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/KafkaStreamConsumerAdapter.cs",
+      "source_location": "L114"
     },
     {
       "id": "consumer_streams_src_consumerstreams_infrastructure_dependencyinjection_consumerstreams_infrastructure_dependencyinjection_addconsumerstreamsinfrastructure",
@@ -2595,6 +2667,146 @@
       "norm_label": "task",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_cancellationtoken",
+      "label": "CancellationToken",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_func",
+      "label": "Func",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "norm_label": "func",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_idictionary",
+      "label": "IDictionary",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "norm_label": "idictionary",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": ".ExecutePipelineAsync",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_ireadonlylist",
+      "label": "IReadOnlyList",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "norm_label": "ireadonlylist",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_elapsedmilliseconds",
+      "label": "ElapsedMilliseconds",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "elapsedmilliseconds",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L18"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_results",
+      "label": "Results",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "results",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L19"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_targettopic",
+      "label": "TargetTopic",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "targettopic",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L17"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_totalrequested",
+      "label": "TotalRequested",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "totalrequested",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L15"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_totalsent",
+      "label": "TotalSent",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "KafkaMessage",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "totalsent",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L16"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage_cs_datetime",
@@ -3131,22 +3343,240 @@
       "source_location": "L2"
     },
     {
+      "id": "csharp_namespace:26ca9e1ed455c7d9",
+      "label": "KafkaDemo.Application.DTOs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Application.DTOs"
+      },
+      "norm_label": "kafkademo.application.dtos",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L3",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:47b86398598bc1ab",
+      "label": "KafkaDemo.Domain.Ports",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Domain.Ports"
+      },
+      "norm_label": "kafkademo.domain.ports",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
+      "source_location": "L3",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:5e26cffb02103582",
+      "label": "KafkaDemo.Application.UseCases",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Application.UseCases"
+      },
+      "norm_label": "kafkademo.application.usecases",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/ManageTopicsUseCase.cs",
+      "source_location": "L5",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:95db3098a2928ad4",
+      "label": "KafkaDemo.Infrastructure",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Infrastructure"
+      },
+      "norm_label": "kafkademo.infrastructure",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
+      "source_location": "L9",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:9f2d88aef602b8b1",
+      "label": "KafkaDemo.Domain.Utils",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Domain.Utils"
+      },
+      "norm_label": "kafkademo.domain.utils",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "source_location": "L1",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:c4ee4f4b1aeb7ae1",
+      "label": "KafkaDemo.Infrastructure.Configuration",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Infrastructure.Configuration"
+      },
+      "norm_label": "kafkademo.infrastructure.configuration",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Configuration/KafkaSettings.cs",
+      "source_location": "L1",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:c5432cc856ec48a7",
+      "label": "KafkaDemo.Infrastructure.Adapters",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Infrastructure.Adapters"
+      },
+      "norm_label": "kafkademo.infrastructure.adapters",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
+      "source_location": "L7",
+      "type": "namespace"
+    },
+    {
+      "id": "csharp_namespace:d5a64b220d7c19e9",
+      "label": "KafkaDemo.Domain.Models",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "KafkaDemo.Domain.Models"
+      },
+      "norm_label": "kafkademo.domain.models",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
+      "source_location": "L1",
+      "type": "namespace"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos",
+      "label": "KafkaDtos.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkadtos.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_datetime",
+      "label": "DateTime",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "datetime",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_dictionary",
       "label": "Dictionary",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "norm_label": "dictionary",
       "source_file": "",
       "source_location": ""
     },
     {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_checkedat",
+      "label": "CheckedAt",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "checkedat",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L35"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_isconnected",
+      "label": "IsConnected",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "isconnected",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L32"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_status",
+      "label": "Status",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "status",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L34"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_totaltopics",
+      "label": "TotalTopics",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Application.DTOs",
+        "scope_chain": [
+          "s32"
+        ]
+      },
+      "norm_label": "totaltopics",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
+      "source_location": "L33"
+    },
+    {
       "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_createtopicdto_configs",
       "label": "Configs",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3163,7 +3593,7 @@
       "label": "Partitions",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3180,7 +3610,7 @@
       "label": "ReplicationFactor",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3197,7 +3627,7 @@
       "label": "TopicName",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3214,7 +3644,7 @@
       "label": "Headers",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3231,7 +3661,7 @@
       "label": "Key",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3248,7 +3678,7 @@
       "label": "Topic",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3265,7 +3695,7 @@
       "label": "Value",
       "_origin": "ast",
       "community": 11,
-      "community_name": "CreateTopicDto",
+      "community_name": "KafkaDemo.Domain.Ports",
       "file_type": "code",
       "metadata": {
         "namespace": "KafkaDemo.Application.DTOs",
@@ -3278,11 +3708,165 @@
       "source_location": "L9"
     },
     {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_managetopicsusecase",
+      "label": "ManageTopicsUseCase.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "managetopicsusecase.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/ManageTopicsUseCase.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase",
+      "label": "SendMessagesUseCase.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "sendmessagesusecase.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_consoleapp_program",
+      "label": "KafkaDemo.ConsoleApp/Program.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkademo.consoleapp/program.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.ConsoleApp/Program.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage",
+      "label": "KafkaMessage.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkamessage.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_messageresult",
+      "label": "MessageResult.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "messageresult.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_ports_itopicmanagementport",
+      "label": "ITopicManagementPort.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "itopicmanagementport.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ITopicManagementPort.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator",
+      "label": "KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkademo.domain/utils/uniformpartitionkeygenerator.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter",
+      "label": "KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkademo.infrastructure/adapters/aesgcmpayloadcryptoadapter.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_azurekeyvaulttokenadapter",
+      "label": "KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkademo.infrastructure/adapters/azurekeyvaulttokenadapter.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_kafkaadminadapter",
+      "label": "KafkaAdminAdapter.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkaadminadapter.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/KafkaAdminAdapter.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_kafkaproduceradapter",
+      "label": "KafkaProducerAdapter.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkaproduceradapter.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/KafkaProducerAdapter.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection",
+      "label": "KafkaDemo.Infrastructure/DependencyInjection.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkademo.infrastructure/dependencyinjection.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_web_program",
+      "label": "KafkaDemo.Web/Program.cs",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "KafkaDemo.Domain.Ports",
+      "file_type": "code",
+      "norm_label": "kafkademo.web/program.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "backgroundservice",
+      "label": "BackgroundService",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "norm_label": "backgroundservice",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "csharp_namespace:6fdac7fa707648b7",
       "label": "LogSink.Infrastructure.Configuration",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3298,7 +3882,7 @@
       "label": "LogSink.Infrastructure.Adapters",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3314,7 +3898,7 @@
       "label": "LogSink.Application.UseCases",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3330,7 +3914,7 @@
       "label": "LogSink.Domain.Ports",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3346,7 +3930,7 @@
       "label": "LogSink.Domain.Models",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3362,7 +3946,7 @@
       "label": "LogSink.Infrastructure",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3378,7 +3962,7 @@
       "label": "LogSink.Worker",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3394,7 +3978,7 @@
       "label": "LogSink.Application.Serialization",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "metadata": {
         "kind": "csharp_namespace",
@@ -3410,7 +3994,7 @@
       "label": "JsonSerializerContext",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "jsonserializercontext",
       "source_file": "",
@@ -3421,7 +4005,7 @@
       "label": "SinkJsonContext.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "sinkjsoncontext.cs",
       "source_file": "log_sink/src/LogSink.Application/Serialization/SinkJsonContext.cs",
@@ -3432,10 +4016,21 @@
       "label": "BulkSinkPipelineUseCase.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "bulksinkpipelineusecase.cs",
       "source_file": "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs",
+      "source_location": "L1"
+    },
+    {
+      "id": "log_sink_src_logsink_domain_models_logdocument",
+      "label": "LogDocument.cs",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "norm_label": "logdocument.cs",
+      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
       "source_location": "L1"
     },
     {
@@ -3443,7 +4038,7 @@
       "label": "LogSink.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "logsink.infrastructure/adapters/azurekeyvaulttokenadapter.cs",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
@@ -3454,7 +4049,7 @@
       "label": "CosmosDbBulkSinkAdapter.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "cosmosdbbulksinkadapter.cs",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
@@ -3465,7 +4060,7 @@
       "label": "KafkaBatchConsumerAdapter.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "kafkabatchconsumeradapter.cs",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
@@ -3476,18 +4071,222 @@
       "label": "SinkSettings.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "sinksettings.cs",
       "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
       "source_location": "L1"
     },
     {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_batchsize",
+      "label": "BatchSize",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "batchsize",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L16"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_batchtimeoutms",
+      "label": "BatchTimeoutMs",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "batchtimeoutms",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L17"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_bootstrapservers",
+      "label": "BootstrapServers",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "bootstrapservers",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L13"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_containername",
+      "label": "ContainerName",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "containername",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L23"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_cosmosendpoint",
+      "label": "CosmosEndpoint",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "cosmosendpoint",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L20"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_cosmosprimarykey",
+      "label": "CosmosPrimaryKey",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "cosmosprimarykey",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L21"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_databasename",
+      "label": "DatabaseName",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "databasename",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L22"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_groupid",
+      "label": "GroupId",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "groupid",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L15"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_keyvaultendpoint",
+      "label": "KeyVaultEndpoint",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "keyvaultendpoint",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L27"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_partitionkeypath",
+      "label": "PartitionKeyPath",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "partitionkeypath",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L24"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_sourcetopic",
+      "label": "SourceTopic",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "sourcetopic",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L14"
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_vaulttokenid",
+      "label": "VaultTokenId",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Infrastructure.Configuration",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "vaulttokenid",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
+      "source_location": "L28"
+    },
+    {
       "id": "log_sink_src_logsink_infrastructure_dependencyinjection",
       "label": "LogSink.Infrastructure/DependencyInjection.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "logsink.infrastructure/dependencyinjection.cs",
       "source_file": "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs",
@@ -3498,18 +4297,62 @@
       "label": "BulkSinkWorkerService.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "bulksinkworkerservice.cs",
       "source_file": "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs",
       "source_location": "L1"
     },
     {
+      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_cancellationtoken",
+      "label": "CancellationToken",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_ilogger",
+      "label": "ILogger",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "norm_label": "ilogger",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_ioptions",
+      "label": "IOptions",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "norm_label": "ioptions",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "SinkSettings",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "log_sink_src_logsink_worker_program",
       "label": "LogSink.Worker/Program.cs",
       "_origin": "ast",
       "community": 12,
-      "community_name": "LogSink.Infrastructure.Configuration",
+      "community_name": "SinkSettings",
       "file_type": "code",
       "norm_label": "logsink.worker/program.cs",
       "source_file": "log_sink/src/LogSink.Worker/Program.cs",
@@ -4438,70 +5281,15 @@
       "source_location": "L39"
     },
     {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_cancellationtoken",
-      "label": "CancellationToken",
+      "id": "data_guia_test_swagger_in_protobuf",
+      "label": "test_swagger_in_protobuf.py",
       "_origin": "ast",
       "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
+      "community_name": "test_swagger_in_protobuf.py",
       "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_func",
-      "label": "Func",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "func",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_iconsumer",
-      "label": "IConsumer",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "iconsumer",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_idictionary",
-      "label": "IDictionary",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "idictionary",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_ilogger",
-      "label": "ILogger",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "ilogger",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 18,
-      "community_name": "KafkaStreamConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
+      "norm_label": "test_swagger_in_protobuf.py",
+      "source_file": "data_guia/test_swagger_in_protobuf.py",
+      "source_location": "L1"
     },
     {
       "id": "consumer_streams_src_consumerstreams_domain_models_transactionevents_consumerstreams_domain_models_rawtransactionevent_amount",
@@ -5472,425 +6260,6 @@
       "source_location": "L17"
     },
     {
-      "id": "csharp_namespace:47b86398598bc1ab",
-      "label": "KafkaDemo.Domain.Ports",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Domain.Ports"
-      },
-      "norm_label": "kafkademo.domain.ports",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L3",
-      "type": "namespace"
-    },
-    {
-      "id": "csharp_namespace:c4ee4f4b1aeb7ae1",
-      "label": "KafkaDemo.Infrastructure.Configuration",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Infrastructure.Configuration"
-      },
-      "norm_label": "kafkademo.infrastructure.configuration",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Configuration/KafkaSettings.cs",
-      "source_location": "L1",
-      "type": "namespace"
-    },
-    {
-      "id": "csharp_namespace:c5432cc856ec48a7",
-      "label": "KafkaDemo.Infrastructure.Adapters",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Infrastructure.Adapters"
-      },
-      "norm_label": "kafkademo.infrastructure.adapters",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L7",
-      "type": "namespace"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter",
-      "label": "KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "norm_label": "kafkademo.infrastructure/adapters/aesgcmpayloadcryptoadapter.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_azurekeyvaulttokenadapter",
-      "label": "KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "norm_label": "kafkademo.infrastructure/adapters/azurekeyvaulttokenadapter.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_kafkaadminadapter",
-      "label": "KafkaAdminAdapter.cs",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "norm_label": "kafkaadminadapter.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/KafkaAdminAdapter.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_kafkaproduceradapter",
-      "label": "KafkaProducerAdapter.cs",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "norm_label": "kafkaproduceradapter.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/KafkaProducerAdapter.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_infrastructure_dependencyinjection",
-      "label": "KafkaDemo.Infrastructure/DependencyInjection.cs",
-      "_origin": "ast",
-      "community": 21,
-      "community_name": "KafkaDemo.Domain.Ports",
-      "file_type": "code",
-      "norm_label": "kafkademo.infrastructure/dependencyinjection.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "csharp_namespace:26ca9e1ed455c7d9",
-      "label": "KafkaDemo.Application.DTOs",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Application.DTOs"
-      },
-      "norm_label": "kafkademo.application.dtos",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L3",
-      "type": "namespace"
-    },
-    {
-      "id": "csharp_namespace:d5a64b220d7c19e9",
-      "label": "KafkaDemo.Domain.Models",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Domain.Models"
-      },
-      "norm_label": "kafkademo.domain.models",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
-      "source_location": "L1",
-      "type": "namespace"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos",
-      "label": "KafkaDtos.cs",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "kafkadtos.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_managetopicsusecase",
-      "label": "ManageTopicsUseCase.cs",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "managetopicsusecase.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/ManageTopicsUseCase.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage",
-      "label": "KafkaMessage.cs",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "kafkamessage.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/KafkaMessage.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_messageresult",
-      "label": "MessageResult.cs",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "messageresult.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest",
-      "label": "TopicCreationRequest.cs",
-      "_origin": "ast",
-      "community": 22,
-      "community_name": "KafkaDemo.Domain.Models",
-      "file_type": "code",
-      "norm_label": "topiccreationrequest.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/TopicCreationRequest.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_ireadonlylist",
-      "label": "IReadOnlyList",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "norm_label": "ireadonlylist",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_elapsedmilliseconds",
-      "label": "ElapsedMilliseconds",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "elapsedmilliseconds",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L18"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_results",
-      "label": "Results",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "results",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L19"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_targettopic",
-      "label": "TargetTopic",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "targettopic",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L17"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_totalrequested",
-      "label": "TotalRequested",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "totalrequested",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L15"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_batchsendresultdto_totalsent",
-      "label": "TotalSent",
-      "_origin": "ast",
-      "community": 23,
-      "community_name": "BatchSendResultDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "totalsent",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L16"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_cs_datetime",
-      "label": "DateTime",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": "ClusterHealthDto",
-      "file_type": "code",
-      "norm_label": "datetime",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_checkedat",
-      "label": "CheckedAt",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": "ClusterHealthDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "checkedat",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L35"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_isconnected",
-      "label": "IsConnected",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": "ClusterHealthDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "isconnected",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L32"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_status",
-      "label": "Status",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": "ClusterHealthDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "status",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L34"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_dtos_kafkadtos_kafkademo_application_dtos_clusterhealthdto_totaltopics",
-      "label": "TotalTopics",
-      "_origin": "ast",
-      "community": 24,
-      "community_name": "ClusterHealthDto",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Application.DTOs",
-        "scope_chain": [
-          "s32"
-        ]
-      },
-      "norm_label": "totaltopics",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs",
-      "source_location": "L33"
-    },
-    {
-      "id": "csharp_namespace:5e26cffb02103582",
-      "label": "KafkaDemo.Application.UseCases",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "KafkaDemo.Application.UseCases",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Application.UseCases"
-      },
-      "norm_label": "kafkademo.application.usecases",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/ManageTopicsUseCase.cs",
-      "source_location": "L5",
-      "type": "namespace"
-    },
-    {
-      "id": "csharp_namespace:95db3098a2928ad4",
-      "label": "KafkaDemo.Infrastructure",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "KafkaDemo.Application.UseCases",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Infrastructure"
-      },
-      "norm_label": "kafkademo.infrastructure",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs",
-      "source_location": "L9",
-      "type": "namespace"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_consoleapp_program",
-      "label": "KafkaDemo.ConsoleApp/Program.cs",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "KafkaDemo.Application.UseCases",
-      "file_type": "code",
-      "norm_label": "kafkademo.consoleapp/program.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.ConsoleApp/Program.cs",
-      "source_location": "L1"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_web_program",
-      "label": "KafkaDemo.Web/Program.cs",
-      "_origin": "ast",
-      "community": 25,
-      "community_name": "KafkaDemo.Application.UseCases",
-      "file_type": "code",
-      "norm_label": "kafkademo.web/program.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
-      "source_location": "L1"
-    },
-    {
       "id": "data_guia_group_traces",
       "label": "group_traces.py",
       "_origin": "ast",
@@ -5934,17 +6303,6 @@
       "file_type": "code",
       "norm_label": "sync_otel_trace.py",
       "source_file": "data_guia/sync_otel_trace.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "log_sink_src_logsink_domain_models_logdocument",
-      "label": "LogDocument.cs",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "norm_label": "logdocument.cs",
-      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
       "source_location": "L1"
     },
     {
@@ -6189,23 +6547,6 @@
       "norm_label": "parentspanid",
       "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
       "source_location": "L29"
-    },
-    {
-      "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
-      "label": "PartitionKey",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Domain.Models",
-        "scope_chain": [
-          "s39"
-        ]
-      },
-      "norm_label": "partitionkey",
-      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
-      "source_location": "L92"
     },
     {
       "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_persistedat",
@@ -6463,61 +6804,6 @@
       "source_location": "L95"
     },
     {
-      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_cancellationtoken",
-      "label": "CancellationToken",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_ireadonlylist",
-      "label": "IReadOnlyList",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "norm_label": "ireadonlylist",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "rus",
-      "label": "RUs",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "norm_label": "rus",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "success",
-      "label": "Success",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "LogDocument",
-      "file_type": "code",
-      "norm_label": "success",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "data_guia_test_trace_flow",
       "label": "test_trace_flow.py",
       "_origin": "ast",
@@ -6529,234 +6815,25 @@
       "source_location": "L1"
     },
     {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_batchsize",
-      "label": "BatchSize",
+      "id": "data_guia_validate_exact_json",
+      "label": "validate_exact_json.py",
+      "_origin": "ast",
+      "community": 31,
+      "community_name": "validate_exact_json.py",
+      "file_type": "code",
+      "norm_label": "validate_exact_json.py",
+      "source_file": "data_guia/validate_exact_json.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "data_guia_test_multi_publish",
+      "label": "test_multi_publish.py",
       "_origin": "ast",
       "community": 4,
-      "community_name": "SinkSettings",
+      "community_name": "test_multi_publish.py",
       "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "batchsize",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L16"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_batchtimeoutms",
-      "label": "BatchTimeoutMs",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "batchtimeoutms",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L17"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_bootstrapservers",
-      "label": "BootstrapServers",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "bootstrapservers",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L13"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_containername",
-      "label": "ContainerName",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "containername",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L23"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_cosmosendpoint",
-      "label": "CosmosEndpoint",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "cosmosendpoint",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L20"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_cosmosprimarykey",
-      "label": "CosmosPrimaryKey",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "cosmosprimarykey",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L21"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_databasename",
-      "label": "DatabaseName",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "databasename",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L22"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_groupid",
-      "label": "GroupId",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "groupid",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L15"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_keyvaultendpoint",
-      "label": "KeyVaultEndpoint",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "keyvaultendpoint",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L27"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_partitionkeypath",
-      "label": "PartitionKeyPath",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "partitionkeypath",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L24"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_sourcetopic",
-      "label": "SourceTopic",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "sourcetopic",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L14"
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_configuration_sinksettings_logsink_infrastructure_configuration_sinksettings_vaulttokenid",
-      "label": "VaultTokenId",
-      "_origin": "ast",
-      "community": 4,
-      "community_name": "SinkSettings",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "LogSink.Infrastructure.Configuration",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "vaulttokenid",
-      "source_file": "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs",
-      "source_location": "L28"
-    },
-    {
-      "id": "csharp_namespace:9f2d88aef602b8b1",
-      "label": "KafkaDemo.Domain.Utils",
-      "_origin": "ast",
-      "community": 42,
-      "community_name": "VaultKeyMaterial",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "KafkaDemo.Domain.Utils"
-      },
-      "norm_label": "kafkademo.domain.utils",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L1",
-      "type": "namespace"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase",
-      "label": "SendMessagesUseCase.cs",
-      "_origin": "ast",
-      "community": 42,
-      "community_name": "VaultKeyMaterial",
-      "file_type": "code",
-      "norm_label": "sendmessagesusecase.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "norm_label": "test_multi_publish.py",
+      "source_file": "data_guia/test_multi_publish.py",
       "source_location": "L1"
     },
     {
@@ -6903,17 +6980,6 @@
       "norm_label": "vaulttokenid",
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
       "source_location": "L10"
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator",
-      "label": "KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "_origin": "ast",
-      "community": 42,
-      "community_name": "VaultKeyMaterial",
-      "file_type": "code",
-      "norm_label": "kafkademo.domain/utils/uniformpartitionkeygenerator.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Utils/UniformPartitionKeyGenerator.cs",
-      "source_location": "L1"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_infrastructure_adapters_aesgcmpayloadcryptoadapter_cs_encryptedpayloadenvelope",
@@ -7203,116 +7269,6 @@
       "source_location": ""
     },
     {
-      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_cancellationtoken",
-      "label": "CancellationToken",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_ilogger",
-      "label": "ILogger",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "ilogger",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_timespan",
-      "label": "TimeSpan",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "timespan",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_func",
-      "label": "Func",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "func",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_ireadonlylist",
-      "label": "IReadOnlyList",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "ireadonlylist",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_timespan",
-      "label": "TimeSpan",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "timespan",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iconfiguration",
-      "label": "IConfiguration",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "iconfiguration",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iservicecollection",
-      "label": "IServiceCollection",
-      "_origin": "ast",
-      "community": 44,
-      "community_name": ".AddLogSinkInfrastructure",
-      "file_type": "code",
-      "norm_label": "iservicecollection",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "cachedcredentialsentry",
       "label": "CachedCredentialsEntry",
       "_origin": "ast",
@@ -7322,6 +7278,106 @@
       "norm_label": "cachedcredentialsentry",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "consumeresult",
+      "label": "ConsumeResult",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "consumeresult",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_messageresult_kafkademo_domain_models_messageresult_offset",
+      "label": "Offset",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "KafkaDemo.Domain.Models",
+        "scope_chain": [
+          "s0"
+        ]
+      },
+      "norm_label": "offset",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
+      "source_location": "L10"
+    },
+    {
+      "id": "ireadonlydictionary",
+      "label": "IReadOnlyDictionary",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "ireadonlydictionary",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_cancellationtoken",
+      "label": "CancellationToken",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_ilogger",
+      "label": "ILogger",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "ilogger",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_cs_timespan",
+      "label": "TimeSpan",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "timespan",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
+      "label": "PartitionKey",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "metadata": {
+        "namespace": "LogSink.Domain.Models",
+        "scope_chain": [
+          "s39"
+        ]
+      },
+      "norm_label": "partitionkey",
+      "source_file": "log_sink/src/LogSink.Domain/Models/LogDocument.cs",
+      "source_location": "L92"
     },
     {
       "id": "log_sink_src_logsink_domain_ports_isinkports",
@@ -7342,6 +7398,61 @@
       "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_func",
+      "label": "Func",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "func",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_ireadonlylist",
+      "label": "IReadOnlyList",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "ireadonlylist",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_rawjson",
+      "label": "RawJson",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "rawjson",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_domain_ports_isinkports_cs_timespan",
+      "label": "TimeSpan",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "timespan",
       "source_file": "",
       "source_location": ""
     },
@@ -7429,6 +7540,17 @@
       "source_location": "L21"
     },
     {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_cancellationtoken",
+      "label": "CancellationToken",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_ilogger",
       "label": "ILogger",
       "_origin": "ast",
@@ -7440,6 +7562,149 @@
       "source_location": ""
     },
     {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_ireadonlylist",
+      "label": "IReadOnlyList",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "ireadonlylist",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_rawjson",
+      "label": "RawJson",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "rawjson",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_cancellationtoken",
+      "label": "CancellationToken",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "cancellationtoken",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_func",
+      "label": "Func",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "func",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_iconsumer",
+      "label": "IConsumer",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "iconsumer",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_ilogger",
+      "label": "ILogger",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "ilogger",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_ireadonlylist",
+      "label": "IReadOnlyList",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "ireadonlylist",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_task",
+      "label": "Task",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "task",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_timespan",
+      "label": "TimeSpan",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "timespan",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iconfiguration",
+      "label": "IConfiguration",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "iconfiguration",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "log_sink_src_logsink_infrastructure_dependencyinjection_cs_iservicecollection",
+      "label": "IServiceCollection",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "iservicecollection",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "rus",
+      "label": "RUs",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "rus",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "semaphoreslim",
       "label": "SemaphoreSlim",
       "_origin": "ast",
@@ -7447,6 +7712,17 @@
       "community_name": "CosmosDbBulkSinkAdapter",
       "file_type": "code",
       "norm_label": "semaphoreslim",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "success",
+      "label": "Success",
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "CosmosDbBulkSinkAdapter",
+      "file_type": "code",
+      "norm_label": "success",
       "source_file": "",
       "source_location": ""
     },
@@ -7625,120 +7901,15 @@
       "source_location": ""
     },
     {
-      "id": "consumeresult",
-      "label": "ConsumeResult",
+      "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher",
+      "label": "TransactionEnricher.cs",
       "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
+      "community": 48,
+      "community_name": "ConsumerStreams.Domain.Ports",
       "file_type": "code",
-      "norm_label": "consumeresult",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "emisor_mensaje_src_kafkademo_domain_models_messageresult_kafkademo_domain_models_messageresult_offset",
-      "label": "Offset",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "metadata": {
-        "namespace": "KafkaDemo.Domain.Models",
-        "scope_chain": [
-          "s0"
-        ]
-      },
-      "norm_label": "offset",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/MessageResult.cs",
-      "source_location": "L10"
-    },
-    {
-      "id": "ireadonlydictionary",
-      "label": "IReadOnlyDictionary",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "ireadonlydictionary",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_cancellationtoken",
-      "label": "CancellationToken",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_func",
-      "label": "Func",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "func",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_iconsumer",
-      "label": "IConsumer",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "iconsumer",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_ilogger",
-      "label": "ILogger",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "ilogger",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_ireadonlylist",
-      "label": "IReadOnlyList",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "ireadonlylist",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "task",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_infrastructure_adapters_kafkabatchconsumeradapter_cs_timespan",
-      "label": "TimeSpan",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "KafkaBatchConsumerAdapter",
-      "file_type": "code",
-      "norm_label": "timespan",
-      "source_file": "",
-      "source_location": ""
+      "norm_label": "transactionenricher.cs",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
+      "source_location": "L1"
     },
     {
       "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_aesgcmpayloadcryptoadapter",
@@ -7898,6 +8069,22 @@
       "type": "namespace"
     },
     {
+      "id": "csharp_namespace:7dafdb6de0fb6060",
+      "label": "ConsumerStreams.Application.Services",
+      "_origin": "ast",
+      "community": 48,
+      "community_name": "ConsumerStreams.Domain.Ports",
+      "file_type": "code",
+      "metadata": {
+        "kind": "csharp_namespace",
+        "namespace": "ConsumerStreams.Application.Services"
+      },
+      "norm_label": "consumerstreams.application.services",
+      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
+      "source_location": "L4",
+      "type": "namespace"
+    },
+    {
       "id": "csharp_namespace:f2ad720383c54001",
       "label": "ConsumerStreams.Worker",
       "_origin": "ast",
@@ -7945,6 +8132,17 @@
       "norm_label": "task",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest",
+      "label": "TopicCreationRequest.cs",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "TopicInfo",
+      "file_type": "code",
+      "norm_label": "topiccreationrequest.cs",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Models/TopicCreationRequest.cs",
+      "source_location": "L1"
     },
     {
       "id": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest_cs_idictionary",
@@ -8201,17 +8399,6 @@
       "source_location": "L21"
     },
     {
-      "id": "emisor_mensaje_src_kafkademo_domain_ports_itopicmanagementport",
-      "label": "ITopicManagementPort.cs",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "TopicInfo",
-      "file_type": "code",
-      "norm_label": "itopicmanagementport.cs",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ITopicManagementPort.cs",
-      "source_location": "L1"
-    },
-    {
       "id": "emisor_mensaje_src_kafkademo_domain_ports_itopicmanagementport_cs_cancellationtoken",
       "label": "CancellationToken",
       "_origin": "ast",
@@ -8296,61 +8483,6 @@
       "community_name": "TopicInfo",
       "file_type": "code",
       "norm_label": "iadminclient",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backgroundservice",
-      "label": "BackgroundService",
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
-      "file_type": "code",
-      "norm_label": "backgroundservice",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_cancellationtoken",
-      "label": "CancellationToken",
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
-      "file_type": "code",
-      "norm_label": "cancellationtoken",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_ilogger",
-      "label": "ILogger",
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
-      "file_type": "code",
-      "norm_label": "ilogger",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_ioptions",
-      "label": "IOptions",
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
-      "file_type": "code",
-      "norm_label": "ioptions",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "log_sink_src_logsink_worker_bulksinkworkerservice_cs_task",
-      "label": "Task",
-      "_origin": "ast",
-      "community": 51,
-      "community_name": "BulkSinkWorkerService",
-      "file_type": "code",
-      "norm_label": "task",
       "source_file": "",
       "source_location": ""
     },
@@ -8645,17 +8777,6 @@
       "source_location": ""
     },
     {
-      "id": "consumer_streams_src_consumerstreams_application_services_transactionenricher",
-      "label": "TransactionEnricher.cs",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": ".AddConsumerStreamsInfrastructure",
-      "file_type": "code",
-      "norm_label": "transactionenricher.cs",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
-      "source_location": "L1"
-    },
-    {
       "id": "consumer_streams_src_consumerstreams_application_usecases_streamprocessingpipelineusecase_cs_ilogger",
       "label": "ILogger",
       "_origin": "ast",
@@ -8678,6 +8799,28 @@
       "source_location": "L1"
     },
     {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_iconsumer",
+      "label": "IConsumer",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "norm_label": "iconsumer",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "consumer_streams_src_consumerstreams_infrastructure_adapters_kafkastreamconsumeradapter_cs_ilogger",
+      "label": "ILogger",
+      "_origin": "ast",
+      "community": 6,
+      "community_name": ".AddConsumerStreamsInfrastructure",
+      "file_type": "code",
+      "norm_label": "ilogger",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "consumer_streams_src_consumerstreams_infrastructure_dependencyinjection_cs_iconfiguration",
       "label": "IConfiguration",
       "_origin": "ast",
@@ -8698,22 +8841,6 @@
       "norm_label": "iservicecollection",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "csharp_namespace:7dafdb6de0fb6060",
-      "label": "ConsumerStreams.Application.Services",
-      "_origin": "ast",
-      "community": 6,
-      "community_name": ".AddConsumerStreamsInfrastructure",
-      "file_type": "code",
-      "metadata": {
-        "kind": "csharp_namespace",
-        "namespace": "ConsumerStreams.Application.Services"
-      },
-      "norm_label": "consumerstreams.application.services",
-      "source_file": "consumer_streams/src/ConsumerStreams.Application/Services/TransactionEnricher.cs",
-      "source_location": "L4",
-      "type": "namespace"
     },
     {
       "id": "documentdb_emulator_documentdbemulator",
@@ -9395,6 +9522,18 @@
     },
     {
       "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
+      "target": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_getswaggeryamlcontent",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
       "target": "emisor_mensaje_src_kafkademo_domain_utils_uniformpartitionkeygenerator_kafkademo_domain_utils_uniformpartitionkeygenerator_generatedispersedkey",
       "relation": "calls",
       "_origin": "ast",
@@ -9402,7 +9541,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L110",
+      "source_location": "L154",
       "weight": 1.0
     },
     {
@@ -9414,7 +9553,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L170",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -9426,7 +9565,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L36",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
+      "target": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_getswaggeryamlcontent",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L78",
       "weight": 1.0
     },
     {
@@ -9438,7 +9589,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L48",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -9838,6 +9989,30 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_bulksinkresult",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
       "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_generatecosmosauthtoken",
       "relation": "calls",
@@ -9846,7 +10021,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L142",
+      "source_location": "L260",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_generatecosmosauthtoken",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L197",
       "weight": 1.0
     },
     {
@@ -9990,7 +10177,7 @@
         "ref_token": "DateTime"
       },
       "source_file": "documentdb_emulator/Program.cs",
-      "source_location": "L512",
+      "source_location": "L526",
       "weight": 1.0
     },
     {
@@ -12973,6 +13160,21 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_bulksinkresult",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "BulkSinkResult"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_logsink_infrastructure_adapters_azurekeyvaulttokenadapter",
       "target": "cachedcredentialsentry",
       "relation": "references",
@@ -13044,7 +13246,7 @@
         "ref_token": "CosmosDbCredentials"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L44",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -13569,7 +13771,7 @@
         "ref_token": "MessageResult"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L27",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -13633,6 +13835,36 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "PartitionKey"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_models_logdocument_logsink_domain_models_logdocument_partitionkey",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "PartitionKey"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
       "target": "rus",
       "relation": "references",
@@ -13642,6 +13874,51 @@
       "context": "generic_arg",
       "metadata": {
         "ref_token": "RUs"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "target": "rus",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "RUs"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_cs_rawjson",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "RawJson"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_rawjson",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "RawJson"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L117",
@@ -13689,7 +13966,22 @@
         "ref_token": "Success"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L117",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "target": "success",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "generic_arg",
+      "metadata": {
+        "ref_token": "Success"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -15303,7 +15595,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L73",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -15318,7 +15610,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L27",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -15637,6 +15929,21 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_cs_cancellationtoken",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "CancellationToken"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
       "target": "log_sink_src_logsink_domain_ports_isinkports_cs_cancellationtoken",
       "relation": "references",
@@ -15648,7 +15955,7 @@
         "ref_token": "CancellationToken"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L44",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -15682,7 +15989,7 @@
       "weight": 1.0
     },
     {
-      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
       "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_cancellationtoken",
       "relation": "references",
       "_origin": "ast",
@@ -15694,6 +16001,36 @@
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_cancellationtoken",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "CancellationToken"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_cancellationtoken",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "CancellationToken"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -15753,7 +16090,22 @@
         "ref_token": "CosmosDbCredentials"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L117",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_cosmosdbcredentials",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "CosmosDbCredentials"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -15813,7 +16165,7 @@
         "ref_token": "EncryptedPayloadEnvelope"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L38",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -15828,7 +16180,7 @@
         "ref_token": "EncryptedPayloadEnvelope"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L61",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -16042,6 +16394,21 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_cs_ireadonlylist",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "IReadOnlyList"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertlogsasync",
       "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_ireadonlylist",
       "relation": "references",
@@ -16054,6 +16421,21 @@
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_ireadonlylist",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "parameter_type",
+      "metadata": {
+        "ref_token": "IReadOnlyList"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -16098,7 +16480,7 @@
         "ref_token": "LogDocument"
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L117",
+      "source_location": "L235",
       "weight": 1.0
     },
     {
@@ -16143,7 +16525,7 @@
         "ref_token": "SendMessageRequestDto"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L27",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -16263,7 +16645,7 @@
         "ref_token": "VaultKeyMaterial"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L38",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -16293,7 +16675,7 @@
         "ref_token": "VaultKeyMaterial"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L61",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -16593,7 +16975,7 @@
         "ref_token": "Task"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L73",
+      "source_location": "L116",
       "weight": 1.0
     },
     {
@@ -16608,7 +16990,7 @@
         "ref_token": "Task"
       },
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L27",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -16927,6 +17309,21 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_cs_task",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "return_type",
+      "metadata": {
+        "ref_token": "Task"
+      },
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
       "target": "log_sink_src_logsink_domain_ports_isinkports_cs_task",
       "relation": "references",
@@ -16938,7 +17335,7 @@
         "ref_token": "Task"
       },
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L44",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -16972,7 +17369,7 @@
       "weight": 1.0
     },
     {
-      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
       "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_task",
       "relation": "references",
       "_origin": "ast",
@@ -16984,6 +17381,36 @@
       },
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_task",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "return_type",
+      "metadata": {
+        "ref_token": "Task"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_cs_task",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "return_type",
+      "metadata": {
+        "ref_token": "Task"
+      },
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175",
       "weight": 1.0
     },
     {
@@ -18282,7 +18709,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "documentdb_emulator/Program.cs",
-      "source_location": "L506",
+      "source_location": "L520",
       "weight": 1.0
     },
     {
@@ -18794,7 +19221,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Web/Program.cs",
-      "source_location": "L135",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -19362,7 +19789,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L42",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -19373,7 +19800,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L52",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -20333,24 +20760,35 @@
     },
     {
       "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
-      "target": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L27",
-      "weight": 1.0
-    },
-    {
-      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
       "target": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L73",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
+      "target": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_getswaggeryamlcontent",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase",
+      "target": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -20372,7 +20810,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs",
-      "source_location": "L38",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -20504,7 +20942,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs",
-      "source_location": "L61",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -20673,6 +21111,17 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport",
       "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
       "relation": "method",
@@ -20680,7 +21129,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs",
-      "source_location": "L44",
+      "source_location": "L48",
       "weight": 1.0
     },
     {
@@ -20696,7 +21145,7 @@
     },
     {
       "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter",
-      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -20707,13 +21156,35 @@
     },
     {
       "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsinglerawjsonwithretryasync",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_insertsingledocumentwithretryasync",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter",
       "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_generatecosmosauthtoken",
       "relation": "method",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
-      "source_location": "L182",
+      "source_location": "L300",
       "weight": 1.0
     },
     {
@@ -21208,30 +21679,6 @@
     },
     {
       "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
-      "target": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_encryptjsontoenvelope",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "context": "call",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L138",
-      "weight": 1.0
-    },
-    {
-      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
-      "target": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport_kafkademo_domain_ports_imessageproducerport_sendbatchasync",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "context": "call",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L167",
-      "weight": 1.0
-    },
-    {
-      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
       "target": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ivaulttokenproviderport_getorcreateencryptionkeyasync",
       "relation": "calls",
       "_origin": "ast",
@@ -21239,7 +21686,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L81",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -21251,7 +21698,7 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L84",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -21263,23 +21710,11 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L87",
+      "source_location": "L130",
       "weight": 1.0
     },
     {
-      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
-      "target": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ivaulttokenproviderport_getorcreateencryptionkeyasync",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "context": "call",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L30",
-      "weight": 1.0
-    },
-    {
-      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
       "target": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_encryptjsontoenvelope",
       "relation": "calls",
       "_origin": "ast",
@@ -21287,7 +21722,19 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L39",
+      "source_location": "L182",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
+      "target": "emisor_mensaje_src_kafkademo_domain_ports_imessageproducerport_kafkademo_domain_ports_imessageproducerport_sendbatchasync",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L212",
       "weight": 1.0
     },
     {
@@ -21299,7 +21746,31 @@
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L67",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
+      "target": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ivaulttokenproviderport_getorcreateencryptionkeyasync",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_sendcustommessageasync",
+      "target": "emisor_mensaje_src_kafkademo_domain_ports_icryptoports_kafkademo_domain_ports_ipayloadcryptoport_encryptjsontoenvelope",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -21316,14 +21787,14 @@
     },
     {
       "source": "log_sink_src_logsink_application_usecases_bulksinkpipelineusecase_logsink_application_usecases_bulksinkpipelineusecase_executebulksinkpipelineasync",
-      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "context": "call",
       "source_file": "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs",
-      "source_location": "L72",
+      "source_location": "L56",
       "weight": 1.0
     },
     {
@@ -21336,6 +21807,18 @@
       "context": "call",
       "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
       "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "context": "call",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -21436,18 +21919,6 @@
     },
     {
       "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
-      "target": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage_kafkademo_domain_models_kafkamessage",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "call",
-      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L148",
-      "weight": 1.0
-    },
-    {
-      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
       "target": "emisor_mensaje_src_kafkademo_domain_models_topiccreationrequest_kafkademo_domain_models_topiccreationrequest",
       "relation": "calls",
       "_origin": "ast",
@@ -21455,7 +21926,19 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L87",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "emisor_mensaje_src_kafkademo_application_usecases_sendmessagesusecase_kafkademo_application_usecases_sendmessagesusecase_generateandsendbatchasync",
+      "target": "emisor_mensaje_src_kafkademo_domain_models_kafkamessage_kafkademo_domain_models_kafkamessage",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "call",
+      "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
@@ -21467,7 +21950,7 @@
       "confidence_score": 0.85,
       "context": "call",
       "source_file": "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs",
-      "source_location": "L57",
+      "source_location": "L100",
       "weight": 1.0
     },
     {
@@ -21747,6 +22230,18 @@
       "weight": 1.0
     },
     {
+      "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_idocumentdbbulksinkport_bulkinsertrawjsonlogsasync",
+      "target": "log_sink_src_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_logsink_infrastructure_adapters_cosmosdbbulksinkadapter_bulkinsertrawjsonlogsasync",
+      "relation": "dispatches_to",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "context": "call",
+      "source_file": "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
       "source": "log_sink_src_logsink_domain_ports_isinkports_logsink_domain_ports_ivaulttokenproviderport_resolvecosmoscredentialsasync",
       "target": "log_sink_src_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_logsink_infrastructure_adapters_azurekeyvaulttokenadapter_resolvecosmoscredentialsasync",
       "relation": "dispatches_to",
@@ -21760,5 +22255,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f1ddb14d32a845e009f0fa7c0b8ff51d8d5fec2f"
+  "built_at_commit": "ab11f6d50e8f7508a1dadbe65f580b93f610a798"
 }
