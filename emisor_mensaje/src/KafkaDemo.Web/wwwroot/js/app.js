@@ -215,9 +215,9 @@ function updateTopicsSelect(topics) {
     `<option value="${escapeHtml(t.name)}">${escapeHtml(t.name)} (${t.partitionsCount} part.)</option>`
   ).join('');
 
-  // Mantener produbanco-transactions-v1 por defecto
-  if (userTopics.some(t => t.name === 'produbanco-transactions-v1')) {
-    dom.msgTopicSelect.value = 'produbanco-transactions-v1';
+  // Mantener tp.observability.application-log.emitted.v1 por defecto
+  if (userTopics.some(t => t.name === 'tp.observability.application-log.emitted.v1')) {
+    dom.msgTopicSelect.value = 'tp.observability.application-log.emitted.v1';
   } else if (userTopics.some(t => t.name === currentVal)) {
     dom.msgTopicSelect.value = currentVal;
   } else if (userTopics.length > 0) {
@@ -319,7 +319,7 @@ async function send20DemoTransactions() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        topic: 'produbanco-transactions-v1',
+        topic: 'tp.observability.application-log.emitted.v1',
         count: 20
       })
     });

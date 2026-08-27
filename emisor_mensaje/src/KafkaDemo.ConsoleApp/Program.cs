@@ -32,7 +32,7 @@ var sendMessagesUseCase = scope.ServiceProvider.GetRequiredService<SendMessagesU
 var topicManagementPort = scope.ServiceProvider.GetRequiredService<ITopicManagementPort>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-const string targetTopic = "produbanco-transactions-v1";
+const string targetTopic = "tp.observability.application-log.emitted.v1";
 const int messageCount = 20;
 
 Console.WriteLine($"[1/3] Verificando conectividad con el clúster de Kafka...");

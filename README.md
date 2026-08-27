@@ -17,8 +17,8 @@ flowchart TD
     end
 
     subgraph KafkaBroker ["2. Red Hat AMQ Streams (Kafka 3.8 KRaft)"]
-        K1["Tópico: produbanco-transactions-v1<br/>(40 Particiones - Dispersión Uniforme)"]
-        K2["Tópico: produbanco-transactions-processed-v1<br/>(30 Particiones)"]
+        K1["Tópico: tp.observability.application-log.emitted.v1<br/>(40 Particiones - Dispersión Uniforme)"]
+        K2["Tópico: tp.observability.application-log.processed.v1<br/>(30 Particiones)"]
     end
 
     subgraph ConsumerStreams ["3. Consumer Streams (.NET 10 Native AOT)"]
@@ -117,7 +117,7 @@ docker compose up -d --build
 
 ## 🔒 Patrón Criptográfico: Self-Contained Encryption Envelope
 
-Cada mensaje que transita por `produbanco-transactions-v1` viaja cifrado a nivel de carga útil con **AES-256-GCM** dentro de un sobre binario autosuficiente definido en **Protocol Buffers**:
+Cada mensaje que transita por `tp.observability.application-log.emitted.v1` viaja cifrado a nivel de carga útil con **AES-256-GCM** dentro de un sobre binario autosuficiente definido en **Protocol Buffers**:
 
 ```protobuf
 syntax = "proto3";

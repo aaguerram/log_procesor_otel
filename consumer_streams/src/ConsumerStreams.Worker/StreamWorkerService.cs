@@ -14,8 +14,8 @@ public class StreamWorkerService(
     IOptions<KafkaStreamSettings> settingsOptions,
     ILogger<StreamWorkerService> logger) : BackgroundService
 {
-    public const string DefaultSourceTopic = "produbanco-transactions-v1";
-    public const string DefaultTargetTopic = "produbanco-transactions-processed-v1";
+    public const string DefaultSourceTopic = "tp.observability.application-log.emitted.v1";
+    public const string DefaultTargetTopic = "tp.observability.application-log.processed.v1";
 
     private readonly KafkaStreamSettings _settings = settingsOptions.Value;
 

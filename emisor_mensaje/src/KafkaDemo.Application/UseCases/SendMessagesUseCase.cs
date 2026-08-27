@@ -70,7 +70,7 @@ public class SendMessagesUseCase(
     /// <summary>
     /// Genera y envía un lote de mensajes cifrados en Protobuf con distribución uniforme en las 40 particiones.
     /// </summary>
-    public async Task<BatchSendResultDto> GenerateAndSendBatchAsync(string topic = "produbanco-transactions-v1", int count = 20, CancellationToken cancellationToken = default)
+    public async Task<BatchSendResultDto> GenerateAndSendBatchAsync(string topic = "tp.observability.application-log.emitted.v1", int count = 20, CancellationToken cancellationToken = default)
     {
         var stopwatch = Stopwatch.StartNew();
 

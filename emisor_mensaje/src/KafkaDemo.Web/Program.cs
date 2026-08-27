@@ -99,7 +99,7 @@ app.MapPost("/api/messages/send-batch", async (SendBatchRequest? body, SendMessa
 {
     try
     {
-        var topic = body?.Topic ?? "produbanco-transactions-v1";
+        var topic = body?.Topic ?? "tp.observability.application-log.emitted.v1";
         var count = body?.Count is > 0 ? body.Count.Value : 20;
         var result = await useCase.GenerateAndSendBatchAsync(topic, count, ct);
         return Results.Ok(new { success = true, result });

@@ -21,7 +21,7 @@ public class BulkSinkWorkerService(
     {
         var sourceTopic = !string.IsNullOrWhiteSpace(_settings.SourceTopic)
             ? _settings.SourceTopic.Trim()
-            : "produbanco-transactions-processed-v1";
+            : "tp.observability.application-log.processed.v1";
 
         var batchSize = _settings.BatchSize > 0 ? _settings.BatchSize : 500;
         var timeoutMs = _settings.BatchTimeoutMs > 0 ? _settings.BatchTimeoutMs : 250;

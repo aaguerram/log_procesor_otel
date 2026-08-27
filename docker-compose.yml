@@ -111,8 +111,8 @@ services:
     environment:
       - KafkaStream__BootstrapServers=kafka:29092
       - KafkaStream__GroupId=consumer-streams-produbanco-v1
-      - KafkaStream__SourceTopic=produbanco-transactions-v1
-      - KafkaStream__TargetTopic=produbanco-transactions-processed-v1
+      - KafkaStream__SourceTopic=tp.observability.application-log.emitted.v1
+      - KafkaStream__TargetTopic=tp.observability.application-log.processed.v1
       - KafkaStream__AutoOffsetReset=Earliest
       - KeyVault__VaultUri=https://azure-keyvault:8443
       - KeyVault__VaultName=produbanco-local-vault
@@ -158,7 +158,7 @@ services:
     container_name: kafka-log-sink-aot
     environment:
       - LogSink__BootstrapServers=kafka:29092
-      - LogSink__SourceTopic=produbanco-transactions-processed-v1
+      - LogSink__SourceTopic=tp.observability.application-log.processed.v1
       - LogSink__GroupId=log-sink-cosmosdb-group-v1
       - LogSink__BatchSize=500
       - LogSink__BatchTimeoutMs=250
