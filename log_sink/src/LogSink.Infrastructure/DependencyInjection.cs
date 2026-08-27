@@ -70,10 +70,15 @@ public static class DependencyInjection
         if (string.IsNullOrWhiteSpace(vaultTokenId))
             throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:VaultTokenId' no está configurado en appsettings.json ni en las variables de entorno.");
 
+        var dlqTopic = configuration["LogSink:DlqTopic"]
+            ?? configuration["TECH-INT-MSG-DLQ_TOPIC"]
+            ?? "tp.observability.application-log.processed.dlq.v1";
+
         var sinkSettings = new SinkSettings
         {
             BootstrapServers = bootstrapServers,
             SourceTopic = sourceTopic,
+            DlqTopic = dlqTopic,
             GroupId = groupId,
             BatchSize = int.TryParse(configuration["LogSink:BatchSize"] ?? configuration["TECH-INT-DB-BATCH_SIZE"], out var bs) ? bs : 500,
             BatchTimeoutMs = int.TryParse(configuration["LogSink:BatchTimeoutMs"] ?? configuration["TECH-INT-DB-BATCH_TIMEOUT_MS"], out var bt) ? bt : 250,
@@ -82,14 +87,31 @@ public static class DependencyInjection
             DatabaseName = databaseName,
             ContainerName = containerName,
             PartitionKeyPath = configuration["LogSink:PartitionKeyPath"] ?? configuration["TECH-INT-DB-AUDI_PK_PATH"] ?? "/partitionKey",
+            CosmosTimeoutSeconds = int.TryParse(configuration["LogSink:CosmosTimeoutSeconds"] ?? configuration["COSMOS_TIMEOUT_SECONDS"], out var cts) ? cts : 3,
             KeyVaultEndpoint = keyVaultEndpoint,
-            VaultTokenId = vaultTokenId
+            VaultTokenId = vaultTokenId,
+            Resilience = new ResilienceSettings
+            {
+                Retry = new RetrySettings
+                {
+                    MaxRetryAttempts = int.TryParse(configuration["LogSink:Resilience:Retry:MaxRetryAttempts"], out var mra) ? mra : 2,
+                    DelaySeconds = int.TryParse(configuration["LogSink:Resilience:Retry:DelaySeconds"], out var ds) ? ds : 1
+                },
+                CircuitBreaker = new CircuitBreakerSettings
+                {
+                    FailureRatio = double.TryParse(configuration["LogSink:Resilience:CircuitBreaker:FailureRatio"], out var fr) ? fr : 0.5,
+                    SamplingDurationSeconds = int.TryParse(configuration["LogSink:Resilience:CircuitBreaker:SamplingDurationSeconds"], out var sds) ? sds : 10,
+                    MinimumThroughput = int.TryParse(configuration["LogSink:Resilience:CircuitBreaker:MinimumThroughput"], out var mt) ? mt : 4,
+                    BreakDurationSeconds = int.TryParse(configuration["LogSink:Resilience:CircuitBreaker:BreakDurationSeconds"], out var bds) ? bds : 15
+                }
+            }
         };
 
         services.AddSingleton(Options.Create(sinkSettings));
 
         // Registrar Adaptadores y Puertos
         services.AddSingleton<IVaultTokenProviderPort, AzureKeyVaultTokenAdapter>();
+        services.AddSingleton<IDlqProducerPort, KafkaDlqProducerAdapter>();
         services.AddSingleton<IDocumentDbBulkSinkPort, CosmosDbBulkSinkAdapter>();
         services.AddSingleton<IBatchConsumerPort, KafkaBatchConsumerAdapter>();
 

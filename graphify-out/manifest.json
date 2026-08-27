@@ -6,9 +6,9 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1787812027.7062027,
-    "seen": 1787812288.3574975,
-    "ast_hash": "4631e62a8e3e7251be50fa6c43561c5f",
+    "mtime": 1787813070.0206897,
+    "seen": 1787813254.2160978,
+    "ast_hash": "706a51638b9a347f6d78a194a1c8269a",
     "semantic_hash": ""
   },
   "emisor_mensaje/KafkaDemoHexagonal.slnx": {
@@ -336,9 +336,9 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Application/UseCases/BulkSinkPipelineUseCase.cs": {
-    "mtime": 1787806166.414358,
-    "seen": 1787806349.4390552,
-    "ast_hash": "6910d5cc3326170101d4e2dbd19e4f23",
+    "mtime": 1787813043.633568,
+    "seen": 1787813254.2159996,
+    "ast_hash": "b11f72bef1376a91e2038504a2554a4d",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Domain/LogSink.Domain.csproj": {
@@ -348,15 +348,15 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Domain/Models/LogDocument.cs": {
-    "mtime": 1787792238.146307,
-    "seen": 1787792495.312817,
-    "ast_hash": "daac812a3b9fb09c3eda65fa8fa97c3c",
+    "mtime": 1787812988.324373,
+    "seen": 1787813254.2160118,
+    "ast_hash": "8e0c6e682b939184691443ceb2a07cf9",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Domain/Ports/ISinkPorts.cs": {
-    "mtime": 1787806143.8849516,
-    "seen": 1787806349.4390643,
-    "ast_hash": "414364fefebe5fa45089abc501f7561b",
+    "mtime": 1787812997.0215623,
+    "seen": 1787813254.2160158,
+    "ast_hash": "337819ad3211f81f02a7ff35ded75008",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs": {
@@ -366,9 +366,9 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/Adapters/CosmosDbBulkSinkAdapter.cs": {
-    "mtime": 1787806156.2134006,
-    "seen": 1787806349.4390702,
-    "ast_hash": "8d6666084dd83dda23f7a744f3ff9647",
+    "mtime": 1787813023.149081,
+    "seen": 1787813254.2160256,
+    "ast_hash": "e6678ce59b964a69d67b4417163f5c45",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs": {
@@ -378,21 +378,21 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs": {
-    "mtime": 1787789628.040861,
-    "seen": 1787792495.3128278,
-    "ast_hash": "360e4a13473bf40e8c128aa0f9c03d6a",
+    "mtime": 1787812973.3592644,
+    "seen": 1787813254.2160401,
+    "ast_hash": "d3987ea919f37e0b60ba7b98fd8e06d6",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs": {
-    "mtime": 1787789897.8184402,
-    "seen": 1787792495.3128297,
-    "ast_hash": "21bf84f1a3a7605ffa7366b1b7ac67d8",
+    "mtime": 1787813034.1249738,
+    "seen": 1787813254.216044,
+    "ast_hash": "4b06ae8f02acf81a83f327f68809c141",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/LogSink.Infrastructure.csproj": {
-    "mtime": 1787770729.381037,
-    "seen": 1787772656.469973,
-    "ast_hash": "f2b9e11bc7e46e9b3b6cdbd4f56b2124",
+    "mtime": 1787812791.1508904,
+    "seen": 1787813254.2160482,
+    "ast_hash": "986668584d39174bb5d0ed2cd7688a84",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Worker/appsettings.json": {
-    "mtime": 1787801413.463453,
-    "seen": 1787801433.693685,
-    "ast_hash": "345d27356783432e76abc773bc0eb901",
+    "mtime": 1787813053.6193886,
+    "seen": 1787813254.2160645,
+    "ast_hash": "1498a2c8af4b7ab73fccda59365ef6c3",
     "semantic_hash": ""
   },
   "documentdb_emulator/DocumentDbEmulator.csproj": {
@@ -621,6 +621,12 @@
     "mtime": 1787804884.363411,
     "seen": 1787805015.9575222,
     "ast_hash": "3f5a03c637969d9f9276d8b517a364dd",
+    "semantic_hash": ""
+  },
+  "log_sink/src/LogSink.Infrastructure/Adapters/KafkaDlqProducerAdapter.cs": {
+    "mtime": 1787813003.3565109,
+    "seen": 1787813254.2160356,
+    "ast_hash": "bb50faa10fe9474ab8850b6716a2f25c",
     "semantic_hash": ""
   }
 }

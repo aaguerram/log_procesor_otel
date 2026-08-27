@@ -70,11 +70,11 @@ public class BulkSinkPipelineUseCase(
                 var result = await cosmosSinkPort.BulkInsertRawJsonLogsAsync(rawItems, ct);
                 stopwatch.Stop();
 
-                logger.LogInformation("💾 [Bulk Sink Cosmos DB] Persistidos: {Success}/{Total} docs | RUs: {RUs:F1} | Latencia Bulk: {Latency:F2} ms (Pipeline: {TotalMs:F2} ms)",
-                    result.TotalSuccessful, result.TotalProcessed, result.RequestUnitsConsumed, result.ElapsedMilliseconds, stopwatch.Elapsed.TotalMilliseconds);
+                logger.LogInformation("💾 [Bulk Sink Cosmos DB] Persistidos: {Success}/{Total} docs | DLQ: {Dlq} docs | RUs: {RUs:F1} | Latencia Bulk: {Latency:F2} ms (Pipeline: {TotalMs:F2} ms)",
+                    result.TotalSuccessful, result.TotalProcessed, result.TotalDlqSent, result.RequestUnitsConsumed, result.ElapsedMilliseconds, stopwatch.Elapsed.TotalMilliseconds);
 
-                // Retorna true para confirmar el commit de offsets en Kafka
-                return result.TotalSuccessful > 0 || result.TotalFailed == 0;
+                // Retorna true para confirmar el commit de offsets en Kafka (los fallidos ya fueron dirigidos a DLQ)
+                return true;
             },
             cancellationToken);
     }

@@ -1,56 +1,56 @@
 # Graph Report - demo_kafka  (2026-08-27)
 
 ## Corpus Check
-- 99 files · ~81,052 words
+- 99 files · ~81,445 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 773 nodes · 1215 edges · 49 communities (46 shown, 3 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 70 edges (avg confidence: 0.84)
+- 779 nodes · 1233 edges · 49 communities (46 shown, 3 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 72 edges (avg confidence: 0.84)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9b127be0`
+- Built from commit: `ec179438`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- KafkaStreamConsumerAdapter
+- .ExecutePipelineAsync
 - KafkaMessage
 - ProcessedTransactionEvent
 - LogDocument
 - TopicInfo
-- .ExecutePipelineAsync
+- .StartStreamingAsync
 - app.js
 - KafkaDemo.Infrastructure.csproj
 - ConsumerStreams.Infrastructure.csproj
 - http
 - KafkaStreamProducerAdapter
-- LogSink.Infrastructure.Configuration
+- ISinkPorts.cs
 - LogSink.Infrastructure.csproj
 - Revisión y aprobación del documento
 - Lineamiento para nombrado de variables
-- .PruneOuterTrace
+- TracePruningSettings
 - Lineamiento para nombrado y despliegue de imágenes
 - RawTransactionEvent
-- .StartBatchConsumerAsync
+- .BulkInsertRawJsonLogsAsync
 - BulkSinkWorkerService
 - KafkaBatchConsumerAdapter
-- SendMessageRequestDto
-- .AddLogSinkInfrastructure
+- BatchSendResultDto
+- AzureKeyVaultTokenAdapter
 - CosmosDbBulkSinkAdapter
 - ITransactionTransformerPort
 - traces_agrupados/README.md
 - SinkSettings
 - .AddConsumerStreamsInfrastructure
 - CompiledContractRules
+- KafkaProducerAdapter
 - KafkaSettings
-- KafkaDtos.cs
-- ClusterHealthDto
+- .SendBatchAsync
+- MessageResult
 - KafkaDemo.Domain.Ports
-- SendMessagesUseCase.cs
-- CreateTopicDto
-- VaultKeyMaterial
+- .AddLogSinkInfrastructure
+- .AddKafkaInfrastructure
 - VaultKeyMaterial
 - KafkaStreamSettings
 - ConsumerStreams.Domain.Ports
@@ -67,34 +67,34 @@
 5. `SinkSettings` - 18 edges
 6. `DataProtectionRulesSettings` - 16 edges
 7. `KafkaMessage` - 16 edges
-8. `MessageResult` - 14 edges
-9. `TopicInfo` - 14 edges
-10. `VaultKeyMaterial` - 14 edges
+8. `StreamProcessingPipelineUseCase` - 14 edges
+9. `MessageResult` - 14 edges
+10. `TopicInfo` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `StreamProcessingPipelineUseCase` --references--> `DataProtectionRulesSettings`  [EXTRACTED]
   consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs → consumer_streams/src/ConsumerStreams.Domain/Configuration/DataProtectionRulesSettings.cs
-- `StreamProcessingPipelineUseCase` --references--> `IContractRulesCachePort`  [EXTRACTED]
-  consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs → consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs
+- `StreamProcessingPipelineUseCase` --references--> `IPayloadCryptoPort`  [EXTRACTED]
+  consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs → consumer_streams/src/ConsumerStreams.Domain/Ports/ICryptoPorts.cs
+- `StreamProcessingPipelineUseCase` --references--> `IVaultTokenProviderPort`  [EXTRACTED]
+  consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs → consumer_streams/src/ConsumerStreams.Domain/Ports/ICryptoPorts.cs
 - `StreamProcessingPipelineUseCase` --references--> `ITransactionTransformerPort`  [EXTRACTED]
   consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs → consumer_streams/src/ConsumerStreams.Domain/Ports/IStreamPorts.cs
 - `StreamWorkerService` --references--> `StreamProcessingPipelineUseCase`  [EXTRACTED]
   consumer_streams/src/ConsumerStreams.Worker/StreamWorkerService.cs → consumer_streams/src/ConsumerStreams.Application/UseCases/StreamProcessingPipelineUseCase.cs
-- `ThreadSafeContractRulesCacheAdapter` --implements--> `IContractRulesCachePort`  [EXTRACTED]
-  consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/ThreadSafeContractRulesCacheAdapter.cs → consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs
 
 ## Import Cycles
 - None detected.
 
 ## Communities (49 total, 3 thin omitted)
 
-### Community 0 - "KafkaStreamConsumerAdapter"
-Cohesion: 0.22
-Nodes (7): KafkaStreamConsumerAdapter, CancellationToken, Func, IConsumer, IDictionary, ILogger, Task
+### Community 0 - ".ExecutePipelineAsync"
+Cohesion: 0.24
+Nodes (6): CancellationToken, EncryptedPayloadEnvelope, IDictionary, Task, UniformPartitionKeyGenerator, Exception
 
 ### Community 1 - "KafkaMessage"
-Cohesion: 0.05
-Nodes (46): IReadOnlyList, BatchSendResultDto, ElapsedMilliseconds, Results, TargetTopic, TotalRequested, TotalSent, CancellationToken (+38 more)
+Cohesion: 0.20
+Nodes (10): DateTime, IDictionary, KafkaMessage, BinaryValue, Headers, IsBinary, Key, Timestamp (+2 more)
 
 ### Community 2 - "ProcessedTransactionEvent"
 Cohesion: 0.08
@@ -108,9 +108,9 @@ Nodes (32): DateTime, Dictionary, LogDocument, Amount, AuditMetadata, Channel, C
 Cohesion: 0.08
 Nodes (32): CancellationToken, IReadOnlyList, Task, ManageTopicsUseCase, IDictionary, TopicCreationRequest, Configs, NumPartitions (+24 more)
 
-### Community 6 - ".ExecutePipelineAsync"
-Cohesion: 0.24
-Nodes (7): CancellationToken, EncryptedPayloadEnvelope, Task, CancellationToken, Func, IDictionary, Task
+### Community 6 - ".StartStreamingAsync"
+Cohesion: 0.23
+Nodes (8): CancellationToken, Func, IDictionary, Task, CancellationToken, Func, IDictionary, Task
 
 ### Community 7 - "app.js"
 Cohesion: 0.16
@@ -129,10 +129,10 @@ Cohesion: 0.13
 Nodes (15): ASPNETCORE_ENVIRONMENT, applicationUrl, commandName, dotnetRunMessages, environmentVariables, launchBrowser, applicationUrl, commandName (+7 more)
 
 ### Community 11 - "KafkaStreamProducerAdapter"
-Cohesion: 0.17
-Nodes (9): IContractRulesCachePort, ActiveContractsCount, KafkaStreamProducerAdapter, CancellationToken, IDictionary, ILogger, IProducer, Task (+1 more)
+Cohesion: 0.31
+Nodes (6): KafkaStreamProducerAdapter, CancellationToken, IDictionary, ILogger, IProducer, Task
 
-### Community 12 - "LogSink.Infrastructure.Configuration"
+### Community 12 - "ISinkPorts.cs"
 Cohesion: 0.15
 Nodes (11): LogSink.Infrastructure.Configuration, LogSink.Infrastructure.Adapters, LogSink.Application.UseCases, LogSink.Domain.Ports, LogSink.Domain.Models, LogSink.Infrastructure, LogSink.Worker, LogSink.Application.Serialization (+3 more)
 
@@ -148,9 +148,9 @@ Nodes (20): 1. Formatos de datos (payload), 1. Procesamiento de eventos de negoc
 Cohesion: 0.11
 Nodes (18): 1. Consideraciones generales, 2.1 Tipo(Type), 2.2 Alcance(Scope), 2.3 Fuente(Source), 2.4 Recurso, 2.5 Atributo, 2.6 Ejemplo de lineamiento, 2. Convención (+10 more)
 
-### Community 16 - ".PruneOuterTrace"
-Cohesion: 0.44
-Nodes (5): MethodImpl, ReadOnlySpan, Utf8JsonReader, Utf8JsonWriter, OTelTracePruner
+### Community 16 - "TracePruningSettings"
+Cohesion: 0.21
+Nodes (10): KafkaDemo.Domain.Configuration, TracePruningSettings, Enabled, MaxArrayItems, MaxDepth, MethodImpl, ReadOnlySpan, Utf8JsonReader (+2 more)
 
 ### Community 17 - "Lineamiento para nombrado y despliegue de imágenes"
 Cohesion: 0.18
@@ -160,81 +160,81 @@ Nodes (10): Checklist de aceptación, **Consideraciones**, Consideraciones, **<e
 Cohesion: 0.08
 Nodes (24): RawTransactionEvent, Amount, Channel, Currency, DestinationAccount, DurationMs, EmittedAt, EventId (+16 more)
 
-### Community 20 - ".StartBatchConsumerAsync"
-Cohesion: 0.19
-Nodes (13): CancellationToken, ILogger, Task, TimeSpan, BulkSinkPipelineUseCase, CancellationToken, Func, IReadOnlyList (+5 more)
+### Community 20 - ".BulkInsertRawJsonLogsAsync"
+Cohesion: 0.26
+Nodes (8): CancellationToken, Task, BulkSinkResult, CancellationToken, IReadOnlyList, Task, IVaultTokenProviderPort, LogSinkItem
 
 ### Community 21 - "BulkSinkWorkerService"
 Cohesion: 0.29
 Nodes (6): BackgroundService, CancellationToken, ILogger, IOptions, Task, BulkSinkWorkerService
 
 ### Community 22 - "KafkaBatchConsumerAdapter"
-Cohesion: 0.15
-Nodes (12): ConsumeResult, Offset, IReadOnlyDictionary, KafkaBatchItem, CancellationToken, Func, IConsumer, ILogger (+4 more)
+Cohesion: 0.13
+Nodes (15): ConsumeResult, Offset, IReadOnlyDictionary, Func, TimeSpan, IBatchConsumerPort, KafkaBatchItem, CancellationToken (+7 more)
 
-### Community 23 - "SendMessageRequestDto"
-Cohesion: 0.29
-Nodes (7): SendMessageRequestDto, Headers, Key, ServiceName, TelemetryType, Topic, Value
+### Community 23 - "BatchSendResultDto"
+Cohesion: 0.08
+Nodes (26): DateTime, Dictionary, IReadOnlyList, BatchSendResultDto, ElapsedMilliseconds, Results, TargetTopic, TotalRequested (+18 more)
 
-### Community 24 - ".AddLogSinkInfrastructure"
-Cohesion: 0.15
-Nodes (13): CachedCredentialsEntry, IVaultTokenProviderPort, CancellationToken, ConcurrentDictionary, DateTimeOffset, ILogger, Task, TimeSpan (+5 more)
+### Community 24 - "AzureKeyVaultTokenAdapter"
+Cohesion: 0.20
+Nodes (11): CachedCredentialsEntry, CosmosDbCredentials, CancellationToken, ConcurrentDictionary, DateTimeOffset, ILogger, Task, TimeSpan (+3 more)
 
 ### Community 25 - "CosmosDbBulkSinkAdapter"
-Cohesion: 0.24
-Nodes (11): HttpClient, BulkSinkResult, CosmosDbCredentials, CancellationToken, ILogger, IReadOnlyList, Task, CosmosDbBulkSinkAdapter (+3 more)
+Cohesion: 0.30
+Nodes (8): CancellationToken, ILogger, IReadOnlyList, Task, CosmosDbBulkSinkAdapter, RUs, SemaphoreSlim, Success
 
 ### Community 32 - "SinkSettings"
 Cohesion: 0.15
 Nodes (13): SinkSettings, BatchSize, BatchTimeoutMs, BootstrapServers, ContainerName, CosmosEndpoint, CosmosPrimaryKey, DatabaseName (+5 more)
 
 ### Community 33 - ".AddConsumerStreamsInfrastructure"
-Cohesion: 0.27
-Nodes (9): StreamProcessingPipelineUseCase, ILogger, IPayloadCryptoPort, IVaultTokenProviderPort, IStreamConsumerPort, IStreamProducerPort, AesGcmPayloadCryptoAdapter, IConfiguration (+1 more)
+Cohesion: 0.16
+Nodes (13): StreamProcessingPipelineUseCase, ILogger, IContractRulesCachePort, ActiveContractsCount, IStreamConsumerPort, IStreamProducerPort, KafkaStreamConsumerAdapter, IConsumer (+5 more)
 
 ### Community 34 - "CompiledContractRules"
 Cohesion: 0.06
-Nodes (40): CachedContractEntry, DataProtectionRulesSettings, Enabled, Full, HashSha256, MaskUrlPathAndQuery, PartialLast4, Remove (+32 more)
+Nodes (39): CachedContractEntry, DataProtectionRulesSettings, Enabled, Full, HashSha256, MaskUrlPathAndQuery, PartialLast4, Remove (+31 more)
+
+### Community 35 - "KafkaProducerAdapter"
+Cohesion: 0.27
+Nodes (7): CancellationToken, IEnumerable, ILogger, IProducer, IReadOnlyList, Task, KafkaProducerAdapter
 
 ### Community 36 - "KafkaSettings"
 Cohesion: 0.18
 Nodes (10): KafkaSettings, Acks, BootstrapServers, ClientId, EnableIdempotence, MessageSendMaxRetries, MessageTimeoutMs, RequestTimeoutMs (+2 more)
 
-### Community 37 - "KafkaDtos.cs"
+### Community 37 - ".SendBatchAsync"
 Cohesion: 0.32
-Nodes (4): KafkaDemo.Application.DTOs, KafkaDemo.Application.UseCases, KafkaDemo.Infrastructure, SendBatchRequest
+Nodes (5): CancellationToken, IEnumerable, IReadOnlyList, Task, IMessageProducerPort
 
-### Community 38 - "ClusterHealthDto"
-Cohesion: 0.33
-Nodes (6): DateTime, ClusterHealthDto, CheckedAt, IsConnected, Status, TotalTopics
+### Community 38 - "MessageResult"
+Cohesion: 0.29
+Nodes (7): DateTime, MessageResult, Key, Partition, Status, Timestamp, Topic
 
 ### Community 39 - "KafkaDemo.Domain.Ports"
-Cohesion: 0.29
-Nodes (4): KafkaDemo.Domain.Ports, KafkaDemo.Infrastructure.Configuration, KafkaDemo.Infrastructure.Adapters, KafkaDemo.Domain.Models
+Cohesion: 0.19
+Nodes (8): KafkaDemo.Application.DTOs, KafkaDemo.Domain.Ports, KafkaDemo.Application.UseCases, KafkaDemo.Infrastructure, KafkaDemo.Infrastructure.Configuration, KafkaDemo.Infrastructure.Adapters, KafkaDemo.Domain.Models, SendBatchRequest
 
-### Community 40 - "SendMessagesUseCase.cs"
-Cohesion: 0.40
-Nodes (3): KafkaDemo.Domain.Configuration, KafkaDemo.Domain.Utils, UniformPartitionKeyGenerator
-
-### Community 41 - "CreateTopicDto"
+### Community 40 - ".AddLogSinkInfrastructure"
 Cohesion: 0.33
-Nodes (6): Dictionary, CreateTopicDto, Configs, Partitions, ReplicationFactor, TopicName
+Nodes (6): ILogger, TimeSpan, BulkSinkPipelineUseCase, IDocumentDbBulkSinkPort, IConfiguration, IServiceCollection
 
-### Community 42 - "VaultKeyMaterial"
-Cohesion: 0.09
-Nodes (27): CancellationToken, EncryptedPayloadEnvelope, IDictionary, Task, TelemetryType, IPayloadCryptoPort, IVaultTokenProviderPort, VaultKeyMaterial (+19 more)
+### Community 42 - ".AddKafkaInfrastructure"
+Cohesion: 0.07
+Nodes (36): KafkaDemo.Domain.Utils, CancellationToken, Task, SendMessagesUseCase, CancellationToken, EncryptedPayloadEnvelope, IDictionary, Task (+28 more)
 
 ### Community 43 - "VaultKeyMaterial"
-Cohesion: 0.10
-Nodes (20): VaultKeyMaterial, AesKey256, CertThumbprint, KeyVersion, VaultTokenId, CancellationToken, EncryptedPayloadEnvelope, Task (+12 more)
+Cohesion: 0.09
+Nodes (23): IPayloadCryptoPort, IVaultTokenProviderPort, VaultKeyMaterial, AesKey256, CertThumbprint, KeyVersion, VaultTokenId, CancellationToken (+15 more)
 
 ### Community 46 - "KafkaStreamSettings"
-Cohesion: 0.13
-Nodes (13): KafkaStreamSettings, AutoOffsetReset, BootstrapServers, EnableAutoCommit, GroupId, PollTimeoutMs, SourceTopic, TargetTopic (+5 more)
+Cohesion: 0.12
+Nodes (14): KafkaStreamSettings, AutoOffsetReset, BootstrapServers, EnableAutoCommit, ErrorTopic, GroupId, PollTimeoutMs, SourceTopic (+6 more)
 
 ### Community 48 - "ConsumerStreams.Domain.Ports"
-Cohesion: 0.20
-Nodes (8): DependencyInjection, ConsumerStreams.Application.UseCases, ConsumerStreams.Infrastructure.Adapters, ConsumerStreams.Infrastructure, ConsumerStreams.Infrastructure.Configuration, ConsumerStreams.Domain.Ports, ConsumerStreams.Application.Services, ConsumerStreams.Worker
+Cohesion: 0.22
+Nodes (6): ConsumerStreams.Infrastructure.Adapters, ConsumerStreams.Infrastructure, ConsumerStreams.Infrastructure.Configuration, ConsumerStreams.Domain.Ports, ConsumerStreams.Application.Services, ConsumerStreams.Worker
 
 ### Community 52 - "🚀 Red Hat AMQ Streams, Azure DocumentDB & Azure Key Vault - .NET 10 Native AOT (Arquitectura Hexagonal)"
 Cohesion: 0.18
@@ -242,31 +242,31 @@ Nodes (10): 🏛️ Arquitectura y Flujo de Procesamiento End-to-End, 🔑 Cach�
 
 ### Community 54 - "ConsumerStreams.Domain.Models"
 Cohesion: 0.21
-Nodes (5): StreamJsonContext, UniformPartitionKeyGenerator, ConsumerStreams.Application.Serialization, ConsumerStreams.Domain.Utils, ConsumerStreams.Domain.Models
+Nodes (6): StreamJsonContext, ConsumerStreams.Application.UseCases, ConsumerStreams.Application.Serialization, ConsumerStreams.Domain.Configuration, ConsumerStreams.Domain.Utils, ConsumerStreams.Domain.Models
 
 ### Community 60 - "DocumentDbEmulator.csproj"
 Cohesion: 0.50
 Nodes (3): net10.0, Microsoft.NET.Sdk.Web, MongoDB.Driver (2.28.0)
 
 ## Knowledge Gaps
-- **291 isolated node(s):** `net10.0`, `Microsoft.Extensions.Logging.Abstractions (10.0.11)`, `Microsoft.NET.Sdk`, `Enabled`, `HashSha256` (+286 more)
+- **292 isolated node(s):** `net10.0`, `Microsoft.Extensions.Logging.Abstractions (10.0.11)`, `Microsoft.NET.Sdk`, `Enabled`, `HashSha256` (+287 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `IContractRulesCachePort` connect `KafkaStreamProducerAdapter` to `.AddConsumerStreamsInfrastructure`, `CompiledContractRules`?**
-  _High betweenness centrality (0.143) - this node is a cross-community bridge._
-- **Why does `KafkaBatchConsumerAdapter` connect `KafkaBatchConsumerAdapter` to `SinkSettings`, `KafkaStreamProducerAdapter`, `LogSink.Infrastructure.Configuration`, `.StartBatchConsumerAsync`, `.AddLogSinkInfrastructure`?**
+- **Why does `IContractRulesCachePort` connect `.AddConsumerStreamsInfrastructure` to `CompiledContractRules`?**
+  _High betweenness centrality (0.144) - this node is a cross-community bridge._
+- **Why does `KafkaBatchConsumerAdapter` connect `KafkaBatchConsumerAdapter` to `SinkSettings`, `.AddConsumerStreamsInfrastructure`, `.AddLogSinkInfrastructure`, `ISinkPorts.cs`?**
   _High betweenness centrality (0.131) - this node is a cross-community bridge._
-- **Why does `KafkaAdminAdapter` connect `TopicInfo` to `KafkaMessage`, `KafkaStreamProducerAdapter`, `KafkaDemo.Domain.Ports`?**
+- **Why does `KafkaAdminAdapter` connect `TopicInfo` to `.AddConsumerStreamsInfrastructure`, `.AddKafkaInfrastructure`, `KafkaDemo.Domain.Ports`?**
   _High betweenness centrality (0.117) - this node is a cross-community bridge._
 - **What connects `net10.0`, `Microsoft.Extensions.Logging.Abstractions (10.0.11)`, `Microsoft.NET.Sdk` to the rest of the system?**
-  _291 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `KafkaMessage` be split into smaller, more focused modules?**
-  _Cohesion score 0.050816696914700546 - nodes in this community are weakly interconnected._
+  _292 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `ProcessedTransactionEvent` be split into smaller, more focused modules?**
   _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
 - **Should `LogDocument` be split into smaller, more focused modules?**
   _Cohesion score 0.0625 - nodes in this community are weakly interconnected._
+- **Should `TopicInfo` be split into smaller, more focused modules?**
+  _Cohesion score 0.07755102040816327 - nodes in this community are weakly interconnected._

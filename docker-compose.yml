@@ -205,6 +205,7 @@ services:
     environment:
       - LogSink__BootstrapServers=kafka:29092
       - LogSink__SourceTopic=tp.observability.application-log.processed.v1
+      - LogSink__DlqTopic=tp.observability.application-log.processed.dlq.v1
       - LogSink__GroupId=log-sink-cosmosdb-group-v1
       - LogSink__BatchSize=500
       - LogSink__BatchTimeoutMs=250
@@ -213,8 +214,15 @@ services:
       - LogSink__DatabaseName=ProdubancoObservability
       - LogSink__ContainerName=audit_logs
       - LogSink__PartitionKeyPath=/partitionKey
+      - LogSink__CosmosTimeoutSeconds=3
       - LogSink__KeyVaultEndpoint=https://azure-keyvault:8443
       - LogSink__VaultTokenId=TKN-COSMOS-PRODUBANCO-V1
+      - LogSink__Resilience__Retry__MaxRetryAttempts=2
+      - LogSink__Resilience__Retry__DelaySeconds=1
+      - LogSink__Resilience__CircuitBreaker__FailureRatio=0.5
+      - LogSink__Resilience__CircuitBreaker__SamplingDurationSeconds=10
+      - LogSink__Resilience__CircuitBreaker__MinimumThroughput=4
+      - LogSink__Resilience__CircuitBreaker__BreakDurationSeconds=15
     depends_on:
       kafka:
         condition: service_healthy
