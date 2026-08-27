@@ -1,14 +1,14 @@
 {
   "README.md": {
-    "mtime": 1787773516.8980267,
-    "seen": 1787773529.7329135,
-    "ast_hash": "388c276564e6b07b5b99f598d796191e",
+    "mtime": 1787788826.1651113,
+    "seen": 1787788997.1501532,
+    "ast_hash": "da774fb8d25687f825d145cbca65466e",
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1787773124.3059614,
-    "seen": 1787773199.432557,
-    "ast_hash": "0b477ae330998b99e1cdcacf12d44eee",
+    "mtime": 1787788803.3170557,
+    "seen": 1787788997.1501641,
+    "ast_hash": "3e1becc07d321601d8192ab276c281d3",
     "semantic_hash": ""
   },
   "emisor_mensaje/KafkaDemoHexagonal.slnx": {
@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs": {
-    "mtime": 1787764869.0883076,
-    "seen": 1787765170.041928,
-    "ast_hash": "0264dd9b3233c379f4558a7fb369ca93",
+    "mtime": 1787788682.8929276,
+    "seen": 1787788997.150065,
+    "ast_hash": "21000b89485cb2d26bc069d0b09569c8",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj": {
@@ -48,9 +48,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/Program.cs": {
-    "mtime": 1787753758.8047433,
-    "seen": 1787757351.938274,
-    "ast_hash": "b9ac2e406a55f1b907f04851be9f90da",
+    "mtime": 1787788692.6296172,
+    "seen": 1787788997.150069,
+    "ast_hash": "a73737512062be8eac4eb314822f9bdb",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/appsettings.json": {
@@ -138,9 +138,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/Program.cs": {
-    "mtime": 1787753774.00465,
-    "seen": 1787757351.9383311,
-    "ast_hash": "859a7a63959459df2827ac0f2610ae6b",
+    "mtime": 1787788702.0831163,
+    "seen": 1787788997.1501086,
+    "ast_hash": "0902db4af1a34cdc92296237833642d7",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/Properties/launchSettings.json": {
@@ -156,15 +156,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
-    "mtime": 1787758554.9843495,
-    "seen": 1787761621.0186226,
-    "ast_hash": "2e897ea7e2c461492de9e188f3ca39c2",
+    "mtime": 1787788730.9966555,
+    "seen": 1787788997.1501148,
+    "ast_hash": "eb3606034a101db1f1956a77fe93dbcf",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
-    "mtime": 1787758509.3191702,
-    "seen": 1787761621.0186455,
-    "ast_hash": "4db19f8127765898bea73536d5fe5632",
+    "mtime": 1787788711.76651,
+    "seen": 1787788997.150166,
+    "ast_hash": "cabd0101c9468f351a93d0419a76d589",
     "semantic_hash": ""
   },
   "consumer_streams/ConsumerStreams.slnx": {
@@ -246,9 +246,9 @@
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Infrastructure/Configuration/KafkaStreamSettings.cs": {
-    "mtime": 1787757804.9917629,
-    "seen": 1787761621.0184333,
-    "ast_hash": "128852e58da3a5855bc3bb13b6faf85c",
+    "mtime": 1787788760.8882458,
+    "seen": 1787788997.1500263,
+    "ast_hash": "6e6cc345da15ee495a90e985d8cf939e",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Infrastructure/ConsumerStreams.Infrastructure.csproj": {
@@ -276,15 +276,15 @@
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Worker/StreamWorkerService.cs": {
-    "mtime": 1787758250.0689309,
-    "seen": 1787761621.0184505,
-    "ast_hash": "a605be4000ae555732f8105554b8bcb4",
+    "mtime": 1787788740.8544495,
+    "seen": 1787788997.1500394,
+    "ast_hash": "f63f8018b37c752cd1e9e1d49f03fce2",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Worker/appsettings.json": {
-    "mtime": 1787757850.725346,
-    "seen": 1787761621.018452,
-    "ast_hash": "3a1791743001315ee9a87ace0c8743c3",
+    "mtime": 1787788750.7071202,
+    "seen": 1787788997.1500418,
+    "ast_hash": "dff603292279fe6c8a8f5dd00dad9ea8",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs": {
@@ -378,9 +378,9 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/Configuration/SinkSettings.cs": {
-    "mtime": 1787770735.7719274,
-    "seen": 1787772656.4699695,
-    "ast_hash": "5fffe600b85bd76bebb7a31d36f063af",
+    "mtime": 1787788792.148118,
+    "seen": 1787788997.150139,
+    "ast_hash": "e77f7b8e2bb19627450f6f433fcf836f",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Infrastructure/DependencyInjection.cs": {
@@ -396,9 +396,9 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Worker/BulkSinkWorkerService.cs": {
-    "mtime": 1787770780.4441235,
-    "seen": 1787772656.4699836,
-    "ast_hash": "c6be9f529ade3bc140ad71bd2dcb6fab",
+    "mtime": 1787788770.9586515,
+    "seen": 1787788997.1501453,
+    "ast_hash": "6df450893af18f0a33713c3a1b65f4c1",
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Worker/LogSink.Worker.csproj": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "log_sink/src/LogSink.Worker/appsettings.json": {
-    "mtime": 1787770793.340701,
-    "seen": 1787772656.4699883,
-    "ast_hash": "39a14e5e490a6551b59fed3d59cf2a8f",
+    "mtime": 1787788782.1932354,
+    "seen": 1787788997.1501515,
+    "ast_hash": "52ba8cf092203f158893febe1a6bca1c",
     "semantic_hash": ""
   },
   "documentdb_emulator/DocumentDbEmulator.csproj": {
@@ -429,6 +429,48 @@
     "mtime": 1787773105.4125755,
     "seen": 1787773199.4323297,
     "ast_hash": "5c740cef825f0e4fb99da2c1d8fd7a4f",
+    "semantic_hash": ""
+  },
+  "data_guia/20260826-154638001-otel-metrics.json": {
+    "mtime": 1787788260.0676055,
+    "seen": 1787788320.424128,
+    "ast_hash": "8b48a946935aa77c7cfb5caa7ff62b36",
+    "semantic_hash": ""
+  },
+  "data_guia/20260826-154638001-otel-traces.json": {
+    "mtime": 1787788260.078933,
+    "seen": 1787788320.42413,
+    "ast_hash": "a35309d68210328cdfa1b1955cb8cbcc",
+    "semantic_hash": ""
+  },
+  "data_guia/transfer-mspx-prometeus.management.json": {
+    "mtime": 1787788260.1072862,
+    "seen": 1787788320.4241316,
+    "ast_hash": "e04391ee3c3abceb0584825de14d9579",
+    "semantic_hash": ""
+  },
+  "data_guia/lin-apl-int-naming-image.md": {
+    "mtime": 1787788227.459692,
+    "seen": 1787788320.4242115,
+    "ast_hash": "c27b70e6f1ac372cbf5ccd1795afbbc9",
+    "semantic_hash": ""
+  },
+  "data_guia/lin-apl-int-nombrado-topicos-kafka.md": {
+    "mtime": 1787788222.2041726,
+    "seen": 1787788320.424213,
+    "ast_hash": "34b03e5a1919162ebbedf3e654dd93e1",
+    "semantic_hash": ""
+  },
+  "data_guia/lin-apl-int-nombrado-variables.md": {
+    "mtime": 1787788225.1026297,
+    "seen": 1787788320.4242144,
+    "ast_hash": "23e4c00310843cdd73b268b34042b6a8",
+    "semantic_hash": ""
+  },
+  "data_guia/transfer-mspx-prometeus.management.standard.yaml": {
+    "mtime": 1787788260.11572,
+    "seen": 1787788320.4242153,
+    "ast_hash": "4a092a30c8b25c23a89d31ba8dbafc81",
     "semantic_hash": ""
   }
 }

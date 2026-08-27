@@ -102,7 +102,7 @@ public class StreamProcessingPipelineUseCase(
                 var published = await producerPort.ForwardEventAsync(
                     targetTopic,
                     partitionKey,
-                    processedJson,
+                    decryptedJson,
                     enrichedHeaders,
                     ct);
 

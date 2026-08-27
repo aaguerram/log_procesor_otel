@@ -45,8 +45,19 @@ app.MapPost("/dbs/{databaseName}/colls/{containerName}/docs", async (
         using var jsonDoc = JsonDocument.Parse(body);
         var root = jsonDoc.RootElement;
 
-        var id = root.TryGetProperty("id", out var idProp) ? idProp.GetString() ?? Guid.NewGuid().ToString() : Guid.NewGuid().ToString();
-        var partitionKey = root.TryGetProperty("partitionKey", out var pkProp) ? pkProp.GetString() ?? "default" : "default";
+        var id = (root.TryGetProperty("id", out var idProp) && !string.IsNullOrEmpty(idProp.GetString()))
+            ? idProp.GetString()!
+            : ((root.TryGetProperty("TraceId", out var tProp) && !string.IsNullOrEmpty(tProp.GetString()))
+                ? tProp.GetString()!
+                : ((root.TryGetProperty("SpanId", out var sProp) && !string.IsNullOrEmpty(sProp.GetString()))
+                    ? sProp.GetString()!
+                    : Guid.NewGuid().ToString("N")));
+
+        var partitionKey = (root.TryGetProperty("partitionKey", out var pkProp) && !string.IsNullOrEmpty(pkProp.GetString()))
+            ? pkProp.GetString()!
+            : ((root.TryGetProperty("TraceId", out var tp) && !string.IsNullOrEmpty(tp.GetString()))
+                ? tp.GetString()!
+                : "default");
 
         var stored = new StoredDocument(
             Id: id,

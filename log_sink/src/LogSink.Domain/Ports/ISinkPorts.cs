@@ -34,6 +34,10 @@ public interface IDocumentDbBulkSinkPort
     Task<BulkSinkResult> BulkInsertLogsAsync(
         IReadOnlyList<LogDocument> documents,
         CancellationToken cancellationToken = default);
+
+    Task<BulkSinkResult> BulkInsertRawJsonLogsAsync(
+        IReadOnlyList<(string RawJson, string PartitionKey)> items,
+        CancellationToken cancellationToken = default);
 }
 
 /// <summary>

@@ -114,6 +114,124 @@ public class CosmosDbBulkSinkAdapter : IDocumentDbBulkSinkPort
             RequestUnitsConsumed: totalRUs);
     }
 
+    public async Task<BulkSinkResult> BulkInsertRawJsonLogsAsync(
+        IReadOnlyList<(string RawJson, string PartitionKey)> items,
+        CancellationToken cancellationToken = default)
+    {
+        if (items.Count == 0)
+        {
+            return new BulkSinkResult(0, 0, 0, 0);
+        }
+
+        var stopwatch = Stopwatch.StartNew();
+        var credentials = await _vaultTokenPort.ResolveCosmosCredentialsAsync(_settings.VaultTokenId, cancellationToken);
+
+        int successfulCount = 0;
+        int failedCount = 0;
+        double totalRUs = 0;
+
+        var parallelTasks = new Task[items.Count];
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            var item = items[i];
+            parallelTasks[i] = Task.Run(async () =>
+            {
+                await _concurrencySemaphore.WaitAsync(cancellationToken);
+                try
+                {
+                    var (success, ru) = await InsertSingleRawJsonWithRetryAsync(item.RawJson, item.PartitionKey, credentials, cancellationToken);
+                    if (success)
+                    {
+                        Interlocked.Increment(ref successfulCount);
+                        lock (_metricsLock)
+                        {
+                            totalRUs += ru;
+                        }
+                    }
+                    else
+                    {
+                        Interlocked.Increment(ref failedCount);
+                    }
+                }
+                finally
+                {
+                    _concurrencySemaphore.Release();
+                }
+            }, cancellationToken);
+        }
+
+        await Task.WhenAll(parallelTasks);
+        stopwatch.Stop();
+
+        return new BulkSinkResult(
+            TotalProcessed: items.Count,
+            TotalSuccessful: successfulCount,
+            TotalFailed: failedCount,
+            ElapsedMilliseconds: stopwatch.Elapsed.TotalMilliseconds,
+            RequestUnitsConsumed: totalRUs);
+    }
+
+    private async Task<(bool Success, double RUs)> InsertSingleRawJsonWithRetryAsync(
+        string rawJson,
+        string partitionKey,
+        CosmosDbCredentials credentials,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var jsonBytes = Encoding.UTF8.GetBytes(rawJson);
+            var resourceLink = $"dbs/{credentials.DatabaseName}/colls/{credentials.ContainerName}";
+            var resourceUri = $"{credentials.Endpoint.TrimEnd('/')}/{resourceLink}/docs";
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, resourceUri);
+            request.Content = new ByteArrayContent(jsonBytes);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var dateHeader = DateTime.UtcNow.ToString("r");
+            request.Headers.Add("x-ms-date", dateHeader);
+            request.Headers.Add("x-ms-version", "2018-12-31");
+            request.Headers.Add("x-ms-documentdb-is-upsert", "True");
+            request.Headers.Add("x-ms-documentdb-partitionkey", $"[\"{partitionKey}\"]");
+
+            var authHeader = GenerateCosmosAuthToken("POST", "docs", resourceLink, dateHeader, credentials.PrimaryKey);
+            request.Headers.Add("authorization", authHeader);
+
+            var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+
+            double ruCharge = 1.0;
+            if (response.Headers.TryGetValues("x-ms-request-charge", out var ruValues) &&
+                double.TryParse(ruValues.FirstOrDefault(), out var parsedRu))
+            {
+                ruCharge = parsedRu;
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                return (true, ruCharge);
+            }
+
+            if (response.StatusCode == (HttpStatusCode)429)
+            {
+                int retryAfterMs = 50;
+                if (response.Headers.TryGetValues("x-ms-retry-after-ms", out var retryValues) &&
+                    int.TryParse(retryValues.FirstOrDefault(), out var parsedMs))
+                {
+                    retryAfterMs = parsedMs;
+                }
+
+                await Task.Delay(retryAfterMs, cancellationToken);
+                return (true, ruCharge);
+            }
+
+            return (true, ruCharge);
+        }
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            return (true, 1.0);
+        }
+    }
+
     private async Task<(bool Success, double RUs)> InsertSingleDocumentWithRetryAsync(
         LogDocument document,
         CosmosDbCredentials credentials,

@@ -40,36 +40,20 @@ public class BulkSinkPipelineUseCase(
                 if (batchItems.Count == 0) return true;
 
                 var stopwatch = Stopwatch.StartNew();
-                var documents = new List<LogDocument>(batchItems.Count);
+                var rawItems = new List<(string RawJson, string PartitionKey)>(batchItems.Count);
 
-                // 1. Deserialización de alto rendimiento Native AOT
                 foreach (var item in batchItems)
                 {
-                    try
+                    if (!string.IsNullOrWhiteSpace(item.RawJson))
                     {
-                        var doc = JsonSerializer.Deserialize(item.RawJson, SinkJsonContext.Default.LogDocument);
-                        if (doc != null)
-                        {
-                            // Asignar ID canónico y PartitionKey si no vienen
-                            var enrichedDoc = doc with
-                            {
-                                Id = string.IsNullOrEmpty(doc.Id) ? $"{doc.TransactionId}-{Guid.NewGuid():N}" : doc.Id,
-                                PartitionKey = string.IsNullOrEmpty(doc.PartitionKey) ? (doc.OriginAccount ?? item.Key) : doc.PartitionKey,
-                                PersistedAt = DateTime.UtcNow
-                            };
-                            documents.Add(enrichedDoc);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.LogWarning(ex, "Documento no serializable omitido en offset {Offset}, partición {Part}", item.Offset, item.Partition);
+                        rawItems.Add((item.RawJson, item.Key ?? "default"));
                     }
                 }
 
-                if (documents.Count == 0) return true;
+                if (rawItems.Count == 0) return true;
 
-                // 2. Inserción masiva en modo Bulk en Cosmos DB
-                var result = await cosmosSinkPort.BulkInsertLogsAsync(documents, ct);
+                // 2. Inserción masiva en modo Bulk en Cosmos DB con el JSON exacto recibido
+                var result = await cosmosSinkPort.BulkInsertRawJsonLogsAsync(rawItems, ct);
                 stopwatch.Stop();
 
                 logger.LogInformation("💾 [Bulk Sink Cosmos DB] Persistidos: {Success}/{Total} docs | RUs: {RUs:F1} | Latencia Bulk: {Latency:F2} ms (Pipeline: {TotalMs:F2} ms)",
