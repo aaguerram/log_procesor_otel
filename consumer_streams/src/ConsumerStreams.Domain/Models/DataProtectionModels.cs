@@ -61,23 +61,38 @@ public sealed class CompiledContractRules
 
     /// <summary>
     /// Consulta la regla aplicable en O(1) con 0 asignaciones para la operación exacta.
+    /// Prioriza la ruta jerárquica ("parent.property") sobre el nombre simple ("property").
     /// </summary>
-    public DataProtectionRuleType GetRule(string httpMethod, string routeTemplate, string propertyName)
+    public DataProtectionRuleType GetRule(string httpMethod, string routeTemplate, string fullPropertyPath, string simplePropertyName)
     {
-        // Intento por operación exacta: "METHOD /route"
-        if (!string.IsNullOrEmpty(httpMethod) && !string.IsNullOrEmpty(routeTemplate))
+        if (string.IsNullOrEmpty(httpMethod) || string.IsNullOrEmpty(routeTemplate))
+            return DataProtectionRuleType.Full;
+
+        string operationKey = $"{httpMethod.ToUpperInvariant()} {routeTemplate}";
+        if (Operations.TryGetValue(operationKey, out var opRules))
         {
-            string operationKey = $"{httpMethod.ToUpperInvariant()} {routeTemplate}";
-            if (Operations.TryGetValue(operationKey, out var opRules) &&
-                opRules.TryGetValue(propertyName, out var rule))
+            // 1. Coincidencia por ruta jerárquica exacta: "clientePrincipal.idCliente"
+            if (!string.IsNullOrEmpty(fullPropertyPath) && opRules.TryGetValue(fullPropertyPath, out var pathRule))
             {
-                return rule;
+                return pathRule;
+            }
+
+            // 2. Coincidencia por nombre simple de propiedad: "idCliente"
+            if (!string.IsNullOrEmpty(simplePropertyName) && opRules.TryGetValue(simplePropertyName, out var simpleRule))
+            {
+                return simpleRule;
             }
         }
 
         // Por defecto si no tiene directiva en la operación: Full (Intacto)
         return DataProtectionRuleType.Full;
     }
+
+    /// <summary>
+    /// Sobrecarga para consulta por nombre simple o ruta directa.
+    /// </summary>
+    public DataProtectionRuleType GetRule(string httpMethod, string routeTemplate, string propertyName) =>
+        GetRule(httpMethod, routeTemplate, propertyName, propertyName);
 
     /// <summary>
     /// Busca la información compilada de parámetros de ruta y consulta para un endpoint.

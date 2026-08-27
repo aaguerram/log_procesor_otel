@@ -40,7 +40,7 @@ public static class JsonStreamDataProtectionMasker
             var reader = new Utf8JsonReader(inputUtf8, isFinalBlock: true, state: default);
             if (reader.Read())
             {
-                MaskAndCopy(ref reader, writer, rules, settings, method, route, string.Empty);
+                MaskAndCopy(ref reader, writer, rules, settings, method, route, string.Empty, string.Empty);
             }
             writer.Flush();
         }
@@ -55,7 +55,8 @@ public static class JsonStreamDataProtectionMasker
         DataProtectionRulesSettings settings,
         string method,
         string route,
-        string currentProperty)
+        string parentPath,
+        string simplePropName)
     {
         switch (reader.TokenType)
         {
@@ -67,7 +68,8 @@ public static class JsonStreamDataProtectionMasker
                     {
                         var propNameBytes = reader.ValueSpan;
                         string propName = reader.GetString() ?? string.Empty;
-                        var rule = rules.GetRule(method, route, propName);
+                        string fullChildPath = string.IsNullOrEmpty(parentPath) ? propName : $"{parentPath}.{propName}";
+                        var rule = rules.GetRule(method, route, fullChildPath, propName);
 
                         // Si la regla es Remove y está activa, saltamos la propiedad y su valor por completo
                         if (rule == DataProtectionRuleType.Remove && settings.Remove)
@@ -82,7 +84,7 @@ public static class JsonStreamDataProtectionMasker
 
                         writer.WritePropertyName(propNameBytes);
                         reader.Read(); // Avanzar al valor
-                        MaskAndCopy(ref reader, writer, rules, settings, method, route, propName);
+                        MaskAndCopy(ref reader, writer, rules, settings, method, route, fullChildPath, propName);
                     }
                 }
                 writer.WriteEndObject();
@@ -92,7 +94,7 @@ public static class JsonStreamDataProtectionMasker
                 writer.WriteStartArray();
                 while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
                 {
-                    MaskAndCopy(ref reader, writer, rules, settings, method, route, currentProperty);
+                    MaskAndCopy(ref reader, writer, rules, settings, method, route, parentPath, simplePropName);
                 }
                 writer.WriteEndArray();
                 break;
@@ -103,7 +105,7 @@ public static class JsonStreamDataProtectionMasker
 
             case JsonTokenType.String:
                 // 1. Evaluar si es un preview JSON interno embebido como string
-                if (currentProperty is "http.response.body_preview" or "http.request.body_preview")
+                if (simplePropName is "http.response.body_preview" or "http.request.body_preview" or "body_preview")
                 {
                     var innerStr = reader.GetString();
                     if (!string.IsNullOrEmpty(innerStr) && (innerStr.StartsWith('{') || innerStr.StartsWith('[')))
@@ -115,7 +117,7 @@ public static class JsonStreamDataProtectionMasker
                 }
 
                 // 2. Evaluar si es url.path, http.target o url.full para enmascaramiento de Path Parameters y Query
-                if (settings.MaskUrlPathAndQuery && currentProperty is "url.path" or "http.target" or "url.full" or "http.url")
+                if (settings.MaskUrlPathAndQuery && simplePropName is "url.path" or "http.target" or "url.full" or "http.url")
                 {
                     var rawUrl = reader.GetString();
                     if (!string.IsNullOrEmpty(rawUrl))
@@ -140,7 +142,7 @@ public static class JsonStreamDataProtectionMasker
                 }
 
                 // 3. Evaluar si es url.query
-                if (settings.MaskUrlPathAndQuery && currentProperty is "url.query" or "http.query")
+                if (settings.MaskUrlPathAndQuery && simplePropName is "url.query" or "http.query")
                 {
                     var rawQuery = reader.GetString();
                     if (!string.IsNullOrEmpty(rawQuery))
@@ -151,13 +153,13 @@ public static class JsonStreamDataProtectionMasker
                     }
                 }
 
-                // 4. Evaluar regla estándar para la propiedad string
-                var strRule = rules.GetRule(method, route, currentProperty);
+                // 4. Evaluar regla estándar jerárquica para la propiedad string
+                var strRule = rules.GetRule(method, route, parentPath, simplePropName);
                 WriteMaskedStringOrNumber(ref reader, writer, strRule, settings);
                 break;
 
             case JsonTokenType.Number:
-                var numRule = rules.GetRule(method, route, currentProperty);
+                var numRule = rules.GetRule(method, route, parentPath, simplePropName);
                 WriteMaskedStringOrNumber(ref reader, writer, numRule, settings);
                 break;
 
@@ -186,7 +188,7 @@ public static class JsonStreamDataProtectionMasker
             var reader = new Utf8JsonReader(innerBytes, isFinalBlock: true, state: default);
             if (reader.Read())
             {
-                MaskAndCopy(ref reader, writer, rules, settings, method, route, string.Empty);
+                MaskAndCopy(ref reader, writer, rules, settings, method, route, string.Empty, string.Empty);
             }
             writer.Flush();
         }
