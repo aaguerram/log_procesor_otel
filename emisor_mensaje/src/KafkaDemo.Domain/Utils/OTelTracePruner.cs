@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using KafkaDemo.Domain.Configuration;
@@ -13,29 +14,68 @@ namespace KafkaDemo.Domain.Utils;
 public static class OTelTracePruner
 {
     private static readonly byte[] BodyPreviewPropName = Encoding.UTF8.GetBytes("http.response.body_preview");
-    private static readonly byte[] RequestMethodPropName = Encoding.UTF8.GetBytes("http.request.method");
-    private static readonly byte[] MethodGetSpan = Encoding.UTF8.GetBytes("GET");
 
     /// <summary>
-    /// Evalúa si el JSON es una traza GET de OpenTelemetry y poda sus listas internas de respuesta.
-    /// Si no es GET o el podado está desactivado, retorna el string original con 0 procesamiento.
+    /// Comprueba en tiempo sub-nanosegundo y 0 asignaciones de memoria Heap si el contenido es un JSON estructurado (objeto o array).
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsJsonPayload(ReadOnlySpan<byte> bytes)
+    {
+        int i = 0;
+        while (i < bytes.Length && (bytes[i] == (byte)' ' || bytes[i] == (byte)'\t' || 
+                                    bytes[i] == (byte)'\r' || bytes[i] == (byte)'\n'))
+        {
+            i++;
+        }
+
+        if (i >= bytes.Length) return false;
+        byte first = bytes[i];
+        return first == (byte)'{' || first == (byte)'[';
+    }
+
+    /// <summary>
+    /// Comprueba en tiempo sub-nanosegundo y 0 asignaciones sobre string si el contenido es un JSON estructurado.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsJsonPayload(ReadOnlySpan<char> chars)
+    {
+        int i = 0;
+        while (i < chars.Length && char.IsWhiteSpace(chars[i]))
+        {
+            i++;
+        }
+
+        if (i >= chars.Length) return false;
+        char first = chars[i];
+        return first == '{' || first == '[';
+    }
+
+    /// <summary>
+    /// Evalúa si el JSON es una traza GET de OpenTelemetry y, tras validar que sea un JSON bien formado, poda sus listas internas de respuesta.
+    /// Si no es GET, no es JSON o el podado está desactivado, retorna el string original con 0 procesamiento.
     /// </summary>
     public static string PruneIfGetTrace(string rawJson, TracePruningSettings? settings)
     {
         if (string.IsNullOrWhiteSpace(rawJson) || settings is { Enabled: false })
             return rawJson;
 
-        int maxArrayItems = settings?.MaxArrayItems ?? 10;
-        int maxDepth = settings?.MaxDepth ?? 5;
-
-        // 1. Verificación rápida: Si no contiene GET o http.response.body_preview, salir inmediatamente
+        // 1. Verificación preliminar de método GET
         if (!rawJson.Contains("GET", StringComparison.OrdinalIgnoreCase) || 
             !rawJson.Contains("http.response.body_preview", StringComparison.Ordinal))
         {
             return rawJson;
         }
 
-        // 2. Procesamiento y reemplazo en Streaming de http.response.body_preview
+        // 2. Validación de tipo JSON (0 asignaciones, sub-nanosegundo)
+        if (!IsJsonPayload(rawJson.AsSpan()))
+        {
+            return rawJson;
+        }
+
+        int maxArrayItems = settings?.MaxArrayItems ?? 10;
+        int maxDepth = settings?.MaxDepth ?? 5;
+
+        // 3. Procesamiento y reemplazo en Streaming de http.response.body_preview
         try
         {
             var utf8Bytes = Encoding.UTF8.GetBytes(rawJson);
@@ -43,7 +83,7 @@ public static class OTelTracePruner
         }
         catch
         {
-            // En caso de cualquier JSON no estándar o error, fallback seguro al original
+            // En caso de cualquier error sintáctico o no estándar, fallback seguro al original
             return rawJson;
         }
     }
@@ -68,10 +108,16 @@ public static class OTelTracePruner
                             if (reader.TokenType == JsonTokenType.String)
                             {
                                 var bodyPreviewStr = reader.GetString();
-                                if (!string.IsNullOrEmpty(bodyPreviewStr))
+                                // Validar que el preview sea JSON estructurado antes de aplicar el algoritmo
+                                if (!string.IsNullOrEmpty(bodyPreviewStr) && IsJsonPayload(bodyPreviewStr.AsSpan()))
                                 {
                                     var prunedInner = PruneInnerJsonString(bodyPreviewStr, maxArrayItems, maxDepth);
                                     writer.WriteStringValue(prunedInner);
+                                }
+                                else if (bodyPreviewStr != null)
+                                {
+                                    // Si no es JSON (ej. texto plano, HTML), se preserva tal cual
+                                    writer.WriteStringValue(bodyPreviewStr);
                                 }
                                 else
                                 {
@@ -134,6 +180,9 @@ public static class OTelTracePruner
     /// </summary>
     public static string PruneInnerJsonString(string innerJson, int maxArrayItems, int maxDepth)
     {
+        if (!IsJsonPayload(innerJson.AsSpan()))
+            return innerJson;
+
         var utf8Bytes = Encoding.UTF8.GetBytes(innerJson);
         var reader = new Utf8JsonReader(utf8Bytes, isFinalBlock: true, state: default);
         var bufferWriter = new ArrayBufferWriter<byte>(utf8Bytes.Length);

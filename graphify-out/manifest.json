@@ -576,9 +576,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Domain/Utils/OTelTracePruner.cs": {
-    "mtime": 1787800303.9718149,
-    "seen": 1787800439.4230845,
-    "ast_hash": "2927fa473f9054737d2d3f20942c1ade",
+    "mtime": 1787800660.922773,
+    "seen": 1787800725.3249466,
+    "ast_hash": "3d2fc46a7600a8dd3624bfcb920df139",
     "semantic_hash": ""
   }
 }
