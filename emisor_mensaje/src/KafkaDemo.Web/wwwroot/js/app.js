@@ -28,6 +28,7 @@ const dom = {
   msgTopicSelect: document.getElementById('msg-topic-select'),
   msgKeyInput: document.getElementById('msg-key-input'),
   btnRegenKey: document.getElementById('btn-regen-key'),
+  tracePresetSelect: document.getElementById('trace-preset-select'),
   msgValueInput: document.getElementById('msg-value-input'),
   btnSampleJson: document.getElementById('btn-sample-json'),
   btnFormatJson: document.getElementById('btn-format-json'),
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupEvents();
   
   // Cargar Traza OTel GET de Contactos por defecto al inicio
-  loadPresetJson('otel-get');
+  loadPresetTrace('otel-get');
   
   refreshAll();
   
@@ -128,21 +129,17 @@ function setupEvents() {
   
   // Botón para regenerar ID de partición con SplitMix64
   dom.btnRegenKey?.addEventListener('click', () => {
-    const currentPreset = document.querySelector('.btn-chip-active')?.getAttribute('data-preset');
-    const hint = currentPreset === 'otel-get' ? '8172201-IN' : '8172201-IN';
-    dom.msgKeyInput.value = generateDispersedKey(hint);
+    const selectedKey = dom.tracePresetSelect?.value || 'otel-get';
+    const config = OTelTraces[selectedKey] || OTelTraces['otel-get'];
+    dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
     showToast('Nuevo ID de partición generado (SplitMix64)', 'info');
   });
 
-  // Presets de JSON
-  document.querySelectorAll('[data-preset]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const presetType = e.target.getAttribute('data-preset');
-      loadPresetJson(presetType);
-    });
+  // Selector de Trazas OTel (4 Opciones GET y POST)
+  dom.tracePresetSelect?.addEventListener('change', (e) => {
+    loadPresetTrace(e.target.value);
   });
 
-  dom.btnSampleJson?.addEventListener('click', () => loadPresetJson('random'));
   dom.btnFormatJson?.addEventListener('click', formatTextareaJson);
 
   dom.btnClearLogs.addEventListener('click', () => {
@@ -426,10 +423,9 @@ async function handleSendMessage(e) {
     appendSingleToStream(data.result, value);
 
     // Regenerar automáticamente un nuevo ID de partición con SplitMix64 para el siguiente envío
-    const activeChip = document.querySelector('.btn-chip-active');
-    const preset = activeChip ? activeChip.getAttribute('data-preset') : 'otel-get';
-    const hint = preset === 'otel-get' ? '8172201-IN' : '8172201-IN';
-    dom.msgKeyInput.value = generateDispersedKey(hint);
+    const selectedKey = dom.tracePresetSelect?.value || 'otel-get';
+    const config = OTelTraces[selectedKey] || OTelTraces['otel-get'];
+    dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
   } catch (err) {
     showToast(`Error al publicar: ${err.message}`, 'error');
   } finally {
@@ -498,69 +494,49 @@ function removeEmptyStreamNotice() {
   if (empty) empty.remove();
 }
 
-// Cargar Presets de JSON Estructurado por Defecto
-async function loadPresetJson(type = 'otel-get') {
-  // Actualizar estilo de chips activos
-  document.querySelectorAll('[data-preset], #btn-sample-json').forEach(btn => {
-    if (btn.getAttribute('data-preset') === type) {
-      btn.classList.add('btn-chip-active');
-    } else {
-      btn.classList.remove('btn-chip-active');
-    }
-  });
+// Catálogo de Trazas OTel Disponibles (GET y POST)
+const OTelTraces = {
+  'otel-get': {
+    url: '/data/otel_get_trace.json',
+    businessKey: '8172201-IN',
+    name: 'GET - /contacts/contacts-by-idClient/8172201/IN (120 Contactos)'
+  },
+  'otel-post-1': {
+    url: '/data/otel_post_trace_1.json',
+    businessKey: '5103846-IN',
+    name: 'POST - /contacts/local-contact (ID: 1394487)'
+  },
+  'otel-post-2': {
+    url: '/data/otel_post_trace_2.json',
+    businessKey: '5103846-IN',
+    name: 'POST - /contacts/local-contact (ID: 1394495)'
+  },
+  'otel-post-3': {
+    url: '/data/otel_post_trace_3.json',
+    businessKey: '5103846-IN',
+    name: 'POST - /contacts/local-contact (ID: 13944955 | Respuesta Exitosa 100000)'
+  }
+};
 
-  if (type === 'otel-get') {
-    try {
-      const res = await fetch('/data/otel_get_trace.json');
-      if (res.ok) {
-        const traceObj = await res.json();
-        dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
-        dom.msgKeyInput.value = generateDispersedKey('8172201-IN');
-        showToast('Traza OTel GET cargada y clave de partición generada con SplitMix64', 'info');
-        return;
-      }
-    } catch (e) {
-      console.warn('Fallback al generar traza OTel GET:', e);
-    }
+// Cargar Traza Seleccionada y Generar Clave de Partición
+async function loadPresetTrace(traceKey = 'otel-get') {
+  const config = OTelTraces[traceKey] || OTelTraces['otel-get'];
+  if (dom.tracePresetSelect) {
+    dom.tracePresetSelect.value = traceKey;
   }
 
-  const hexSuffix = Math.floor(1000 + Math.random() * 9000).toString(16).toUpperCase();
-  const randomAmount = (Math.random() * 800 + 25).toFixed(2);
-  const originAcct = 'ACCT-' + Math.floor(10000000 + Math.random() * 90000000);
-  const destAcct = 'ACCT-' + Math.floor(20000000 + Math.random() * 90000000);
-
-  let presetObj = {
-    eventId: crypto.randomUUID(),
-    sequence: 1,
-    transactionId: `TXN-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-0001-${hexSuffix}`,
-    originAccount: originAcct,
-    destinationAccount: destAcct,
-    amount: parseFloat(randomAmount),
-    currency: "USD",
-    transactionType: "TRANSFER",
-    channel: "WEB_PORTAL",
-    status: "PENDING",
-    emittedAt: new Date().toISOString(),
-    metadata: {
-      sourceSystem: "ProdubancoWebPortal",
-      clientEnvironment: "Development",
-      framework: ".NET 10 Hexagonal"
+  try {
+    const res = await fetch(config.url);
+    if (res.ok) {
+      const traceObj = await res.json();
+      dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
+      dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
+      showToast(`✔ ${config.name} cargada con éxito`, 'info');
     }
-  };
-
-  if (type === 'atm') {
-    presetObj.transactionType = "WITHDRAWAL";
-    presetObj.channel = "ATM";
-    presetObj.amount = 200.00;
-    presetObj.destinationAccount = null;
-  } else if (type === 'qr') {
-    presetObj.transactionType = "QR_PAYMENT";
-    presetObj.channel = "MOBILE_APP";
-    presetObj.amount = 35.50;
+  } catch (err) {
+    console.error('Error al cargar traza OTel:', err);
+    showToast(`Error al cargar la traza: ${err.message}`, 'error');
   }
-
-  dom.msgValueInput.value = JSON.stringify(presetObj, null, 2);
-  dom.msgKeyInput.value = generateDispersedKey(presetObj.originAccount);
 }
 
 function formatTextareaJson() {

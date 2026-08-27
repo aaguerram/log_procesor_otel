@@ -160,23 +160,32 @@
               <input type="text" id="msg-key-input" class="form-input code-input" placeholder="PK-XXXXXXXXXXXXXXXX-8172201-IN" required>
             </div>
 
-            <!-- Botones de Presets Rápidos -->
+            <!-- Selector de Ejemplos de Trazas OTel (GET / POST) -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="trace-preset-select">Ejemplos de Trazas OTel Registradas (Método HTTP & Contrato) *</label>
+                <span class="badge badge-system">OpenTelemetry</span>
+              </div>
+              <select id="trace-preset-select" class="form-input">
+                <option value="otel-get">GET - /contacts/contacts-by-idClient/8172201/IN (Lista 120 Contactos)</option>
+                <option value="otel-post-1">POST - /contacts/local-contact (ID: 1394487 | Cédula: 1702756766)</option>
+                <option value="otel-post-2">POST - /contacts/local-contact (ID: 1394495 | Cédula: 1702756766)</option>
+                <option value="otel-post-3">POST - /contacts/local-contact (ID: 13944955 | Con Respuesta Exitosa 100000)</option>
+              </select>
+            </div>
+
+            <!-- Área de Edición del Payload JSON -->
             <div class="form-group">
               <div class="label-row">
                 <label for="msg-value-input" id="label-json-payload">
-                  Payload del Evento (JSON Estructurado por Defecto) *
+                  Payload del Evento (JSON de Traza OpenTelemetry) *
                 </label>
                 <div class="presets-row">
-                  <button type="button" class="btn-chip btn-chip-active" data-preset="otel-get">📑 Traza OTel GET (Contactos)</button>
-                  <button type="button" class="btn-chip" data-preset="transfer">💳 Transferencia</button>
-                  <button type="button" class="btn-chip" data-preset="atm">🏧 Retiro ATM</button>
-                  <button type="button" class="btn-chip" data-preset="qr">📱 Pago QR</button>
-                  <button type="button" id="btn-sample-json" class="btn-chip">🎲 Generar Nuevo</button>
-                  <button type="button" id="btn-format-json" class="btn-chip">✨ Formatear</button>
+                  <button type="button" id="btn-format-json" class="btn-chip">✨ Formatear JSON</button>
                 </div>
               </div>
               <textarea id="msg-value-input" class="form-input code-input" rows="12" required></textarea>
-              <small class="form-hint">El JSON del evento/traza OTel se cifra con <code>AES-256-GCM</code> y se encapsula en el campo <code>data</code> del Protobuf <code>EncryptedPayloadEnvelope</code>.</small>
+              <small class="form-hint">El JSON completo de la traza se cifra con <code>AES-256-GCM</code> y se envía en el campo <code>data</code> de Protobuf junto al contrato <code>swagger</code> en YAML.</small>
             </div>
 
             <button type="submit" id="btn-submit-message" class="btn btn-gradient btn-block btn-lg">
