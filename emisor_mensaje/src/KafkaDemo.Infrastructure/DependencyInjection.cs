@@ -1,4 +1,5 @@
 using KafkaDemo.Application.UseCases;
+using KafkaDemo.Domain.Configuration;
 using KafkaDemo.Domain.Ports;
 using KafkaDemo.Infrastructure.Adapters;
 using KafkaDemo.Infrastructure.Configuration;
@@ -41,6 +42,16 @@ public static class DependencyInjection
         };
 
         services.AddSingleton(Options.Create(kafkaSettings));
+
+        // Configuración de Podado de Trazas OTel (MaxDepth y MaxArrayItems configurables)
+        var pruningSettings = new TracePruningSettings
+        {
+            Enabled = !bool.TryParse(configuration["TracePruning:Enabled"] ?? configuration["TRACE_PRUNING_ENABLED"], out var enabled) || enabled,
+            MaxArrayItems = int.TryParse(configuration["TracePruning:MaxArrayItems"] ?? configuration["TRACE_PRUNING_MAX_ARRAY_ITEMS"], out var maxItems) ? maxItems : 10,
+            MaxDepth = int.TryParse(configuration["TracePruning:MaxDepth"] ?? configuration["TRACE_PRUNING_MAX_DEPTH"], out var maxDepth) ? maxDepth : 5
+        };
+        services.AddSingleton(Options.Create(pruningSettings));
+        services.AddSingleton(pruningSettings);
 
         // 2. Puertos y Adaptadores (Hexagonal)
         services.AddSingleton<IMessageProducerPort, KafkaProducerAdapter>();

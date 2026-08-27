@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Text.Json;
 using Google.Protobuf;
 using KafkaDemo.Application.DTOs;
+using KafkaDemo.Domain.Configuration;
 using KafkaDemo.Domain.Models;
 using KafkaDemo.Domain.Ports;
 using KafkaDemo.Domain.Utils;
@@ -15,7 +16,8 @@ public class SendMessagesUseCase(
     IMessageProducerPort producerPort,
     ITopicManagementPort topicManagementPort,
     IVaultTokenProviderPort vaultTokenPort,
-    IPayloadCryptoPort cryptoPort)
+    IPayloadCryptoPort cryptoPort,
+    TracePruningSettings? pruningSettings = null)
 {
     private static readonly string[] TransactionTypes = ["TRANSFER", "PAYMENT", "DEPOSIT", "WITHDRAWAL", "QR_PAYMENT"];
     private static readonly string[] Channels = ["MOBILE_APP", "WEB_BANKING", "ATM", "BRANCH", "API_GATEWAY"];
@@ -81,9 +83,12 @@ public class SendMessagesUseCase(
         // Obtener contrato Swagger en YAML
         var swaggerYaml = GetSwaggerYamlContent();
 
-        // 2. Cifrar con AES-256-GCM y construir Envelope Protobuf Autosuficiente
+        // 2. Podar arreglos de respuesta si es una traza GET de OpenTelemetry (Zero-Allocation Streaming)
+        var payloadToEncrypt = OTelTracePruner.PruneIfGetTrace(request.Value, pruningSettings);
+
+        // 3. Cifrar con AES-256-GCM y construir Envelope Protobuf Autosuficiente
         var envelope = cryptoPort.EncryptJsonToEnvelope(
-            request.Value,
+            payloadToEncrypt,
             eventId,
             txnId,
             partitionKey,

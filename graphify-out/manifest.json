@@ -6,9 +6,9 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1787791731.7658055,
-    "seen": 1787792495.3128567,
-    "ast_hash": "2d4aa8c8060a554dbbc0ee9b92f97017",
+    "mtime": 1787799847.7310572,
+    "seen": 1787800439.4231763,
+    "ast_hash": "600f7731385b7d47a23f7d0491a12c30",
     "semantic_hash": ""
   },
   "emisor_mensaje/KafkaDemoHexagonal.slnx": {
@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs": {
-    "mtime": 1787797350.5490105,
-    "seen": 1787798870.6171596,
-    "ast_hash": "70b4c4d7be4c9a77d616ef4d5d1f9276",
+    "mtime": 1787799932.7549906,
+    "seen": 1787800439.4230528,
+    "ast_hash": "e3fd982b39d7f6e518efbbcd9171115b",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj": {
@@ -48,15 +48,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/Program.cs": {
-    "mtime": 1787790022.8538914,
-    "seen": 1787792495.3127542,
+    "mtime": 1787800222.7089584,
+    "seen": 1787800439.423059,
     "ast_hash": "970bc4b164b74d5b8a0a324863002ce1",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/appsettings.json": {
-    "mtime": 1787789925.2411792,
-    "seen": 1787792495.312756,
-    "ast_hash": "5202c49348462151521cbb8c9a5a23a8",
+    "mtime": 1787799833.5813348,
+    "seen": 1787800439.423061,
+    "ast_hash": "8691b356ea8fec998671d6aa6d9ebf12",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Domain/KafkaDemo.Domain.csproj": {
@@ -120,9 +120,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Infrastructure/DependencyInjection.cs": {
-    "mtime": 1787789912.7671752,
-    "seen": 1787792495.3127878,
-    "ast_hash": "2c3ee96e514375f7aea242f33e468f59",
+    "mtime": 1787800313.441034,
+    "seen": 1787800439.4230993,
+    "ast_hash": "ab22c17e27c2526b8bbdb82568f84718",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Infrastructure/KafkaDemo.Infrastructure.csproj": {
@@ -150,9 +150,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/appsettings.json": {
-    "mtime": 1787789938.9403229,
-    "seen": 1787792495.3127983,
-    "ast_hash": "03ecdf2a1be71d72c6280244d26fab08",
+    "mtime": 1787799823.293288,
+    "seen": 1787800439.4231105,
+    "ast_hash": "c8103db7ddfbc8e01a29e528d398ec21",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
@@ -567,6 +567,18 @@
     "mtime": 1787797624.7350276,
     "seen": 1787798870.6172025,
     "ast_hash": "d34c0dc99ea1d4b8b33ff849a43c8226",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Configuration/TracePruningSettings.cs": {
+    "mtime": 1787799801.936057,
+    "seen": 1787800439.4230638,
+    "ast_hash": "c3f27dfc16aa63a719de0bf653e4e007",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Domain/Utils/OTelTracePruner.cs": {
+    "mtime": 1787800303.9718149,
+    "seen": 1787800439.4230845,
+    "ast_hash": "2927fa473f9054737d2d3f20942c1ade",
     "semantic_hash": ""
   }
 }
