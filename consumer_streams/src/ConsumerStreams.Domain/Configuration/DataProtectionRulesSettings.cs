@@ -29,4 +29,9 @@ public sealed class DataProtectionRulesSettings
     /// Habilita la regla @Log.Full para registrar campos en claro sin modificaciones (montos, estados, descripciones).
     /// </summary>
     public bool Full { get; set; } = true;
+
+    /// <summary>
+    /// Habilita o deshabilita simultáneamente el enmascaramiento y anonimización de parámetros en url.path y url.query.
+    /// </summary>
+    public bool MaskUrlPathAndQuery { get; set; } = true;
 }

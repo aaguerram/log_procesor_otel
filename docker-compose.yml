@@ -126,6 +126,7 @@ services:
       - DataProtectionRules__PartialLast4=true
       - DataProtectionRules__Remove=true
       - DataProtectionRules__Full=true
+      - DataProtectionRules__MaskUrlPathAndQuery=true
     depends_on:
       kafka:
         condition: service_healthy

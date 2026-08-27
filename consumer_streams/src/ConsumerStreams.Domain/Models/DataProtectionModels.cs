@@ -29,6 +29,17 @@ public enum DataProtectionRuleType : byte
 }
 
 /// <summary>
+/// Metadatos de ruta y reglas de parámetros de Path y Query compilados para un endpoint.
+/// </summary>
+public sealed class CompiledRouteParameterInfo
+{
+    public required string NormalizedRoute { get; init; }
+    public required string[] TemplateSegments { get; init; }
+    public required (int TemplateSegmentIndex, string ParamName, DataProtectionRuleType Rule)[] PathParamRules { get; init; }
+    public required FrozenDictionary<string, DataProtectionRuleType> QueryParamRules { get; init; }
+}
+
+/// <summary>
 /// Árbol inmutable y optimizado en memoria de reglas de protección para un contrato específico y su versión.
 /// </summary>
 public sealed class CompiledContractRules
@@ -47,6 +58,11 @@ public sealed class CompiledContractRules
     /// Mapa global fallback de propiedades por si no se especifica ruta: "NombrePropiedad" -> Tipo de Regla.
     /// </summary>
     public required FrozenDictionary<string, DataProtectionRuleType> GlobalPropertyRules { get; init; }
+
+    /// <summary>
+    /// Metadatos de parámetros de Path y Query compilados por endpoint o ruta.
+    /// </summary>
+    public FrozenDictionary<string, CompiledRouteParameterInfo> RouteParameterRules { get; init; } = FrozenDictionary<string, CompiledRouteParameterInfo>.Empty;
 
     /// <summary>
     /// Consulta la regla aplicable en O(1) con 0 asignaciones.
@@ -72,5 +88,27 @@ public sealed class CompiledContractRules
 
         // 3. Por defecto si no tiene directiva: Full (Intacto)
         return DataProtectionRuleType.Full;
+    }
+
+    /// <summary>
+    /// Busca la información compilada de parámetros de ruta y consulta para un endpoint.
+    /// </summary>
+    public CompiledRouteParameterInfo? FindRouteInfo(string httpMethod, string routeTemplate)
+    {
+        if (RouteParameterRules.Count == 0) return null;
+
+        if (!string.IsNullOrEmpty(httpMethod) && !string.IsNullOrEmpty(routeTemplate))
+        {
+            string opKey = $"{httpMethod.ToUpperInvariant()} {routeTemplate}";
+            if (RouteParameterRules.TryGetValue(opKey, out var info))
+                return info;
+        }
+
+        if (!string.IsNullOrEmpty(routeTemplate) && RouteParameterRules.TryGetValue(routeTemplate, out var rInfo))
+        {
+            return rInfo;
+        }
+
+        return null;
     }
 }

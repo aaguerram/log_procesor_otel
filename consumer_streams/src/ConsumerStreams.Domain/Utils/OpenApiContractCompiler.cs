@@ -54,11 +54,13 @@ public static partial class OpenApiContractCompiler
         // 3. Extracción de Operaciones, Parámetros y Esquemas en un solo pase
         var operations = new Dictionary<string, Dictionary<string, DataProtectionRuleType>>(StringComparer.OrdinalIgnoreCase);
         var globalRules = new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase);
+        var routeParamBuilders = new Dictionary<string, (List<(int SegmentIndex, string ParamName, DataProtectionRuleType Rule)> PathRules, Dictionary<string, DataProtectionRuleType> QueryRules)>(StringComparer.OrdinalIgnoreCase);
 
         var lines = swaggerYaml.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
         string currentPath = string.Empty;
         string currentMethod = string.Empty;
         string pendingProperty = string.Empty;
+        string currentParamIn = string.Empty;
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -71,6 +73,7 @@ public static partial class OpenApiContractCompiler
                 currentPath = NormalizeRoute(trimmed.TrimEnd(':'));
                 currentMethod = string.Empty;
                 pendingProperty = string.Empty;
+                currentParamIn = string.Empty;
                 continue;
             }
 
@@ -82,27 +85,37 @@ public static partial class OpenApiContractCompiler
                 {
                     currentMethod = maybeMethod;
                     pendingProperty = string.Empty;
+                    currentParamIn = string.Empty;
                     continue;
                 }
             }
 
-            // Detectar nombres de parámetros o propiedades
+            // Detectar "in: path" o "in: query"
+            if (trimmed.StartsWith("in:"))
+            {
+                var inParts = trimmed.Split(':', 2);
+                if (inParts.Length > 1)
+                    currentParamIn = inParts[1].Trim().Trim('\'', '"').ToLowerInvariant();
+            }
+
+            // Detectar nombres de parámetros: "- name: idClient" o "name: idClient"
             if (trimmed.StartsWith("- name:") || trimmed.StartsWith("name:"))
             {
                 var parts = trimmed.Split(':', 2);
                 if (parts.Length > 1)
+                {
                     pendingProperty = parts[1].Trim().Trim('\'', '"');
+                    if (trimmed.StartsWith("- name:"))
+                        currentParamIn = string.Empty;
+                }
             }
-            else if (trimmed.EndsWith(':') && 
-                     !trimmed.StartsWith("properties:") && 
-                     !trimmed.StartsWith("schema:") && 
-                     !trimmed.StartsWith("tags:") &&
-                     !trimmed.StartsWith("responses:") &&
-                     !trimmed.StartsWith("content:") &&
-                     !trimmed.StartsWith("parameters:") &&
-                     !trimmed.StartsWith("components:"))
+            else if (trimmed.EndsWith(':'))
             {
-                pendingProperty = trimmed.TrimEnd(':');
+                string key = trimmed.TrimEnd(':');
+                if (!IsReservedYamlKeyword(key))
+                {
+                    pendingProperty = key;
+                }
             }
 
             // Detectar directiva x-log-data-protection
@@ -126,6 +139,35 @@ public static partial class OpenApiContractCompiler
                                 operations[opKey] = opDict;
                             }
                             opDict[pendingProperty] = ruleType;
+
+                            // 1.1 Registrar para Path & Query parameter rules
+                            if (!routeParamBuilders.TryGetValue(opKey, out var paramBuilder))
+                            {
+                                paramBuilder = (new List<(int, string, DataProtectionRuleType)>(), new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase));
+                                routeParamBuilders[opKey] = paramBuilder;
+                            }
+
+                            // Evaluar si es Path Parameter buscando en los segmentos de la ruta
+                            var segments = currentPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                            int segmentIdx = -1;
+                            for (int s = 0; s < segments.Length; s++)
+                            {
+                                var seg = segments[s].Trim('{', '}');
+                                if (seg.Equals(pendingProperty, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    segmentIdx = s;
+                                    break;
+                                }
+                            }
+
+                            if (segmentIdx >= 0 || currentParamIn == "path")
+                            {
+                                paramBuilder.PathRules.Add((segmentIdx, pendingProperty, ruleType));
+                            }
+                            else
+                            {
+                                paramBuilder.QueryRules[pendingProperty] = ruleType;
+                            }
                         }
 
                         // 2. Asignar al diccionario global fallback de propiedades
@@ -143,15 +185,43 @@ public static partial class OpenApiContractCompiler
 
         var frozenGlobals = globalRules.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
+        var routeParameterRules = new Dictionary<string, CompiledRouteParameterInfo>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (opKey, (pathRules, queryRules)) in routeParamBuilders)
+        {
+            var parts = opKey.Split(' ', 2);
+            string rPath = parts.Length > 1 ? parts[1] : opKey;
+            var segments = rPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            var info = new CompiledRouteParameterInfo
+            {
+                NormalizedRoute = rPath,
+                TemplateSegments = segments,
+                PathParamRules = pathRules.ToArray(),
+                QueryParamRules = queryRules.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase)
+            };
+
+            routeParameterRules[opKey] = info;
+            routeParameterRules[rPath] = info;
+        }
+
         return new CompiledContractRules
         {
             ServiceName = title,
             Version = version,
             ContractKey = contractKey,
             Operations = frozenOps,
-            GlobalPropertyRules = frozenGlobals
+            GlobalPropertyRules = frozenGlobals,
+            RouteParameterRules = routeParameterRules.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase)
         };
     }
+
+    private static bool IsReservedYamlKeyword(string key) =>
+        key is "properties" or "schema" or "tags" or "responses" or "content" or 
+               "parameters" or "components" or "type" or "format" or "description" or 
+               "required" or "example" or "examples" or "default" or "items" or 
+               "application/json" or "requestBody" or "summary" or "operationId" or
+               "minimum" or "maximum" or "minLength" or "maxLength" or "pattern" or
+               "200" or "201" or "400" or "401" or "403" or "404" or "500";
 
     public static string NormalizeRoute(string route)
     {
