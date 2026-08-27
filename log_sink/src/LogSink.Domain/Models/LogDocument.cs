@@ -26,6 +26,15 @@ public record LogDocument
     [JsonPropertyName("spanId")]
     public string? SpanId { get; init; }
 
+    [JsonPropertyName("parentSpanId")]
+    public string? ParentSpanId { get; init; }
+
+    [JsonPropertyName("name")]
+    public string? Name { get; init; }
+
+    [JsonPropertyName("kind")]
+    public string? Kind { get; init; }
+
     [JsonPropertyName("originAccount")]
     public string? OriginAccount { get; init; }
 
@@ -64,6 +73,18 @@ public record LogDocument
 
     [JsonPropertyName("processingLatencyMs")]
     public double ProcessingLatencyMs { get; init; }
+
+    [JsonPropertyName("tags")]
+    public Dictionary<string, string>? Tags { get; init; }
+
+    [JsonPropertyName("responseBodyPreview")]
+    public string? ResponseBodyPreview { get; init; }
+
+    [JsonPropertyName("requestBodyPreview")]
+    public string? RequestBodyPreview { get; init; }
+
+    [JsonPropertyName("rawPayload")]
+    public string? RawPayload { get; init; }
 
     [JsonPropertyName("auditMetadata")]
     public Dictionary<string, string>? AuditMetadata { get; init; }

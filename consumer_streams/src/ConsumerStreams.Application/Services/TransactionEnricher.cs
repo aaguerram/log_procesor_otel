@@ -52,15 +52,21 @@ public class TransactionEnricher : ITransactionTransformerPort
             ["audit.risk"] = riskLevel
         };
 
+        // Preservar todas las etiquetas OTel
         if (raw.Tags != null)
         {
             foreach (var (k, v) in raw.Tags)
             {
-                if (v != null && v.Length < 256) // Limitar tamaño de tags individuales
-                {
-                    audit[$"otel.{k}"] = v;
-                }
+                audit[$"otel.{k}"] = v;
             }
+        }
+
+        string? responsePreview = null;
+        string? requestPreview = null;
+        if (raw.Tags != null)
+        {
+            raw.Tags.TryGetValue("http.response.body_preview", out responsePreview);
+            raw.Tags.TryGetValue("http.request.body_preview", out requestPreview);
         }
 
         return new ProcessedTransactionEvent
@@ -70,6 +76,9 @@ public class TransactionEnricher : ITransactionTransformerPort
             TransactionId = effectiveTxnId,
             TraceId = raw.TraceId,
             SpanId = raw.SpanId,
+            ParentSpanId = raw.ParentSpanId,
+            Name = raw.Name,
+            Kind = raw.Kind,
             OriginAccount = raw.OriginAccount ?? (raw.TraceId != null ? $"TRACE-{raw.TraceId[..8]}" : null),
             DestinationAccount = raw.DestinationAccount,
             Amount = raw.Amount,
@@ -82,6 +91,10 @@ public class TransactionEnricher : ITransactionTransformerPort
             OriginalEmittedAt = effectiveEmittedAt,
             ProcessedAt = now,
             ProcessingLatencyMs = Math.Round(latencyMs, 2),
+            Tags = raw.Tags,
+            ResponseBodyPreview = responsePreview,
+            RequestBodyPreview = requestPreview,
+            RawPayload = raw.RawPayloadJson,
             AuditMetadata = audit
         };
     }

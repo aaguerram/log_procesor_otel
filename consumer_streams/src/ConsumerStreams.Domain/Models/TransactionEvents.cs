@@ -28,6 +28,9 @@ public record RawTransactionEvent
     public DateTime? StartTimeUtc { get; init; }
     public double? DurationMs { get; init; }
     public Dictionary<string, string>? Tags { get; init; }
+
+    // Carga Útil Completa Original
+    public string? RawPayloadJson { get; init; }
 }
 
 /// <summary>
@@ -40,6 +43,9 @@ public record ProcessedTransactionEvent
     public string? TransactionId { get; init; }
     public string? TraceId { get; init; }
     public string? SpanId { get; init; }
+    public string? ParentSpanId { get; init; }
+    public string? Name { get; init; }
+    public string? Kind { get; init; }
     public string? OriginAccount { get; init; }
     public string? DestinationAccount { get; init; }
     public decimal Amount { get; init; }
@@ -52,5 +58,9 @@ public record ProcessedTransactionEvent
     public DateTime OriginalEmittedAt { get; init; }
     public DateTime ProcessedAt { get; init; } = DateTime.UtcNow;
     public double ProcessingLatencyMs { get; init; }
+    public Dictionary<string, string>? Tags { get; init; }
+    public string? ResponseBodyPreview { get; init; }
+    public string? RequestBodyPreview { get; init; }
+    public string? RawPayload { get; init; }
     public Dictionary<string, string> AuditMetadata { get; init; } = [];
 }

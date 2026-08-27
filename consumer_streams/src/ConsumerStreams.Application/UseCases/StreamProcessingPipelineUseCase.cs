@@ -76,6 +76,9 @@ public class StreamProcessingPipelineUseCase(
                     return false;
                 }
 
+                // Asignar el payload original completo
+                rawEvent = rawEvent with { RawPayloadJson = decryptedJson };
+
                 // 5. Transformación y lógica de negocio de dominio
                 var processedEvent = transformer.TransformAndEnrich(rawEvent);
 
