@@ -70,8 +70,11 @@ public class SendMessagesUseCase(
     /// <summary>
     /// Genera y envía un lote de mensajes cifrados en Protobuf con distribución uniforme en las 40 particiones.
     /// </summary>
-    public async Task<BatchSendResultDto> GenerateAndSendBatchAsync(string topic = "tp.observability.application-log.emitted.v1", int count = 20, CancellationToken cancellationToken = default)
+    public async Task<BatchSendResultDto> GenerateAndSendBatchAsync(string topic, int count = 20, CancellationToken cancellationToken = default)
     {
+        if (string.IsNullOrWhiteSpace(topic))
+            throw new ArgumentException("El nombre del tópico de destino es obligatorio y no puede ser nulo o vacío.", nameof(topic));
+
         var stopwatch = Stopwatch.StartNew();
 
         // 1. Obtener material de clave tokenizado de Azure Key Vault

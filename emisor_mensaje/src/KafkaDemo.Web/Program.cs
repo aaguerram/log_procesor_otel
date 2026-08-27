@@ -95,11 +95,17 @@ app.MapPost("/api/messages/send", async (SendMessageRequestDto request, SendMess
 });
 
 // Enviar lote de 20 mensajes (o cantidad personalizada)
-app.MapPost("/api/messages/send-batch", async (SendBatchRequest? body, SendMessagesUseCase useCase, CancellationToken ct) =>
+app.MapPost("/api/messages/send-batch", async (SendBatchRequest? body, SendMessagesUseCase useCase, IConfiguration config, CancellationToken ct) =>
 {
     try
     {
-        var topic = body?.Topic ?? "tp.observability.application-log.emitted.v1";
+        var topic = !string.IsNullOrWhiteSpace(body?.Topic)
+            ? body.Topic
+            : config["Kafka:TargetTopic"] 
+                ?? config["TECH-INT-MSG-LOGS_TOPIC"] 
+                ?? config["TECH_INT_MSG_LOGS_TOPIC"] 
+                ?? throw new InvalidOperationException("[CONFIG ERROR] Tópico de destino no configurado en appsettings.json ni en variables de entorno.");
+
         var count = body?.Count is > 0 ? body.Count.Value : 20;
         var result = await useCase.GenerateAndSendBatchAsync(topic, count, ct);
         return Results.Ok(new { success = true, result });

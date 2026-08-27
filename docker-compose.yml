@@ -54,6 +54,7 @@ services:
       - ASPNETCORE_URLS=http://+:5000
       - Kafka__BootstrapServers=kafka:29092
       - Kafka__ClientId=KafkaDemo-WebAdmin
+      - Kafka__TargetTopic=tp.observability.application-log.emitted.v1
       - KeyVault__VaultUri=https://azure-keyvault:8443
       - KeyVault__VaultName=produbanco-local-vault
     depends_on:
@@ -92,6 +93,7 @@ services:
     environment:
       - Kafka__BootstrapServers=kafka:29092
       - Kafka__ClientId=KafkaDemo-ConsoleDocker
+      - Kafka__TargetTopic=tp.observability.application-log.emitted.v1
       - KeyVault__VaultUri=https://azure-keyvault:8443
       - KeyVault__VaultName=produbanco-local-vault
     depends_on:

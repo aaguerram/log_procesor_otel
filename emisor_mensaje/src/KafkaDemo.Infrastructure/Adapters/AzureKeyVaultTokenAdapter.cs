@@ -29,7 +29,10 @@ public class AzureKeyVaultTokenAdapter : IVaultTokenProviderPort
     public AzureKeyVaultTokenAdapter(IConfiguration configuration, ILogger<AzureKeyVaultTokenAdapter> logger)
     {
         _logger = logger;
-        _vaultUri = configuration["KeyVault:VaultUri"] ?? "https://localhost:8443";
+        _vaultUri = configuration["KeyVault:VaultUri"] 
+            ?? configuration["TECH-INT-SECU-VAULT_URL"] 
+            ?? configuration["TECH_INT_SECU_VAULT_URL"] 
+            ?? throw new InvalidOperationException("[CONFIG ERROR] 'KeyVault:VaultUri' no está configurado en appsettings.json ni en las variables de entorno.");
     }
 
     public async Task<VaultKeyMaterial> GetOrCreateEncryptionKeyAsync(string certificateName, CancellationToken cancellationToken = default)

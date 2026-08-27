@@ -13,29 +13,41 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddConsumerStreamsInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        // 1. Mapeo dinámico y seguro de configuración para Native AOT (.NET 10)
+        // 1. Mapeo dinámico y estricto desde IConfiguration (appsettings.json / Variables de Entorno)
+        var bootstrapServers = configuration["KafkaStream:BootstrapServers"] 
+            ?? configuration["TECH-INT-MSG-KAFKA_BROKERS"] 
+            ?? configuration["TECH_INT_MSG_KAFKA_BROKERS"];
+
+        var groupId = configuration["KafkaStream:GroupId"] 
+            ?? configuration["TECH-INT-MSG-STREAM_GROUP"] 
+            ?? configuration["TECH_INT_MSG_STREAM_GROUP"];
+
+        var sourceTopic = configuration["KafkaStream:SourceTopic"] 
+            ?? configuration["TECH-INT-MSG-SOURCE_TOPIC"] 
+            ?? configuration["TECH_INT_MSG_SOURCE_TOPIC"];
+
+        var targetTopic = configuration["KafkaStream:TargetTopic"] 
+            ?? configuration["TECH-INT-MSG-TARGET_TOPIC"] 
+            ?? configuration["TECH_INT_MSG_TARGET_TOPIC"];
+
+        if (string.IsNullOrWhiteSpace(bootstrapServers))
+            throw new InvalidOperationException("[CONFIG ERROR] 'KafkaStream:BootstrapServers' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(groupId))
+            throw new InvalidOperationException("[CONFIG ERROR] 'KafkaStream:GroupId' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(sourceTopic))
+            throw new InvalidOperationException("[CONFIG ERROR] 'KafkaStream:SourceTopic' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(targetTopic))
+            throw new InvalidOperationException("[CONFIG ERROR] 'KafkaStream:TargetTopic' no está configurado en appsettings.json ni en las variables de entorno.");
+
         var streamSettings = new KafkaStreamSettings
         {
-            BootstrapServers = configuration["KafkaStream:BootstrapServers"] 
-                ?? configuration["TECH-INT-MSG-KAFKA_BROKERS"] 
-                ?? configuration["TECH_INT_MSG_KAFKA_BROKERS"] 
-                ?? "kafka:29092",
-
-            GroupId = configuration["KafkaStream:GroupId"] 
-                ?? configuration["TECH-INT-MSG-STREAM_GROUP"] 
-                ?? configuration["TECH_INT_MSG_STREAM_GROUP"] 
-                ?? "consumer-streams-produbanco-v1",
-
-            SourceTopic = configuration["KafkaStream:SourceTopic"] 
-                ?? configuration["TECH-INT-MSG-SOURCE_TOPIC"] 
-                ?? configuration["TECH_INT_MSG_SOURCE_TOPIC"] 
-                ?? "tp.observability.application-log.emitted.v1",
-
-            TargetTopic = configuration["KafkaStream:TargetTopic"] 
-                ?? configuration["TECH-INT-MSG-TARGET_TOPIC"] 
-                ?? configuration["TECH_INT_MSG_TARGET_TOPIC"] 
-                ?? "tp.observability.application-log.processed.v1",
-
+            BootstrapServers = bootstrapServers,
+            GroupId = groupId,
+            SourceTopic = sourceTopic,
+            TargetTopic = targetTopic,
             AutoOffsetReset = configuration["KafkaStream:AutoOffsetReset"] ?? "Earliest",
             EnableAutoCommit = bool.TryParse(configuration["KafkaStream:EnableAutoCommit"], out var ec) && ec,
             PollTimeoutMs = int.TryParse(configuration["KafkaStream:PollTimeoutMs"], out var pt) ? pt : 1000

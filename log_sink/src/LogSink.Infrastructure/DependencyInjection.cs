@@ -12,61 +12,78 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddLogSinkInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        // Mapeo dinámico y seguro desde appsettings.json y Variables de Entorno (sin reflexión para Native AOT)
+        // 1. Mapeo dinámico y estricto desde IConfiguration (appsettings.json / Variables de Entorno)
+        var bootstrapServers = configuration["LogSink:BootstrapServers"] 
+            ?? configuration["TECH-INT-MSG-KAFKA_BROKERS"] 
+            ?? configuration["TECH_INT_MSG_KAFKA_BROKERS"];
+
+        var sourceTopic = configuration["LogSink:SourceTopic"] 
+            ?? configuration["TECH-INT-MSG-LOGS_TOPIC"] 
+            ?? configuration["TECH_INT_MSG_LOGS_TOPIC"];
+
+        var groupId = configuration["LogSink:GroupId"] 
+            ?? configuration["TECH-INT-MSG-LOGS_GROUP"] 
+            ?? configuration["TECH_INT_MSG_LOGS_GROUP"];
+
+        var cosmosEndpoint = configuration["LogSink:CosmosEndpoint"] 
+            ?? configuration["TECH-INT-DB-AUDI_URL"] 
+            ?? configuration["TECH_INT_DB_AUDI_URL"];
+
+        var databaseName = configuration["LogSink:DatabaseName"] 
+            ?? configuration["TECH-INT-DB-AUDI_NAME"] 
+            ?? configuration["TECH_INT_DB_AUDI_NAME"];
+
+        var containerName = configuration["LogSink:ContainerName"] 
+            ?? configuration["TECH-INT-DB-AUDI_COLL"] 
+            ?? configuration["TECH_INT_DB_AUDI_COLL"];
+
+        var keyVaultEndpoint = configuration["LogSink:KeyVaultEndpoint"] 
+            ?? configuration["TECH-INT-SECU-VAULT_URL"] 
+            ?? configuration["TECH_INT_SECU_VAULT_URL"];
+
+        var vaultTokenId = configuration["LogSink:VaultTokenId"] 
+            ?? configuration["TECH-INT-SECU-TOKEN_ID"] 
+            ?? configuration["TECH_INT_SECU_TOKEN_ID"];
+
+        // Validación Fail-Fast: Si falta alguna configuración esencial, la aplicación falla al iniciar
+        if (string.IsNullOrWhiteSpace(bootstrapServers))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:BootstrapServers' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(sourceTopic))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:SourceTopic' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(groupId))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:GroupId' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(cosmosEndpoint))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:CosmosEndpoint' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(databaseName))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:DatabaseName' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(containerName))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:ContainerName' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(keyVaultEndpoint))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:KeyVaultEndpoint' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(vaultTokenId))
+            throw new InvalidOperationException("[CONFIG ERROR] 'LogSink:VaultTokenId' no está configurado en appsettings.json ni en las variables de entorno.");
+
         var sinkSettings = new SinkSettings
         {
-            BootstrapServers = configuration["LogSink:BootstrapServers"] 
-                ?? configuration["TECH-INT-MSG-KAFKA_BROKERS"] 
-                ?? configuration["TECH_INT_MSG_KAFKA_BROKERS"] 
-                ?? "kafka:29092",
-
-            SourceTopic = configuration["LogSink:SourceTopic"] 
-                ?? configuration["TECH-INT-MSG-LOGS_TOPIC"] 
-                ?? configuration["TECH_INT_MSG_LOGS_TOPIC"] 
-                ?? "tp.observability.application-log.processed.v1",
-
-            GroupId = configuration["LogSink:GroupId"] 
-                ?? configuration["TECH-INT-MSG-LOGS_GROUP"] 
-                ?? configuration["TECH_INT_MSG_LOGS_GROUP"] 
-                ?? "log-sink-cosmosdb-group-v1",
-
+            BootstrapServers = bootstrapServers,
+            SourceTopic = sourceTopic,
+            GroupId = groupId,
             BatchSize = int.TryParse(configuration["LogSink:BatchSize"] ?? configuration["TECH-INT-DB-BATCH_SIZE"], out var bs) ? bs : 500,
             BatchTimeoutMs = int.TryParse(configuration["LogSink:BatchTimeoutMs"] ?? configuration["TECH-INT-DB-BATCH_TIMEOUT_MS"], out var bt) ? bt : 250,
-
-            CosmosEndpoint = configuration["LogSink:CosmosEndpoint"] 
-                ?? configuration["TECH-INT-DB-AUDI_URL"] 
-                ?? configuration["TECH_INT_DB_AUDI_URL"] 
-                ?? "http://azure-documentdb:8081",
-
-            CosmosPrimaryKey = configuration["LogSink:CosmosPrimaryKey"] 
-                ?? configuration["TECH-INT-DB-AUDI_KEY"] 
-                ?? configuration["TECH_INT_DB_AUDI_KEY"] 
-                ?? string.Empty,
-
-            DatabaseName = configuration["LogSink:DatabaseName"] 
-                ?? configuration["TECH-INT-DB-AUDI_NAME"] 
-                ?? configuration["TECH_INT_DB_AUDI_NAME"] 
-                ?? "ProdubancoObservability",
-
-            ContainerName = configuration["LogSink:ContainerName"] 
-                ?? configuration["TECH-INT-DB-AUDI_COLL"] 
-                ?? configuration["TECH_INT_DB_AUDI_COLL"] 
-                ?? "audit_logs",
-
-            PartitionKeyPath = configuration["LogSink:PartitionKeyPath"] 
-                ?? configuration["TECH-INT-DB-AUDI_PK_PATH"] 
-                ?? configuration["TECH_INT_DB_AUDI_PK_PATH"] 
-                ?? "/partitionKey",
-
-            KeyVaultEndpoint = configuration["LogSink:KeyVaultEndpoint"] 
-                ?? configuration["TECH-INT-SECU-VAULT_URL"] 
-                ?? configuration["TECH_INT_SECU_VAULT_URL"] 
-                ?? "https://azure-keyvault:8443",
-
-            VaultTokenId = configuration["LogSink:VaultTokenId"] 
-                ?? configuration["TECH-INT-SECU-TOKEN_ID"] 
-                ?? configuration["TECH_INT_SECU_TOKEN_ID"] 
-                ?? "TKN-COSMOS-PRODUBANCO-V1"
+            CosmosEndpoint = cosmosEndpoint,
+            CosmosPrimaryKey = configuration["LogSink:CosmosPrimaryKey"] ?? configuration["TECH-INT-DB-AUDI_KEY"] ?? string.Empty,
+            DatabaseName = databaseName,
+            ContainerName = containerName,
+            PartitionKeyPath = configuration["LogSink:PartitionKeyPath"] ?? configuration["TECH-INT-DB-AUDI_PK_PATH"] ?? "/partitionKey",
+            KeyVaultEndpoint = keyVaultEndpoint,
+            VaultTokenId = vaultTokenId
         };
 
         services.AddSingleton(Options.Create(sinkSettings));

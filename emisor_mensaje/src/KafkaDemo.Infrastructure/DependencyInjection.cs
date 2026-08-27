@@ -12,19 +12,25 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddKafkaInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        // 1. Configuración de Opciones dinámica desde IConfiguration y Variables de Entorno
+        // 1. Configuración de Opciones dinámica y estricta desde IConfiguration y Variables de Entorno
+        var bootstrapServers = configuration["Kafka:BootstrapServers"] 
+            ?? configuration["TECH-INT-MSG-KAFKA_BROKERS"] 
+            ?? configuration["TECH_INT_MSG_KAFKA_BROKERS"];
+
+        var clientId = configuration["Kafka:ClientId"] 
+            ?? configuration["TECH-INT-MSG-CLIENT_ID"] 
+            ?? configuration["TECH_INT_MSG_CLIENT_ID"];
+
+        if (string.IsNullOrWhiteSpace(bootstrapServers))
+            throw new InvalidOperationException("[CONFIG ERROR] 'Kafka:BootstrapServers' no está configurado en appsettings.json ni en las variables de entorno.");
+
+        if (string.IsNullOrWhiteSpace(clientId))
+            throw new InvalidOperationException("[CONFIG ERROR] 'Kafka:ClientId' no está configurado en appsettings.json ni en las variables de entorno.");
+
         var kafkaSettings = new KafkaSettings
         {
-            BootstrapServers = configuration["Kafka:BootstrapServers"] 
-                ?? configuration["TECH-INT-MSG-KAFKA_BROKERS"] 
-                ?? configuration["TECH_INT_MSG_KAFKA_BROKERS"] 
-                ?? "kafka:29092",
-
-            ClientId = configuration["Kafka:ClientId"] 
-                ?? configuration["TECH-INT-MSG-CLIENT_ID"] 
-                ?? configuration["TECH_INT_MSG_CLIENT_ID"] 
-                ?? "KafkaDemo-Producer",
-
+            BootstrapServers = bootstrapServers,
+            ClientId = clientId,
             Acks = configuration["Kafka:Acks"] ?? "all",
             EnableIdempotence = !bool.TryParse(configuration["Kafka:EnableIdempotence"], out var idemp) || idemp,
             MessageTimeoutMs = int.TryParse(configuration["Kafka:MessageTimeoutMs"], out var mt) ? mt : 10000,

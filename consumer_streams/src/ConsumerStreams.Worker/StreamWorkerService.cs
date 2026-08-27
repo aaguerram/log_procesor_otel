@@ -7,39 +7,28 @@ using Microsoft.Extensions.Options;
 namespace ConsumerStreams.Worker;
 
 /// <summary>
-/// Servicio en segundo plano para la ejecución continua del pipeline de Kafka Streaming con tópicos por defecto.
+/// Servicio en segundo plano para la ejecución continua del pipeline de Kafka Streaming.
+/// No posee valores quemados; lee la configuración validada en tiempo de inicio.
 /// </summary>
 public class StreamWorkerService(
     StreamProcessingPipelineUseCase pipelineUseCase,
     IOptions<KafkaStreamSettings> settingsOptions,
     ILogger<StreamWorkerService> logger) : BackgroundService
 {
-    public const string DefaultSourceTopic = "tp.observability.application-log.emitted.v1";
-    public const string DefaultTargetTopic = "tp.observability.application-log.processed.v1";
-
     private readonly KafkaStreamSettings _settings = settingsOptions.Value;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Resolución de tópicos con valores por defecto garantizados
-        var sourceTopic = !string.IsNullOrWhiteSpace(_settings.SourceTopic)
-            ? _settings.SourceTopic.Trim()
-            : DefaultSourceTopic;
+        if (string.IsNullOrWhiteSpace(_settings.SourceTopic))
+            throw new InvalidOperationException("[RUNTIME ERROR] SourceTopic no está configurado.");
 
-        var targetTopic = !string.IsNullOrWhiteSpace(_settings.TargetTopic)
-            ? _settings.TargetTopic.Trim()
-            : DefaultTargetTopic;
-
-        var consumerGroup = !string.IsNullOrWhiteSpace(_settings.GroupId)
-            ? _settings.GroupId.Trim()
-            : "consumer-streams-default-group";
+        if (string.IsNullOrWhiteSpace(_settings.TargetTopic))
+            throw new InvalidOperationException("[RUNTIME ERROR] TargetTopic no está configurado.");
 
         logger.LogInformation("🚀 [Kafka Streaming AOT] Iniciando procesador de flujo de eventos...");
-        logger.LogInformation("   - Tópico Origen (Consumo): '{Source}' {SourceNote}",
-            sourceTopic, sourceTopic == DefaultSourceTopic ? "[Por Defecto]" : "[Configurado]");
-        logger.LogInformation("   - Tópico Destino (Emisión): '{Target}' {TargetNote}",
-            targetTopic, targetTopic == DefaultTargetTopic ? "[Por Defecto]" : "[Configurado]");
-        logger.LogInformation("   - Consumer Group:           '{Group}'", consumerGroup);
+        logger.LogInformation("   - Tópico Origen (Consumo): '{Source}'", _settings.SourceTopic);
+        logger.LogInformation("   - Tópico Destino (Emisión): '{Target}'", _settings.TargetTopic);
+        logger.LogInformation("   - Consumer Group:           '{Group}'", _settings.GroupId);
         logger.LogInformation("   - Servidores Bootstrap:     '{Servers}'", _settings.BootstrapServers);
 
         while (!stoppingToken.IsCancellationRequested)
@@ -47,8 +36,8 @@ public class StreamWorkerService(
             try
             {
                 await pipelineUseCase.ExecutePipelineAsync(
-                    sourceTopic,
-                    targetTopic,
+                    _settings.SourceTopic,
+                    _settings.TargetTopic,
                     stoppingToken);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)

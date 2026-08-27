@@ -19,16 +19,15 @@ public class BulkSinkWorkerService(
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var sourceTopic = !string.IsNullOrWhiteSpace(_settings.SourceTopic)
-            ? _settings.SourceTopic.Trim()
-            : "tp.observability.application-log.processed.v1";
+        if (string.IsNullOrWhiteSpace(_settings.SourceTopic))
+            throw new InvalidOperationException("[RUNTIME ERROR] LogSink:SourceTopic no está configurado.");
 
         var batchSize = _settings.BatchSize > 0 ? _settings.BatchSize : 500;
         var timeoutMs = _settings.BatchTimeoutMs > 0 ? _settings.BatchTimeoutMs : 250;
         var waitWindow = TimeSpan.FromMilliseconds(timeoutMs);
 
         logger.LogInformation("🚀 [Cosmos DB Bulk Sink AOT] Iniciando servicio de persistencia masiva...");
-        logger.LogInformation("   - Tópico Origen (Consumo):  '{Source}' (30 Particiones)", sourceTopic);
+        logger.LogInformation("   - Tópico Origen (Consumo):  '{Source}'", _settings.SourceTopic);
         logger.LogInformation("   - Tamaño de Lote (Bulk):    {BatchSize} documentos", batchSize);
         logger.LogInformation("   - Ventana de Espera Máx:    {Timeout} ms", timeoutMs);
         logger.LogInformation("   - Endpoint Cosmos DB:       '{Endpoint}'", _settings.CosmosEndpoint);
@@ -37,7 +36,7 @@ public class BulkSinkWorkerService(
         try
         {
             await pipelineUseCase.ExecuteBulkSinkPipelineAsync(
-                sourceTopic,
+                _settings.SourceTopic,
                 batchSize,
                 waitWindow,
                 stoppingToken);

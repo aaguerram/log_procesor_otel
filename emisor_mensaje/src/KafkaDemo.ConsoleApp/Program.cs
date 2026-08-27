@@ -32,8 +32,12 @@ var sendMessagesUseCase = scope.ServiceProvider.GetRequiredService<SendMessagesU
 var topicManagementPort = scope.ServiceProvider.GetRequiredService<ITopicManagementPort>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
-const string targetTopic = "tp.observability.application-log.emitted.v1";
-const int messageCount = 20;
+var targetTopic = builder.Configuration["Kafka:TargetTopic"] 
+    ?? builder.Configuration["TECH-INT-MSG-LOGS_TOPIC"] 
+    ?? builder.Configuration["TECH_INT_MSG_LOGS_TOPIC"] 
+    ?? throw new InvalidOperationException("[CONFIG ERROR] 'Kafka:TargetTopic' no está configurado en appsettings.json ni en las variables de entorno.");
+
+var messageCount = int.TryParse(builder.Configuration["Kafka:MessageCount"] ?? builder.Configuration["TECH-INT-MSG-COUNT"], out var mc) ? mc : 20;
 
 Console.WriteLine($"[1/3] Verificando conectividad con el clúster de Kafka...");
 
