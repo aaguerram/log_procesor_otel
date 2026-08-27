@@ -1,0 +1,5271 @@
+# Contrato OpenAPI de soporte - formato institucional
+openapi: 3.1.2
+# =======================
+# Info section
+# =======================
+info:
+  title: Transfer.Mspx.Prometeus.Management
+  description: |
+    **`ES`** Contrato OpenAPI de soporte para las operaciones expuestas por
+    `Transfer.Mspx.Prometeus.Management`.
+
+    Se preservan los paths, métodos HTTP, `operationId`, parámetros y estructuras
+    funcionales existentes. Se incorpora metadata institucional
+    `x-log-data-protection` únicamente para el tratamiento de datos sensibles en logs.
+
+    **`EN`** Support OpenAPI contract for the operations exposed by
+    `Transfer.Mspx.Prometeus.Management`.
+
+    Existing paths, HTTP methods, `operationId`, parameters, and functional payload
+    structures are preserved. Institutional `x-log-data-protection` metadata is added
+    only for sensitive-data treatment in logs.
+
+    ---
+    Change log:
+    ---
+    **2026** `August` **26** `Updated` **v1.0.0**
+
+    |**Author**|**Changes**|
+    |:---------|:----------|
+    |Gobierno|<ul><li>Normaliza el contrato a YAML/OpenAPI 3.1.2.</li><li>Incorpora `x-log-data-protection` en campos sensibles sin modificar la interfaz funcional.</li></ul>|
+  version: 1.0.0
+  contact:
+    email: governance@produbanco.com
+# =======================
+# Tags
+# =======================
+tags:
+  - name: Accounts
+    description: Operaciones de soporte relacionadas con cuentas. / Support operations related to accounts.
+  - name: card
+    description: Operaciones de soporte relacionadas con tarjetas. / Support operations related to cards.
+  - name: Catalogs
+    description: Operaciones de soporte para catálogos y parametrización. / Support operations for catalogs and 
+      parameterization.
+  - name: Clients
+    description: Operaciones de soporte relacionadas con clientes. / Support operations related to clients.
+  - name: Contacts
+    description: Operaciones de soporte relacionadas con contactos y beneficiarios. / Support operations related to 
+      contacts and beneficiaries.
+  - name: Costs
+    description: Operaciones de soporte relacionadas con costos. / Support operations related to costs.
+  - name: Frauds
+    description: Operaciones de soporte para validaciones de fraude y riesgo. / Support operations for fraud and risk 
+      validations.
+  - name: GeneralConsults
+    description: Consultas generales de soporte. / General support queries.
+  - name: Institutions
+    description: Operaciones de soporte relacionadas con instituciones financieras. / Support operations related to 
+      financial institutions.
+  - name: Notification
+    description: Operaciones de soporte relacionadas con notificaciones y registro técnico. / Support operations related
+      to notifications and technical records.
+  - name: Products
+    description: Operaciones de soporte relacionadas con productos asociados a contactos. / Support operations related 
+      to products associated with contacts.
+  - name: SecureProducts
+    description: Operaciones de soporte relacionadas con configuración de producto seguro. / Support operations related 
+      to secure-product configuration.
+  - name: TransactionLimits
+    description: Operaciones de soporte relacionadas con límites y cupos transaccionales. / Support operations related 
+      to transaction limits and quotas.
+  - name: Transfer
+    description: Operaciones de soporte relacionadas con transferencias e interoperabilidad. / Support operations 
+      related to transfers and interoperability.
+  - name: Validations
+    description: Operaciones de soporte relacionadas con validaciones y parámetros. / Support operations related to 
+      validations and parameters.
+# =======================
+# Paths - interfaz funcional preservada
+# =======================
+paths:
+  /accounts/customer/{idClient}/{consultType}/{state}/{idAccount}/accounts:
+    get:
+      tags:
+        - Accounts
+      operationId: ObtenerCuentasCliente
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: consultType
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: state
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: idAccount
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: numCuenta
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountEntityListResult'
+  /accounts/singleProduct-Account/{idCliente}/{tipoConsulta}/{estado}/{idCuenta}:
+    get:
+      tags:
+        - Accounts
+      operationId: ConsultarCuentaMonoproducto
+      parameters:
+        - name: idCliente
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: tipoConsulta
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: estado
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: idCuenta
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: numeroCuenta
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountClientEntityResult'
+  /accounts/transfer-parameterization/{numeroCuenta}/{tipoTransferencia}:
+    get:
+      tags:
+        - Accounts
+      operationId: ConsultarParametrizacionTransferencia
+      parameters:
+        - name: numeroCuenta
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: tipoTransferencia
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParametrizacionTransferenciaEntityListResult'
+  /accounts/wip/account:
+    get:
+      tags:
+        - Accounts
+      summary: Consulta informacion de la cuenta en WIP
+      description: Ejecuta el SP dbo.sps_info_cuenta_interop para obtener la informacion de la cuenta segun el 
+        identificador de cuenta, CUBI y tipo de consulta.
+      operationId: GetAccountWip
+      parameters:
+        - name: idCuenta
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: cubi
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: tipoConsulta
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountWipDtoResult'
+  /cards/bin-card/{clientId}:
+    get:
+      tags:
+        - card
+      operationId: GetClientCardBin
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCardResult'
+  /cards/wip/card:
+    get:
+      tags:
+        - card
+      summary: Consulta informacion de la tarjeta en WIP
+      description: Ejecuta el SP dbo.sps_info_tarjeta_interop para obtener informacion de la tarjeta asociada a la 
+        relación tarjeta-cuenta.
+      operationId: GetCardWip
+      parameters:
+        - name: idTarjetaCuenta
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCardWipDtoResult'
+  /catalogs/channels/configuration-catalog/{parameterName}/{channel}:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta un paramer
+      description: ''
+      operationId: ConsultaParametros
+      parameters:
+        - name: parameterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: channel
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigurationEntityResult'
+  /catalogs/produnet-information-channel/{channel}:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta informacion de canales
+      description: Devuelve la información del canal filtrando por el nemónico (can_nemonico).
+      operationId: DatosCanal
+      parameters:
+        - name: channel
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CanalEntityResult'
+  /catalogs/channels/general-parameter/{parameter}:
+    get:
+      tags:
+        - Catalogs
+      summary: 'Consulta '
+      description: ''
+      operationId: ConsultaParametroGeneral
+      parameters:
+        - name: parameter
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralParameterResult'
+  /catalogs/channels/catalog-details/{key}/{channel}:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta los detalles del catálogo por clave (código de negocio) y canal.
+      description: Invoca el caso de uso que ejecuta el SP dbo.sps_consultar_detalles_catalogos y retorna la lista de 
+        detalles (CatalogDetail).
+      operationId: ConsultarDetallesDeCatalogo
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: channel
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogDetailListResult'
+  /catalogs/administration/general-parameter/{strConfiguration}:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta parametro general
+      description: Obtiene lista de parametros generales por codigo de negocio.
+      operationId: ConsultarParametroGeneral
+      parameters:
+        - name: strConfiguration
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultarParametroGeneralResponseListResult'
+  /catalogs/wip/service-state-banred:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta estado del servicio BANRED
+      description: Obtiene el estado del servicio BANRED.
+      operationId: ConsultarEstadoServicioBanred
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetServiceStateDtoListResult'
+  /catalogs/wip/financial-institution/{nameCatalog}/{code}:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta Instituciones Financieras Para Wip
+      description: Consulta Instituciones Financieras Para Wip
+      operationId: ConsultarInstitucionesFinancierasParaWip
+      parameters:
+        - name: nameCatalog
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCatalogInteropDtoListResult'
+  /catalogs/wip/answer-codes:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta Codigos de Respuesta para WIP
+      description: Consulta los codigos de respuesta homologados para WIP.
+      operationId: ConsultarCodigosRespuestaInterop
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAnswerCodeDtoListResult'
+  /catalogs/wip/parameters/{parameterName}:
+    get:
+      tags:
+        - Catalogs
+      summary: Consulta un parametro de interoperabilidad WIP
+      description: Obtiene el valor y descripción del parametro WIP.
+      operationId: GetParameterWip
+      parameters:
+        - name: parameterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetParameterWipDtoResult'
+  /clients/by-identification/{identificationId}:
+    get:
+      tags:
+        - Clients
+      summary: Consulta un cliente por identificación
+      description: Ejecuta el SP dbo.sp_consulta_datos_clientes con @i_modo = 1 para obtener datos del cliente por 
+        identificación.
+      operationId: GetClientByIdentification
+      parameters:
+        - name: identificationId
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteResult'
+  /clients/client-alias/{idClient}/{idAccount}:
+    get:
+      tags:
+        - Clients
+      summary: Consulta el Cliente en WIP
+      description: Consulta la información del cliente en WIP por cliente y cuenta.
+      operationId: ConsultarClienteWIP
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: idAccount
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClientAliasDtoResult'
+  /clients/affiliate-wip:
+    post:
+      tags:
+        - Clients
+      summary: Afiliación de cliente WIP
+      description: Afiliar o validar un cliente en interoperabilidad (WIP).
+      operationId: AffiliateClientWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostAffiliateClienteWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /clients/affiliation-wip:
+    get:
+      tags:
+        - Clients
+      summary: Consulta la afiliacion WIP
+      description: Consulta la información de afiliacion WIP por alias o por CUBI.
+      operationId: GetAfiliationWip
+      parameters:
+        - name: alias
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Full'
+        - name: cubi
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAfiliationWipDtoListResult'
+  /clients/wip/data:
+    get:
+      tags:
+        - Clients
+      summary: Consulta datos del cliente en interoperabilidad
+      description: Ejecuta el SP dbo.sps_consultar_datos_interop para obtener informacion del cliente en WIP.
+      operationId: GetDataWip
+      parameters:
+        - name: cubiDebito
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: cubiCredito
+          in: query
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: origen
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: tipoTransaccion
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDataWipDtoResult'
+  /clients/wip/client-type:
+    get:
+      tags:
+        - Clients
+      summary: Consulta tipo y estado del cliente en WIP
+      description: Ejecuta el SP dbo.sps_tipo_cliente_web_interop para obtener el estado, identificacion y datos básicos
+        del cliente en WIP.
+      operationId: GetClientTypeWip
+      parameters:
+        - name: idTarjeta
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: idCliente
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClientTypeWipDtoResult'
+  /clients/wip/client-sr:
+    get:
+      tags:
+        - Clients
+      summary: Get SR client information
+      description: Executes the SP dbo.sps_clientesr_interop to retrieve SR client information including holder name, 
+        document data, account info, CUBI and alias.
+      operationId: GetClientSrWip
+      parameters:
+        - name: idCliente
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: idCuenta
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClienteSrWipDtoResult'
+  /clients/wip/desafiliate:
+    put:
+      tags:
+        - Clients
+      summary: Desafilia un cliente WIP
+      description: Ejecuta el procedimiento almacenado spu_desafiliacion_interop para desafiliar un cliente del esquema 
+        de interoperabilidad.
+      operationId: PutDesafiliateWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutDesafiliateWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /clients/wip/alias:
+    put:
+      tags:
+        - Clients
+      summary: Inserta o elimina un alias de cliente WIP
+      description: Ejecuta el procedimiento almacenado spu_alias_interop para insertar o eliminar un alias asociado a un
+        cliente en interoperabilidad.
+      operationId: PutClientWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutClientWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /contacts/contacts-by-idClient/{idClient}/{channel}:
+    get:
+      tags:
+        - Contacts
+      operationId: ConsultContacts
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: channel
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultContactResponseResult'
+  /contacts/local-contact:
+    post:
+      tags:
+        - Contacts
+      operationId: InsertContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientContactRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+    put:
+      tags:
+        - Contacts
+      operationId: UpdateLocalContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientContactUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /contacts/local-contact/{contactId}:
+    delete:
+      tags:
+        - Contacts
+      operationId: DeleteLocalContact
+      parameters:
+        - name: contactId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /contacts/favorite-contact:
+    put:
+      tags:
+        - Contacts
+      operationId: UpdateFavoriteContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFavoriteContactRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /contacts/scheduled-transfers/{contactId}:
+    get:
+      tags:
+        - Contacts
+      operationId: GetScheduledTransfersByContact
+      parameters:
+        - name: contactId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduledTransfersResponseListResult'
+  /contacts/scheduled-transfers/{scheduledTransferId}/{status}:
+    delete:
+      tags:
+        - Contacts
+      operationId: DeleteScheduledTransfer
+      parameters:
+        - name: scheduledTransferId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /contacts/contact-by-accountNumber/{accountNumber}:
+    get:
+      tags:
+        - Contacts
+      operationId: GetContactsByAccountNumber
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonalContactListResult'
+  /contacts/beneficiaries-local-by-identification-and-orderingClientId/{orderingClientId}/{identification}:
+    get:
+      tags:
+        - Contacts
+      operationId: GetLocalBeneficiariesByIdentificationAndOrderingClientId
+      parameters:
+        - name: orderingClientId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: identification
+          in: path
+          required: true
+          schema:
+            type: integer
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeneficiaryLocalResponseListResult'
+  /contacts/beneficiary-local:
+    post:
+      tags:
+        - Contacts
+      operationId: InsertLocalBeneficiary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryLocalCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+    put:
+      tags:
+        - Contacts
+      operationId: UpdateLocalBeneficiary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryLocalUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /contacts/beneficiary-local/{beneficiaryLocalId}:
+    delete:
+      tags:
+        - Contacts
+      operationId: DeleteLocalBeneficiary
+      parameters:
+        - name: beneficiaryLocalId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /contacts/beneficiary-local-history:
+    post:
+      tags:
+        - Contacts
+      operationId: InsertLocalBeneficiaryHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiaryLocalHistoryCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /costs/check-costs/{service}/{channel}/{destiny}:
+    get:
+      tags:
+        - Costs
+      summary: Consulta los costos por servicio, canal y destino
+      description: Ejecuta el SP dbo.sp_ca_consulta_costos para obtener costos filtrados por servicio, canal y destino.
+      operationId: ConsultarCostos
+      parameters:
+        - name: service
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: channel
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: destiny
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostosListResult'
+  /frauds/validate-secure-transaction:
+    post:
+      tags:
+        - Frauds
+      operationId: ValidateSecureTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionData'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecureTransactionResponseResult'
+  /frauds/validation-attempts:
+    put:
+      tags:
+        - Frauds
+      operationId: UpdateValidationAttempts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttemptValidation'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultFraudDtoResult'
+  /frauds/validation-number/{idClient}:
+    get:
+      tags:
+        - Frauds
+      summary: Get validation number by client identifier
+      description: Execute SP sps_numero_intentos_validar.
+      operationId: GetValidationNumber
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationContactResult'
+  /frauds/risk-level-transfer:
+    post:
+      tags:
+        - Frauds
+      summary: Insert transfer information by risk level
+      description: Execute SP spi_ti_transferencia_nivel_riesgo.
+      operationId: InsertRiskLevelTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferenciaNivelRiesgo'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /general-consults/holiday-consultation/{searchedDate}/{country}/{city}:
+    get:
+      tags:
+        - GeneralConsults
+      summary: Consulta día feriado
+      description: Consulta si una fecha corresponde a un día feriado para un país y ciudad.
+      operationId: HolidayConsultation
+      parameters:
+        - name: searchedDate
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: country
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: city
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /general-consults/sequential-consultation/{dataBase}/{table}:
+    get:
+      tags:
+        - GeneralConsults
+      summary: Consulta siguiente secuencial
+      description: Consulta el siguiente número secuencial configurado para una tabla.
+      operationId: SequentialConsultation
+      parameters:
+        - name: dataBase
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: table
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiguienteSecuenciaRespuestaResult'
+  /general-consults/process-dates:
+    get:
+      tags:
+        - GeneralConsults
+      summary: Consulta fechas del proceso
+      description: Obtiene la fecha contable y la fecha de conciliación del proceso.
+      operationId: GetProcessDates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProcessDateDtoResult'
+  /institutions/direct-payment-institutions:
+    get:
+      tags:
+        - Institutions
+      summary: Consult direct payment institutions
+      description: Executes a SP dbo.sp_ca_consulta_instituciones_pago_directo to get direct payment institutions
+      operationId: DirectPaymentInstitutions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitucionesPagoDirectoListResult'
+  /institutions/banks:
+    get:
+      tags:
+        - Institutions
+      summary: Consult SPI banks
+      description: Executes the stored procedure sp_ti_consultar_bancos_spi to retrieve the SPI banks catalog.
+      operationId: ConsultBanks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankListResult'
+  /notification/log-core-transfer:
+    post:
+      tags:
+        - Notification
+      summary: Insert log of transfer
+      description: Execute a SP spi_insertar_log_core_transferencias
+      operationId: InsertLogCoreTransferencia
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertLogRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /products:
+    post:
+      tags:
+        - Products
+      operationId: InsertContactProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpsertProductResponseResult'
+    put:
+      tags:
+        - Products
+      operationId: UpdateContactProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactProductUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpsertProductResponseResult'
+  /products/{contactId}/{productId}:
+    delete:
+      tags:
+        - Products
+      operationId: DeleteContactProduct
+      parameters:
+        - name: contactId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /secure-products/secure-product-configuration/{idClient}:
+    get:
+      tags:
+        - SecureProducts
+      summary: Get Secure Product Configuration by client identifier
+      description: Executes a sps_producto_seguro.
+      operationId: SecureProductConfiguration
+      parameters:
+        - name: idClient
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductEntityListResult'
+  /transaction-limits/channel/{channelId}/customer/{customerId}/product/{productId}/transaccion/{transactionId}:
+    get:
+      tags:
+        - TransactionLimits
+      summary: Check-transaction-limit
+      description: Obtiene lista de cupos por canal/cliente/producto/transacción.
+      operationId: Check-transaction-limit
+      parameters:
+        - name: channelId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: transactionId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CupoListResult'
+  /transaction-limits/update-amount-accumulated:
+    put:
+      tags:
+        - TransactionLimits
+      summary: Update amount accumulated
+      description: Actualiza el monto acumulado de un cupo.
+      operationId: UpdateAmountAccumulated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarCupo'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /transaction-limits/retrieve-max-transfer-amount/{strConfiguration}:
+    get:
+      tags:
+        - TransactionLimits
+      summary: retrieve-max-transfer-amount
+      description: Recupera el monto máximo de transferencia desde parámetros de canales.
+      operationId: retrieve-max-transfer-amount
+      parameters:
+        - name: strConfiguration
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultarMontoMaximoTransferenciaResult'
+  /transaction-limits/wip:
+    get:
+      tags:
+        - TransactionLimits
+      summary: Get transaction limits in WIP
+      description: Executes SP dbo.sps_info_cupo_interop to retrieve transaction limits, quotas and minimum configured 
+        amounts for WIP operations.
+      operationId: GetTransactionLimitWip
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTransactionLimitWipDtoResult'
+    post:
+      tags:
+        - TransactionLimits
+      summary: Registra el cupo de transaccion del cliente WIP
+      description: Ejecuta el SP spi_cupo_cliente_web_interop para registrar o actualizar el cupo del cliente.
+      operationId: PostTransactionLimitClientWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostTransactionLimitClientWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+    put:
+      tags:
+        - TransactionLimits
+      summary: Actualiza el cupo de transacción del cliente WIP
+      description: Ejecuta el SP spu_actualiza_cupo_interop para actualizar los cupos de transaccion del cliente.
+      operationId: PutTransactionLimitWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutTransactionLimitWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /transfer/description-transfer:
+    post:
+      tags:
+        - Transfer
+      summary: Inserta descripción de transferencia
+      description: Registra o actualiza la descripción de una transferencia.
+      operationId: InsertDescriptionTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestInsertarDescripcionTransferencia'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  ? /transfer/validate-duplicate-transfer/{originAccount}/{destinationAccount}/{beneficiaryIdentification}/{idTransaction}/{amount}
+  : get:
+      tags:
+        - Transfer
+      summary: Valida duplicidad de transferencias
+      description: Verifica si una transferencia está duplicada considerando cuentas, beneficiario, transacción y monto.
+      operationId: ValidateDuplicateTransfer
+      parameters:
+        - name: originAccount
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: destinationAccount
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: beneficiaryIdentification
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: idTransaction
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Hash(SHA256)'
+        - name: amount
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+            x-log-data-protection: '@Log.Full'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DuplicidadTransaccionEntity'
+  /transfer/duplication-time/{originAccount}/{destinationAccount}/{beneficiaryIdentification}/{amount}:
+    get:
+      tags:
+        - Transfer
+      summary: Consulta tiempo de duplicidad
+      description: Obtiene el tiempo transcurrido entre transacciones para detectar duplicidad.
+      operationId: GetDuplicationTime
+      parameters:
+        - name: originAccount
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: destinationAccount
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: beneficiaryIdentification
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Partial(LAST_4)'
+        - name: amount
+          in: path
+          required: true
+          schema:
+            type: number
+            format: double
+            x-log-data-protection: '@Log.Full'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TiempoDuplicidadTransaccionEntity'
+  /transfer/scheduled-credit-data:
+    put:
+      tags:
+        - Transfer
+      operationId: UpdateScheduledCreditData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduledCreditUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultDtoResult'
+  /transfer/message-identifier/{trxSecuencial}:
+    get:
+      tags:
+        - Transfer
+      summary: Genera identificador de mensaje
+      description: Genera el identificador unico de mensaje para WIP.
+      operationId: GenerateInteropMessageIdentifier
+      parameters:
+        - name: trxSecuencial
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            x-log-data-protection: '@Log.Hash(SHA256)'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessageIdentifierDtoResult'
+  /transfer/status-wip:
+    put:
+      tags:
+        - Transfer
+      summary: Actualiza estado de transferencia WIP
+      description: Actualiza el estado de la transferencia de interoperabilidad (WIP).
+      operationId: PutTransferStatusWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutTransferStatusWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /transfer/wip/transaction-code:
+    get:
+      tags:
+        - Transfer
+      summary: Consulta códigos de transacción en interoperabilidad
+      description: Ejecuta el SP dbo.sps_codigo_transaccion_interop para obtener los codigos de transaccion, causales, 
+        origen y servicio asociados a una operacion WIP.
+      operationId: GetTransactionCodeWip
+      parameters:
+        - name: codigoProceso
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: tipoCuentaProceso
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: nemonicoOrigen
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: tipoOperacion
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTransactionCodeWipDtoResult'
+  /transfer/wip:
+    post:
+      tags:
+        - Transfer
+      summary: Registra una transferencia WIP
+      description: Inserta una transferencia de interoperabilidad WIP.
+      operationId: PostTransferWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostTransferWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /transfer/wip/reentry:
+    post:
+      tags:
+        - Transfer
+      summary: Registra un reingreso de interoperabilidad WIP
+      description: Ejecuta el SP spi_reentry_interop para registrar un reentry WIP.
+      operationId: PostReentryWip
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostReentryWipCommand'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResult'
+  /transfer/wip/history/{alias}:
+    get:
+      tags:
+        - Transfer
+      summary: Obtiene el historial WIP por alias
+      description: Ejecuta el procedimiento almacenado sps_consulta_historico_interop para consultar el historial de 
+        transferencias de interoperabilidad asociado a un alias.
+      operationId: GetHistoryWip
+      parameters:
+        - name: alias
+          in: path
+          required: true
+          schema:
+            type: string
+            x-log-data-protection: '@Log.Full'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetHistoryWipDtoListResult'
+  /validations/configuration/{strConfiguration}:
+    get:
+      tags:
+        - Validations
+      summary: Consulta configuración
+      description: Obtiene configuración por nombre/cadena de configuración.
+      operationId: ConsultarConfiguracion
+      parameters:
+        - name: strConfiguration
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidacionResult'
+  /validations/parameters-values/{strConfiguration}:
+    get:
+      tags:
+        - Validations
+      summary: Consulta valor de parámetro
+      description: Obtiene lista de valores para el parámetro especificado.
+      operationId: ConsultarValorParametro
+      parameters:
+        - name: strConfiguration
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsultarValorParametroResponseListResult'
+# =======================
+# Components
+# =======================
+components:
+  schemas:
+    AccountClientEntity:
+      type: object
+      properties:
+        ca_id_cuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    AccountClientEntityResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/AccountClientEntity'
+      additionalProperties: false
+    AccountEntity:
+      type: object
+      properties:
+        cuenta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        nombreCuenta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        rol:
+          type:
+            - string
+            - 'null'
+        idProducto:
+          type: integer
+          format: int32
+        idSubProducto:
+          type: integer
+          format: int32
+        idCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idFilial:
+          type: integer
+          format: int32
+        codNegRol:
+          type:
+            - string
+            - 'null'
+        idOficial:
+          type: integer
+          format: int32
+        nombreOficial:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idClientePrincipal:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        estado:
+          type:
+            - string
+            - 'null'
+        bloqueo:
+          type:
+            - string
+            - 'null'
+        idSucursal:
+          type: integer
+          format: int32
+        fechaUltimoMovimiento:
+          type:
+            - string
+            - 'null'
+        saldoDisponible:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        porEfectivizar:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        porEfectivizarHoy:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        montoBloqueado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        montoRetenido:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        valoresSuspenso:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        identificacion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        nombreCliente:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        banca:
+          type: integer
+          format: int32
+        tipoPersona:
+          type: integer
+          format: int32
+        sectorBce:
+          type: integer
+          format: int32
+        campoSib:
+          type:
+            - string
+            - 'null'
+        idRol:
+          type: integer
+          format: int32
+        idMoneda:
+          type: integer
+          format: int32
+        idOficinaOficial:
+          type: integer
+          format: int32
+        idAreaOficial:
+          type: integer
+          format: int32
+        ctaPrincipal:
+          type: boolean
+        patrimonio:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        fechaPatrimonio:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        vinculada:
+          type: boolean
+        historico:
+          type: boolean
+        funcionario:
+          type: boolean
+        subProducto:
+          type:
+            - string
+            - 'null'
+        tipo_Cuenta:
+          type:
+            - string
+            - 'null'
+        tipoBloqueo:
+          type:
+            - string
+            - 'null'
+        restringida:
+          type: boolean
+        codNegAsesor:
+          type:
+            - string
+            - 'null'
+        zonaOficial:
+          type: integer
+          format: int32
+        nombreTit:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        apellidoTit:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        visibilidad:
+          type: boolean
+        libreta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        descEstado:
+          type:
+            - string
+            - 'null'
+        descFilial:
+          type:
+            - string
+            - 'null'
+        bloqueada:
+          type:
+            - string
+            - 'null'
+        tipoBloq:
+          type:
+            - string
+            - 'null'
+        nombreMoneda:
+          type:
+            - string
+            - 'null'
+        codigoIso:
+          type:
+            - string
+            - 'null'
+        simbolo:
+          type:
+            - string
+            - 'null'
+        nemonico:
+          type:
+            - string
+            - 'null'
+        producto:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    AccountEntityListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/AccountEntity'
+          readOnly: true
+      additionalProperties: false
+    ActualizarCupo:
+      type: object
+      properties:
+        idCupo:
+          type: integer
+          format: int32
+        monto:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    AttemptValidation:
+      type: object
+      properties:
+        idClient:
+          type: integer
+          format: int32
+      additionalProperties: false
+    Bank:
+      type: object
+      properties:
+        idBanco:
+          type: integer
+          format: int32
+        codigoBanco:
+          type:
+            - string
+            - 'null'
+        nombreBanco:
+          type:
+            - string
+            - 'null'
+        codigoSwift:
+          type:
+            - string
+            - 'null'
+        cuentaBce:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        orden:
+          type: integer
+          format: int32
+      additionalProperties: false
+    BankListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/Bank'
+          readOnly: true
+      additionalProperties: false
+    BeneficiaryLocalCreateRequest:
+      type: object
+      properties:
+        localBeneficiaryId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        orderingClientId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        identificationType:
+          type: string
+        identification:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        name:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        lastName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        destinationBank:
+          type:
+            - string
+            - 'null'
+        accountNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        accountType:
+          type: string
+        registrationDate:
+          type: string
+          format: date
+        modifiedDate:
+          type: string
+          format: date
+        businessName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        email:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        phoneNumber:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        alias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        mobileActive:
+          type: boolean
+        channel:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    BeneficiaryLocalHistoryCreateRequest:
+      type: object
+      properties:
+        localBeneficiaryId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    BeneficiaryLocalResponse:
+      type: object
+      properties:
+        idBeneficiarioLocal:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        numeroCuenta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        bancoDestino:
+          type:
+            - string
+            - 'null'
+        razonSocial:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    BeneficiaryLocalResponseListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/BeneficiaryLocalResponse'
+          readOnly: true
+      additionalProperties: false
+    BeneficiaryLocalUpdateRequest:
+      type: object
+      properties:
+        localBeneficiaryId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        orderingClientId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        identificationType:
+          type: string
+        identification:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        name:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        lastName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        destinationBank:
+          type:
+            - string
+            - 'null'
+        accountNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        accountType:
+          type: string
+        registrationDate:
+          type: string
+          format: date
+        modifiedDate:
+          type: string
+          format: date-time
+        businessName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        email:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        phoneNumber:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        alias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        mobileActive:
+          type:
+            - boolean
+            - 'null'
+      additionalProperties: false
+    BooleanResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    CanalEntity:
+      type: object
+      properties:
+        idCanal:
+          type: integer
+          format: int32
+        nemonico:
+          type:
+            - string
+            - 'null'
+        descripcion:
+          type:
+            - string
+            - 'null'
+        estado:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CanalEntityResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/CanalEntity'
+      additionalProperties: false
+    CardItem:
+      type: object
+      properties:
+        bin:
+          type:
+            - string
+            - 'null'
+        name:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        process:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        holder:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        cardId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        statusId:
+          type: integer
+          format: int32
+        account:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        brand:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        accountCrd:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        creditLine:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        nationalLimit:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        internationalLimit:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        internetLimit:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        textColor:
+          type:
+            - string
+            - 'null'
+        imageLink:
+          type:
+            - string
+            - 'null'
+        alias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        cardNumberSlidePosition:
+          type:
+            - string
+            - 'null'
+        cardType:
+          type:
+            - string
+            - 'null'
+        primaryOrAdditional:
+          type:
+            - string
+            - 'null'
+        expirationDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          x-log-data-protection: '@Log.Full'
+        holderCardNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        nationalAtmLimit:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        internationalAtmLimit:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        internationalInternetLimit:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        transferredCard:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CatalogDetail:
+      type: object
+      properties:
+        idCatalogoDetalle:
+          type: integer
+          format: int32
+        idCatalogo:
+          type: integer
+          format: int32
+        codigoPadre:
+          type: integer
+          format: int32
+        nombre:
+          type:
+            - string
+            - 'null'
+        nemonico:
+          type:
+            - string
+            - 'null'
+        descripcion:
+          type:
+            - string
+            - 'null'
+        estado:
+          type:
+            - string
+            - 'null'
+        fecha:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        homologacion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    CatalogDetailListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/CatalogDetail'
+          readOnly: true
+      additionalProperties: false
+    ClientCard:
+      type: object
+      properties:
+        cardDetails:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/CardItem'
+          readOnly: true
+        promotionsSummary:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/PromotionSummary'
+          readOnly: true
+      additionalProperties: false
+    ClientCardResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ClientCard'
+      additionalProperties: false
+    ClientContactRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        clientId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        identificationType:
+          type: string
+        identification:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        name:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        lastName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        businessName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        email:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        phoneNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        favorite:
+          type: boolean
+        alias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        national:
+          type: boolean
+        channel:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ClientContactUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        identification:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        name:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        lastName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        businessName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        email:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        phoneNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        favorite:
+          type: boolean
+        national:
+          type: boolean
+        alias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    Cliente:
+      type: object
+      properties:
+        nombre:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        cedRuc:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        idCliente:
+          type:
+            - integer
+            - 'null'
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        pasaporte:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        fechaCreacion:
+          type:
+            - string
+            - 'null'
+        fechaNacimiento:
+          type:
+            - string
+            - 'null'
+          format: date-time
+          x-log-data-protection: '@Log.Full'
+        tipoPersona:
+          type:
+            - string
+            - 'null'
+        funcionario:
+          type:
+            - string
+            - 'null'
+        email:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        idEmail:
+          type:
+            - integer
+            - 'null'
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        nombreGrupo:
+          type:
+            - string
+            - 'null'
+        sexo:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        estadoCivil:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        firmaContrato:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        identificacionTipoChar:
+          type:
+            - string
+            - 'null'
+        codigoTipoIdentificacion:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        verificado:
+          type:
+            - string
+            - 'null'
+        verificadoCelular:
+          type:
+            - string
+            - 'null'
+        clIdClientePrincipal:
+          type:
+            - integer
+            - 'null'
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        clSector:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        numeroTelefono:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        idTelefono:
+          type:
+            - integer
+            - 'null'
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idProveedor:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        idOperadora:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        vinculado:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ClienteResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/Cliente'
+      additionalProperties: false
+    ConfigurationEntity:
+      type: object
+      properties:
+        valor:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ConfigurationEntityResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ConfigurationEntity'
+      additionalProperties: false
+    ConsultContactResponse:
+      type: object
+      properties:
+        contactos:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ContactProduct'
+          readOnly: true
+        productos:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ProductResponse'
+          readOnly: true
+      additionalProperties: false
+    ConsultContactResponseResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ConsultContactResponse'
+      additionalProperties: false
+    ConsultarMontoMaximoTransferencia:
+      type: object
+      properties:
+        idCatalogo:
+          type: integer
+          format: int32
+        codigo:
+          type:
+            - string
+            - 'null'
+        valor:
+          type:
+            - string
+            - 'null'
+        descripcion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ConsultarMontoMaximoTransferenciaResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ConsultarMontoMaximoTransferencia'
+      additionalProperties: false
+    ConsultarParametroGeneralResponse:
+      type: object
+      properties:
+        pa_id_parametro:
+          type: integer
+          format: int32
+        pa_tipo_dato:
+          type:
+            - string
+            - 'null'
+        pa_descripcion:
+          type:
+            - string
+            - 'null'
+        pa_valor:
+          type:
+            - string
+            - 'null'
+        pa_codigo_negocio:
+          type:
+            - string
+            - 'null'
+        pa_modulo:
+          type: integer
+          format: int32
+        pa_replicar:
+          type: boolean
+      additionalProperties: false
+    ConsultarParametroGeneralResponseListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ConsultarParametroGeneralResponse'
+          readOnly: true
+      additionalProperties: false
+    ConsultarValorParametroResponse:
+      type: object
+      properties:
+        pa_id_parametro:
+          type: integer
+          format: int32
+        pa_nombre:
+          type:
+            - string
+            - 'null'
+        pa_valor:
+          type:
+            - string
+            - 'null'
+        pa_descripcion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ConsultarValorParametroResponseListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ConsultarValorParametroResponse'
+          readOnly: true
+      additionalProperties: false
+    ContactProduct:
+      type: object
+      properties:
+        identificacion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        nombre:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        apellido:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        id:
+          type: integer
+          format: int32
+        tipoIdentificacion:
+          type:
+            - string
+            - 'null'
+        correo:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        numeroCelular:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        alias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        favorito:
+          type: boolean
+        esNacional:
+          type: boolean
+        esCheque:
+          type: boolean
+        razonSocial:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    ContactProductUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        bankCode:
+          type: integer
+          format: int32
+        productNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        productType:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    Costos:
+      type: object
+      properties:
+        idDestino:
+          type: integer
+          format: int32
+        codigoServicio:
+          type:
+            - string
+            - 'null'
+        valorCliente:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        valorFuncionario:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        cobraFuncionario:
+          type:
+            - string
+            - 'null'
+        causal:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CostosListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/Costos'
+          readOnly: true
+      additionalProperties: false
+    Cuenta:
+      type: object
+      properties:
+        subproducto:
+          type:
+            - string
+            - 'null'
+        numeroCuentaEnmascarado:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    Cupo:
+      type: object
+      properties:
+        idCupo:
+          type: integer
+          format: int32
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idTransaccion:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idProducto:
+          type: integer
+          format: int32
+        montoMaximo:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        montoAcumulado:
+          type:
+            - number
+            - 'null'
+          format: double
+          x-log-data-protection: '@Log.Full'
+        idCanal:
+          type: integer
+          format: int32
+        fechaCreacion:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        fechaModificacion:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        fechaTransaccion:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        usuarioModificacion:
+          type:
+            - string
+            - 'null'
+        neonomicoTransaccion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    CupoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/Cupo'
+          readOnly: true
+      additionalProperties: false
+    DuplicidadTransaccionEntity:
+      type: object
+      properties:
+        cuentaOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+      additionalProperties: false
+    GeneralParameter:
+      type: object
+      properties:
+        idCatalogo:
+          type: integer
+          format: int32
+        codigo:
+          type:
+            - string
+            - 'null'
+        valor:
+          type:
+            - string
+            - 'null'
+        descripcion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GeneralParameterResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GeneralParameter'
+      additionalProperties: false
+    GetAccountWipDto:
+      type: object
+      properties:
+        CuentaProducto:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        Producto:
+          type:
+            - string
+            - 'null'
+        IdProducto:
+          type: integer
+          format: int32
+        IdSubproducto:
+          type: integer
+          format: int32
+        IdFilial:
+          type: integer
+          format: int32
+        ValidacionPrincipal:
+          type:
+            - string
+            - 'null'
+        SaldoDisponible:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        IdMoneda:
+          type: integer
+          format: int32
+        IdCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        IdBanca:
+          type: integer
+          format: int32
+        IdSucursal:
+          type: integer
+          format: int32
+        CuentaAcceso:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        EstadoCta:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetAccountWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetAccountWipDto'
+      additionalProperties: false
+    GetAfiliationWipDto:
+      type: object
+      properties:
+        NombreTitular:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        Cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        FechaRegistro:
+          type: string
+          format: date-time
+        ValorAlias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        EstadoCliente:
+          type: boolean
+        IdCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        IdCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    GetAfiliationWipDtoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/GetAfiliationWipDto'
+          readOnly: true
+      additionalProperties: false
+    GetAnswerCodeDto:
+      type: object
+      properties:
+        Codigo_Interno:
+          type: integer
+          format: int32
+        Codigo_Homologado:
+          type:
+            - string
+            - 'null'
+        Descripcion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetAnswerCodeDtoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/GetAnswerCodeDto'
+          readOnly: true
+      additionalProperties: false
+    GetCardWipDto:
+      type: object
+      properties:
+        IdTarjeta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        NombrePlastico:
+          type:
+            - string
+            - 'null'
+        Estado:
+          type:
+            - string
+            - 'null'
+        FechaVencimiento:
+          type: string
+          format: date-time
+          x-log-data-protection: '@Log.Full'
+        Producto:
+          type:
+            - string
+            - 'null'
+        Status:
+          type:
+            - string
+            - 'null'
+        IdProducto:
+          type: integer
+          format: int32
+        TipoTarjeta:
+          type: integer
+          format: int32
+      additionalProperties: false
+    GetCardWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetCardWipDto'
+      additionalProperties: false
+    GetCatalogInteropDto:
+      type: object
+      properties:
+        Descripcion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetCatalogInteropDtoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/GetCatalogInteropDto'
+          readOnly: true
+      additionalProperties: false
+    GetClientAliasDto:
+      type: object
+      properties:
+        NombreTitular:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        NumeroDocumento:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        TipoDocumento:
+          type:
+            - string
+            - 'null'
+        NumeroCuenta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        Cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    GetClientAliasDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetClientAliasDto'
+      additionalProperties: false
+    GetClientTypeWipDto:
+      type: object
+      properties:
+        Estado:
+          type:
+            - string
+            - 'null'
+        Identificacion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        IdCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        IdClientePrincipal:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        NumeroTelefono:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+      additionalProperties: false
+    GetClientTypeWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetClientTypeWipDto'
+      additionalProperties: false
+    GetClienteSrWipDto:
+      type: object
+      properties:
+        NombreTitular:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        NumeroDocumento:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        TipoDocumento:
+          type:
+            - string
+            - 'null'
+        NumeroCuenta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        Cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        ALIAS:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        IdCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        IdCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    GetClienteSrWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetClienteSrWipDto'
+      additionalProperties: false
+    GetDataWipDto:
+      type: object
+      properties:
+        IdCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        IdCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        Cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        Canal:
+          type:
+            - string
+            - 'null'
+        FechaRegistro:
+          type: string
+          format: date-time
+        TipoCliente:
+          type:
+            - string
+            - 'null'
+        Identificacion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        TipoDocumento:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetDataWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetDataWipDto'
+      additionalProperties: false
+    GetHistoryWipDto:
+      type: object
+      properties:
+        idReferencia:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        tipoTransaccion:
+          type:
+            - string
+            - 'null'
+        nombreOrdenante:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        aliasOrdenante:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        bancoOrdenante:
+          type:
+            - string
+            - 'null'
+        nombreReceptor:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        aliasReceptor:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        bancoReceptor:
+          type:
+            - string
+            - 'null'
+        fechaTransaccion:
+          type: string
+          format: date-time
+        monto:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    GetHistoryWipDtoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/GetHistoryWipDto'
+          readOnly: true
+      additionalProperties: false
+    GetMessageIdentifierDto:
+      type: object
+      properties:
+        IdentificadorMensaje:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetMessageIdentifierDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetMessageIdentifierDto'
+      additionalProperties: false
+    GetParameterWipDto:
+      type: object
+      properties:
+        Valor:
+          type:
+            - string
+            - 'null'
+        Descripcion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetParameterWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetParameterWipDto'
+      additionalProperties: false
+    GetProcessDateDto:
+      type: object
+      properties:
+        FechaContable:
+          type:
+            - string
+            - 'null'
+        FechaConcilia:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetProcessDateDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetProcessDateDto'
+      additionalProperties: false
+    GetServiceStateDto:
+      type: object
+      properties:
+        EstadoServicio:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    GetServiceStateDtoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/GetServiceStateDto'
+          readOnly: true
+      additionalProperties: false
+    GetTransactionCodeWipDto:
+      type: object
+      properties:
+        IdTrxContDebito:
+          type: integer
+          format: int32
+        IdTrxContCredito:
+          type: integer
+          format: int32
+        CausalCredito:
+          type: integer
+          format: int32
+        CausalDebito:
+          type: integer
+          format: int32
+        CodigoPbo:
+          type:
+            - string
+            - 'null'
+        IdCausal:
+          type: integer
+          format: int32
+        IdOrigen:
+          type: integer
+          format: int32
+        IdServicio:
+          type: integer
+          format: int32
+      additionalProperties: false
+    GetTransactionCodeWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetTransactionCodeWipDto'
+      additionalProperties: false
+    GetTransactionLimitWipDto:
+      type: object
+      properties:
+        Respuesta:
+          type: integer
+          format: int32
+        Cupo:
+          $ref: '#/components/schemas/TransactionQuotaWipDto'
+        Tope:
+          $ref: '#/components/schemas/TransactionLimitTopWipDto'
+        MontoMinimo:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    GetTransactionLimitWipDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/GetTransactionLimitWipDto'
+      additionalProperties: false
+    InformationTransferRequest:
+      type: object
+      properties:
+        montoTransaccion:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        cuentaOrigen:
+          $ref: '#/components/schemas/Cuenta'
+        cuentaDestino:
+          $ref: '#/components/schemas/Cuenta'
+        decripcion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    InsertLogRequest:
+      type: object
+      properties:
+        log:
+          $ref: '#/components/schemas/LogCoreTransferencia'
+        transfer:
+          $ref: '#/components/schemas/InformationTransferRequest'
+      additionalProperties: false
+    InstitucionesPagoDirecto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        nombre:
+          type:
+            - string
+            - 'null'
+        aba:
+          type:
+            - string
+            - 'null'
+        codigoEmisor:
+          type: integer
+          format: int32
+        fiAdquiriente:
+          type: integer
+          format: int32
+        fiEmisor:
+          type: integer
+          format: int32
+        abreviatura:
+          type:
+            - string
+            - 'null'
+        ruc:
+          type:
+            - string
+            - 'null'
+        estado:
+          type:
+            - string
+            - 'null'
+        idBanco:
+          type: integer
+          format: int32
+      additionalProperties: false
+    InstitucionesPagoDirectoListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/InstitucionesPagoDirecto'
+          readOnly: true
+      additionalProperties: false
+    LogCoreTransferencia:
+      type: object
+      properties:
+        fecha:
+          type: string
+          format: date-time
+        canal:
+          type:
+            - string
+            - 'null'
+        serviceName:
+          type:
+            - string
+            - 'null'
+        idControladorAccion:
+          type: integer
+          format: int32
+        controllerName:
+          type:
+            - string
+            - 'null'
+        actionName:
+          type:
+            - string
+            - 'null'
+        namespace:
+          type:
+            - string
+            - 'null'
+        threadId:
+          type: integer
+          format: int32
+        tipo:
+          type:
+            - string
+            - 'null'
+        idSession:
+          type: string
+          format: uuid
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idUsuario:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        direccionIpServidor:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        direccionIpCliente:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        codRespuestaInterno:
+          type:
+            - string
+            - 'null'
+        codTransaccion:
+          type: integer
+          format: int32
+      additionalProperties: false
+    MotivoRiesgoGd:
+      type: object
+      properties:
+        codigoEvento:
+          type:
+            - string
+            - 'null'
+        eventoRiesgo:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ParametrizacionTransferenciaEntity:
+      type: object
+      properties:
+        pt_id_secuencial:
+          type: integer
+          format: int32
+        pt_numero_cuenta:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        pt_tipo_cuenta:
+          type:
+            - string
+            - 'null'
+        pt_habilitado:
+          type: integer
+          format: int32
+        pt_tipo_transferencia:
+          type: string
+      additionalProperties: false
+    ParametrizacionTransferenciaEntityListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ParametrizacionTransferenciaEntity'
+          readOnly: true
+      additionalProperties: false
+    PersonalContact:
+      type: object
+      properties:
+        identificacion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        nombre:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        apellido:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        tipoIdentificacion:
+          type: integer
+          format: int32
+        tipoProducto:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    PersonalContactListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/PersonalContact'
+          readOnly: true
+      additionalProperties: false
+    PostAffiliateClienteWipCommand:
+      type: object
+      properties:
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        tipoAlias:
+          type:
+            - string
+            - 'null'
+        valorAlias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        canal:
+          type:
+            - string
+            - 'null'
+        validar:
+          type: boolean
+      additionalProperties: false
+    PostReentryWipCommand:
+      type: object
+      properties:
+        IdProceso:
+          type: integer
+          format: int32
+        IdPbo:
+          type: integer
+          format: int32
+        Cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        Estado:
+          type:
+            - string
+            - 'null'
+        Respuesta:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    PostTransactionLimitClientWipCommand:
+      type: object
+      properties:
+        IdTipoCliente:
+          type: integer
+          format: int32
+        IdCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        Usuario:
+          type:
+            - string
+            - 'null'
+        Status:
+          type:
+            - string
+            - 'null'
+        CuentaAcceso:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        Origen:
+          type: integer
+          format: int32
+        Moneda:
+          type: integer
+          format: int32
+        Transaccion:
+          type: integer
+          format: int32
+        IdBanca:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PostTransferWipCommand:
+      type: object
+      properties:
+        IdTransaccion:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        IdProcesoPbo:
+          type: integer
+          format: int32
+        Producto:
+          type:
+            - string
+            - 'null'
+        CubiDestino:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        CubiOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        AliasOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        AliasDestino:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        Monto:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CodigoRespuesta:
+          type: integer
+          format: int32
+        NemonicoOrigen:
+          type: integer
+          format: int32
+        IdReferencia:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        DescripcionTipo:
+          type:
+            - string
+            - 'null'
+        FechaRequest:
+          type: string
+          format: date-time
+        IdOrigen:
+          type:
+            - string
+            - 'null'
+        IdReferenciaOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        EstadoTrx:
+          type:
+            - string
+            - 'null'
+        DetalleTrx:
+          type:
+            - string
+            - 'null'
+        FechaContable:
+          type:
+            - string
+            - 'null'
+        ReferenciaInstitucion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        ObjJsonResponse:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Remove'
+        NombreBeneficiario:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    ProductCreateRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        contactId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        bankCode:
+          type: integer
+          format: int32
+        productNumber:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        productType:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ProductEntity:
+      type: object
+      properties:
+        idProducto:
+          type: integer
+          format: int32
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        canal:
+          type:
+            - string
+            - 'null'
+        estado:
+          type: boolean
+        modulo:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    ProductEntityListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ProductEntity'
+          readOnly: true
+      additionalProperties: false
+    ProductResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        codigoBanco:
+          type:
+            - string
+            - 'null'
+        numeroProducto:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        banco:
+          type:
+            - string
+            - 'null'
+        caracterProducto:
+          type:
+            - string
+            - 'null'
+        idContacto:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        tieneTransferenciaProgramada:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PromotionSummary:
+      type: object
+      properties:
+        cardId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        bin:
+          type:
+            - string
+            - 'null'
+        promotion:
+          type: integer
+          format: int32
+        openingDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        cancellationDate:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        binType:
+          type: integer
+          format: int32
+      additionalProperties: false
+    PutClientWipCommand:
+      type: object
+      properties:
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        tipoAlias:
+          type:
+            - string
+            - 'null'
+        valorAlias:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        canal:
+          type:
+            - string
+            - 'null'
+        accion:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    PutDesafiliateWipCommand:
+      type: object
+      properties:
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        cubi:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    PutTransactionLimitWipCommand:
+      type: object
+      properties:
+        TrxDataConvert:
+          type: integer
+          format: int32
+        IdCupoCliente:
+          type: integer
+          format: int32
+        IdCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        TipoTarjeta:
+          type: integer
+          format: int32
+        IdOrigen:
+          type: integer
+          format: int32
+        Moneda:
+          type: integer
+          format: int32
+        CodigoTransaccion:
+          type: integer
+          format: int32
+        Valor:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        IdCuenta:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    PutTransferStatusWipCommand:
+      type: object
+      properties:
+        idTransferencia:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        codigoRespuesta:
+          type: integer
+          format: int32
+        producto:
+          type:
+            - string
+            - 'null'
+        cubiDestino:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        cubiOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        aliasOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        aliasDestino:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        idReferencia:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        descripcionTipo:
+          type:
+            - string
+            - 'null'
+        fechaRequest:
+          type: string
+          format: date-time
+        idOrigen:
+          type:
+            - string
+            - 'null'
+        idReferenciaOrigen:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        estadoTrx:
+          type:
+            - string
+            - 'null'
+        detalleTrx:
+          type:
+            - string
+            - 'null'
+        fechaContable:
+          type:
+            - string
+            - 'null'
+        referenciaInstitucion:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        objJsonResponse:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Remove'
+        flagReversado:
+          type: boolean
+        idTransaccionReversada:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    RequestInsertarDescripcionTransferencia:
+      type: object
+      properties:
+        codigoInterno:
+          type: integer
+          format: int32
+        idSecuencial:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        descripcionTransferencia:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    ResultDto:
+      type: object
+      properties:
+        resultado:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ResultDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ResultDto'
+      additionalProperties: false
+    ResultFraudDto:
+      type: object
+      properties:
+        resultado:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ResultFraudDtoResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ResultFraudDto'
+      additionalProperties: false
+    ScheduledCreditUpdateRequest:
+      type: object
+      properties:
+        contactId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        creditName:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        creditIdentification:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+      additionalProperties: false
+    ScheduledTransfersResponse:
+      type: object
+      properties:
+        idProgramada:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+      additionalProperties: false
+    ScheduledTransfersResponseListResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/ScheduledTransfersResponse'
+          readOnly: true
+      additionalProperties: false
+    SecureTransactionResponse:
+      type: object
+      properties:
+        resultado:
+          type: integer
+          format: int32
+        nivelId:
+          type:
+            - string
+            - 'null'
+        peticionServicioMotorId:
+          type: integer
+          format: int64
+        prioridad:
+          type: integer
+          format: int32
+        resultadoDetalle:
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/MotivoRiesgoGd'
+      additionalProperties: false
+    SecureTransactionResponseResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/SecureTransactionResponse'
+      additionalProperties: false
+    SiguienteSecuenciaRespuesta:
+      type: object
+      properties:
+        baseDatos:
+          type:
+            - string
+            - 'null'
+        tabla:
+          type:
+            - string
+            - 'null'
+        siguiente:
+          type: integer
+          format: int64
+        maximo:
+          type: integer
+          format: int64
+      additionalProperties: false
+    SiguienteSecuenciaRespuestaResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/SiguienteSecuenciaRespuesta'
+      additionalProperties: false
+    TiempoDuplicidadTransaccionEntity:
+      type: object
+      properties:
+        diferenciaSegundos:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TransactionData:
+      type: object
+      properties:
+        clienteId:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        cuentaOrdenante:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        cuentaBeneficiario:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        direccionOrigenIp:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        fechaTransaccion:
+          type:
+            - string
+            - 'null'
+        identificacionBeneficiario:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        monto:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        saldoActual:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+      additionalProperties: false
+    TransactionLimitTopWipDto:
+      type: object
+      properties:
+        TmIdTopeMontoAcceso:
+          type: integer
+          format: int32
+        TmMontoDiario:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        TmMontoDiarioUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        TmMontoSemanal:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        TmMontoSemanalUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        TmMontoMensual:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        TmMontoMensualUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        TmTrxDiaria:
+          type: integer
+          format: int32
+        TmTrxDiariaUsada:
+          type: integer
+          format: int32
+        TmTrxSemanal:
+          type: integer
+          format: int32
+        TmTrxSemanalUsada:
+          type: integer
+          format: int32
+        TmTrxMensual:
+          type: integer
+          format: int32
+        TmTrxMensualUsada:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TransactionQuotaWipDto:
+      type: object
+      properties:
+        CtIdCupoTarjeta:
+          type: integer
+          format: int32
+        CtTipoCupo:
+          type:
+            - string
+            - 'null'
+        CuDescripcion:
+          type:
+            - string
+            - 'null'
+        CtValorDiarioOnLine:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorDiarioOnLineUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorDiarioOffLine:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorDiarioOffLineUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorSemanal:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorSemanalUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorMensual:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorMensualUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtValorTransaccion:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CtTrxDiaria:
+          type: integer
+          format: int32
+        CtTrxDiariaUsada:
+          type: integer
+          format: int32
+        CtTrxSemanal:
+          type: integer
+          format: int32
+        CtTrxSemanalUsada:
+          type: integer
+          format: int32
+        CtTrxMensual:
+          type: integer
+          format: int32
+        CtTrxMensualUsada:
+          type: integer
+          format: int32
+        CtIdCupo:
+          type: integer
+          format: int32
+        CcValorDiarioOnLine:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorDiarioOnLineUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorDiarioOffLine:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorDiarioOffLineUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorSemanal:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorSemanalUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorMensual:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorMensualUsado:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcValorTransaccion:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        CcTrxDiaria:
+          type: integer
+          format: int32
+        CcTrxDiariaUsada:
+          type: integer
+          format: int32
+        CcTrxSemanal:
+          type: integer
+          format: int32
+        CcTrxSemanalUsada:
+          type: integer
+          format: int32
+        CcTrxMensual:
+          type: integer
+          format: int32
+        CcTrxMensualUsada:
+          type: integer
+          format: int32
+        CtIdCupoCliente:
+          type: integer
+          format: int32
+      additionalProperties: false
+    TransferenciaNivelRiesgo:
+      type: object
+      properties:
+        idTransferenciaNivelRiesgo:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        fechaRegistro:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        canal:
+          type:
+            - string
+            - 'null'
+        transferenciaReferencia:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        idCliente:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        identificacionOrdenante:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        numeroCuentaOrdenante:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        nombreClienteOrdenante:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        monto:
+          type: number
+          format: double
+          x-log-data-protection: '@Log.Full'
+        tipoTransferencia:
+          type:
+            - string
+            - 'null'
+        nombreBeneficiario:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Full'
+        bancoBeneficiario:
+          type:
+            - string
+            - 'null'
+        numeroCuentaBeneficiario:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        tipoCuentaBeneficiario:
+          type:
+            - string
+            - 'null'
+        nivel:
+          type:
+            - string
+            - 'null'
+      additionalProperties: false
+    UpdateFavoriteContactRequest:
+      type: object
+      properties:
+        contactId:
+          type: integer
+          format: int32
+          x-log-data-protection: '@Log.Hash(SHA256)'
+        favorite:
+          type: boolean
+      additionalProperties: false
+    UpsertProductResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        numeroProducto:
+          type:
+            - string
+            - 'null'
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+        tipoProducto:
+          type:
+            - string
+            - 'null'
+        banco:
+          type:
+            - string
+            - 'null'
+        codigoBanco:
+          type: integer
+          format: int32
+      additionalProperties: false
+    UpsertProductResponseResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/UpsertProductResponse'
+      additionalProperties: false
+    Validacion:
+      type: object
+      properties:
+        idConfiguracion:
+          type: integer
+          format: int32
+        nombre:
+          type:
+            - string
+            - 'null'
+        codigoNegocio:
+          type:
+            - string
+            - 'null'
+        valor:
+          type:
+            - string
+            - 'null'
+        tipoDato:
+          type:
+            - string
+            - 'null'
+        mostrarPantalla:
+          type: integer
+          format: int32
+        configuraGeneral:
+          type: integer
+          format: int32
+        idCanal:
+          type:
+            - integer
+            - 'null'
+          format: int32
+        constante:
+          type:
+            - integer
+            - 'null'
+          format: int32
+      additionalProperties: false
+    ValidacionResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/Validacion'
+      additionalProperties: false
+    ValidationContact:
+      type: object
+      properties:
+        numeroIntentos:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ValidationContactResult:
+      type: object
+      properties:
+        isSuccess:
+          type: boolean
+          readOnly: true
+        error:
+          type:
+            - string
+            - 'null'
+          readOnly: true
+        code:
+          type: integer
+          format: int32
+          readOnly: true
+        value:
+          $ref: '#/components/schemas/ValidationContact'
+      additionalProperties: false
