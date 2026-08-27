@@ -1,0 +1,473 @@
+{
+  "dotnet.gc.collections": {
+    "Name": "dotnet.gc.collections",
+    "Description": "The number of garbage collections that have occurred since the process has started.",
+    "Unit": "{collection}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 2,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0210539Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0093992Z",
+        "Attributes": {
+          "gc.heap.generation": "gen2"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 1,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0210539Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0093992Z",
+        "Attributes": {
+          "gc.heap.generation": "gen1"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 1,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0210539Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0093992Z",
+        "Attributes": {
+          "gc.heap.generation": "gen0"
+        }
+      }
+    ]
+  },
+  "dotnet.process.memory.working_set": {
+    "Name": "dotnet.process.memory.working_set",
+    "Description": "The number of bytes of physical memory mapped to the process context.",
+    "Unit": "By",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 62132224,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0210762Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094001Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.gc.heap.total_allocated": {
+    "Name": "dotnet.gc.heap.total_allocated",
+    "Description": "The approximate number of bytes allocated on the managed GC heap since the process has started. The returned value does not include any native allocations.",
+    "Unit": "By",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 23406712,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0210926Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094003Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.gc.last_collection.memory.committed_size": {
+    "Name": "dotnet.gc.last_collection.memory.committed_size",
+    "Description": "The amount of committed virtual memory in use by the .NET GC, as observed during the latest garbage collection.",
+    "Unit": "By",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 14761984,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0211051Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094005Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.gc.last_collection.heap.size": {
+    "Name": "dotnet.gc.last_collection.heap.size",
+    "Description": "The managed GC heap size (including fragmentation), as observed during the latest garbage collection.",
+    "Unit": "By",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 945656,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0211182Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094008Z",
+        "Attributes": {
+          "gc.heap.generation": "gen0"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 671480,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0211182Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094008Z",
+        "Attributes": {
+          "gc.heap.generation": "gen1"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 1306104,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0211182Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094008Z",
+        "Attributes": {
+          "gc.heap.generation": "gen2"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 8652296,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0211182Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094008Z",
+        "Attributes": {
+          "gc.heap.generation": "loh"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 419968,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0211182Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094008Z",
+        "Attributes": {
+          "gc.heap.generation": "poh"
+        }
+      }
+    ]
+  },
+  "dotnet.gc.last_collection.heap.fragmentation.size": {
+    "Name": "dotnet.gc.last_collection.heap.fragmentation.size",
+    "Description": "The heap fragmentation, as observed during the latest garbage collection.",
+    "Unit": "By",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 290728,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258134Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094011Z",
+        "Attributes": {
+          "gc.heap.generation": "gen0"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 11512,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258134Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094011Z",
+        "Attributes": {
+          "gc.heap.generation": "gen1"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 9504,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258134Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094011Z",
+        "Attributes": {
+          "gc.heap.generation": "gen2"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 106784,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258134Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094011Z",
+        "Attributes": {
+          "gc.heap.generation": "loh"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 0,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258134Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094011Z",
+        "Attributes": {
+          "gc.heap.generation": "poh"
+        }
+      }
+    ]
+  },
+  "dotnet.gc.pause.time": {
+    "Name": "dotnet.gc.pause.time",
+    "Description": "The total amount of time paused in GC since the process has started.",
+    "Unit": "s",
+    "Type": "DoubleSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "DoubleValue": 0.0104,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.02585Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094013Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.jit.compiled_il.size": {
+    "Name": "dotnet.jit.compiled_il.size",
+    "Description": "Count of bytes of intermediate language that have been compiled since the process has started.",
+    "Unit": "By",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 0,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258631Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094017Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.jit.compiled_methods": {
+    "Name": "dotnet.jit.compiled_methods",
+    "Description": "The number of times the JIT compiler (re)compiled methods since the process has started.",
+    "Unit": "{method}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 0,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258762Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094019Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.jit.compilation.time": {
+    "Name": "dotnet.jit.compilation.time",
+    "Description": "The number of times the JIT compiler (re)compiled methods since the process has started.",
+    "Unit": "s",
+    "Type": "DoubleSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "DoubleValue": 0,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258857Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094021Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.monitor.lock_contentions": {
+    "Name": "dotnet.monitor.lock_contentions",
+    "Description": "The number of times there was contention when trying to acquire a monitor lock since the process has started.",
+    "Unit": "{contention}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 0,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0258941Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094024Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.thread_pool.thread.count": {
+    "Name": "dotnet.thread_pool.thread.count",
+    "Description": "The number of thread pool threads that currently exist.",
+    "Unit": "{thread}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 2,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0259015Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094027Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.thread_pool.work_item.count": {
+    "Name": "dotnet.thread_pool.work_item.count",
+    "Description": "The number of work items that the thread pool has completed since the process has started.",
+    "Unit": "{work_item}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 6,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0259095Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094029Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.thread_pool.queue.length": {
+    "Name": "dotnet.thread_pool.queue.length",
+    "Description": "The number of work items that are currently queued to be processed by the thread pool.",
+    "Unit": "{work_item}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 0,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0265055Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094031Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.timer.count": {
+    "Name": "dotnet.timer.count",
+    "Description": "The number of timer instances that are currently active. An active timer is registered to tick at some point in the future and has not yet been canceled.",
+    "Unit": "{timer}",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 1,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0265741Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094032Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.assembly.count": {
+    "Name": "dotnet.assembly.count",
+    "Description": "The number of .NET assemblies that are currently loaded.",
+    "Unit": "{assembly}",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 180,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0266207Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094034Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.exceptions": {
+    "Name": "dotnet.exceptions",
+    "Description": "The number of exceptions that have been thrown in managed code.",
+    "Unit": "{exception}",
+    "Type": "LongSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 24,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0266679Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094042Z",
+        "Attributes": {
+          "error.type": "SecurityException"
+        }
+      },
+      {
+        "$kind": "sum",
+        "LongValue": 6,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0266679Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094042Z",
+        "Attributes": {
+          "error.type": "ArgumentException"
+        }
+      }
+    ]
+  },
+  "dotnet.process.cpu.count": {
+    "Name": "dotnet.process.cpu.count",
+    "Description": "The number of processors available to the process.",
+    "Unit": "{cpu}",
+    "Type": "LongSumNonMonotonic",
+    "Points": [
+      {
+        "$kind": "sum",
+        "LongValue": 14,
+        "IsMonotonic": false,
+        "StartTimeUtc": "2026-08-26T15:46:38.0267173Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094044Z",
+        "Attributes": {}
+      }
+    ]
+  },
+  "dotnet.process.cpu.time": {
+    "Name": "dotnet.process.cpu.time",
+    "Description": "CPU time used by the process.",
+    "Unit": "s",
+    "Type": "DoubleSum",
+    "Points": [
+      {
+        "$kind": "sum",
+        "DoubleValue": 0.0625,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0268018Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094046Z",
+        "Attributes": {
+          "cpu.mode": "user"
+        }
+      },
+      {
+        "$kind": "sum",
+        "DoubleValue": 0.0625,
+        "IsMonotonic": true,
+        "StartTimeUtc": "2026-08-26T15:46:38.0268018Z",
+        "EndTimeUtc": "2026-08-26T15:46:43.0094046Z",
+        "Attributes": {
+          "cpu.mode": "system"
+        }
+      }
+    ]
+  },
+  "dns.lookup.duration": {
+    "Name": "dns.lookup.duration",
+    "Description": "Measures the time taken to perform a DNS lookup.",
+    "Unit": "s",
+    "Type": "Histogram",
+    "Points": [
+      {
+        "$kind": "histogram",
+        "Count": 1,
+        "Sum": 0.0388273,
+        "Min": 0.0388273,
+        "Max": 0.0388273,
+        "ExplicitBounds": [
+          0.005,
+          0.01,
+          0.025,
+          0.05,
+          0.075,
+          0.1,
+          0.25,
+          0.5,
+          0.75,
+          1,
+          2.5,
+          5,
+          7.5,
+          10,
+          "Infinity"
+        ],
+        "StartTimeUtc": "2026-08-26T15:46:43.0542761Z",
+        "EndTimeUtc": "2026-08-26T15:46:48.0041213Z",
+        "Attributes": {
+          "dns.question.name": "localhost"
+        }
+      }
+    ]
+  }
+}

@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/DTOs/KafkaDtos.cs": {
-    "mtime": 1787753706.4991176,
-    "seen": 1787757351.9382534,
-    "ast_hash": "d1e554d2b13c3b7c1a1cb599b0cd6b65",
+    "mtime": 1787804361.5088162,
+    "seen": 1787804595.312733,
+    "ast_hash": "f88a5bec7fa69dca25a578c81cdf6a62",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/KafkaDemo.Application.csproj": {
@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs": {
-    "mtime": 1787799932.7549906,
-    "seen": 1787800439.4230528,
-    "ast_hash": "e3fd982b39d7f6e518efbbcd9171115b",
+    "mtime": 1787804500.7294018,
+    "seen": 1787804595.3127408,
+    "ast_hash": "5a7f8c80ab6ff24368856c99edde2c89",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj": {
@@ -156,15 +156,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
-    "mtime": 1787797713.5292912,
-    "seen": 1787798870.6172042,
-    "ast_hash": "4aaa8c86a3b486b25f2ed4d610e1b89b",
+    "mtime": 1787804471.9978848,
+    "seen": 1787804595.312807,
+    "ast_hash": "9f8303dcb60147ca38cc7b2a55e61836",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
-    "mtime": 1787797638.5455904,
-    "seen": 1787798870.6172457,
-    "ast_hash": "82df941170626c82d79101432a2d8130",
+    "mtime": 1787804407.189749,
+    "seen": 1787804595.3128684,
+    "ast_hash": "2fd729a7773b084b9a5abad14a6d7b64",
     "semantic_hash": ""
   },
   "consumer_streams/ConsumerStreams.slnx": {
@@ -288,15 +288,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs": {
-    "mtime": 1787796124.6509628,
-    "seen": 1787796367.032248,
-    "ast_hash": "82d79d9fa44fc76a7851255f7f0120bc",
+    "mtime": 1787804371.689873,
+    "seen": 1787804595.3127635,
+    "ast_hash": "2db1915aa921a071b0d782f328053fc4",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs": {
-    "mtime": 1787803985.2091963,
-    "seen": 1787804114.9983723,
-    "ast_hash": "6fbe02910b9218c69f8275eaa7bd51e4",
+    "mtime": 1787804529.626912,
+    "seen": 1787804595.312774,
+    "ast_hash": "73ba37c2078eaf31818188d3c5009600",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs": {

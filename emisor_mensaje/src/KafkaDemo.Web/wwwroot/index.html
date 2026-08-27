@@ -173,17 +173,14 @@
               </select>
             </div>
 
-            <!-- Selector de Ejemplos de Trazas OTel (GET / POST) -->
+            <!-- Selector Dinámico de Ejemplos según Tipo de Telemetría (Trace / Metric / Log) -->
             <div class="form-group">
               <div class="label-row">
-                <label for="trace-preset-select">Ejemplos de Trazas OTel Registradas (Método HTTP & Contrato) *</label>
-                <span class="badge badge-system">OpenTelemetry</span>
+                <label for="trace-preset-select" id="label-preset-select">Catálogo de Ejemplos de Señales OpenTelemetry *</label>
+                <span id="badge-preset-count" class="badge badge-system">4 Trazas Registradas</span>
               </div>
               <select id="trace-preset-select" class="form-input">
-                <option value="otel-get">GET - /contacts/contacts-by-idClient/8172201/IN (Lista 120 Contactos)</option>
-                <option value="otel-post-1">POST - /contacts/local-contact (ID: 1394487 | Cédula: 1702756766)</option>
-                <option value="otel-post-2">POST - /contacts/local-contact (ID: 1394495 | Cédula: 1702756766)</option>
-                <option value="otel-post-3">POST - /contacts/local-contact (ID: 13944955 | Con Respuesta Exitosa 100000)</option>
+                <!-- Se pobla dinámicamente según la señal elegida -->
               </select>
             </div>
 

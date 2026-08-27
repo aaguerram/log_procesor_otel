@@ -31,6 +31,7 @@ const dom = {
   tracePresetSelect: document.getElementById('trace-preset-select'),
   telemetryTypeSelect: document.getElementById('telemetry-type-select'),
   badgeTelemetryStatus: document.getElementById('badge-telemetry-status'),
+  badgePresetCount: document.getElementById('badge-preset-count'),
   msgValueInput: document.getElementById('msg-value-input'),
   btnSampleJson: document.getElementById('btn-sample-json'),
   btnFormatJson: document.getElementById('btn-format-json'),
@@ -75,10 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModals();
   setupEvents();
   
-  // Cargar Traza OTel GET de Contactos por defecto al inicio
-  loadPresetTrace('otel-get');
-  
+  // Carga Inicial
   refreshAll();
+  initTelemetryCatalog();
   
   // Sondeo de estado cada 10s
   setInterval(checkHealth, 10000);
@@ -131,20 +131,22 @@ function setupEvents() {
   
   // Botón para regenerar ID de partición con SplitMix64
   dom.btnRegenKey?.addEventListener('click', () => {
-    const selectedKey = dom.tracePresetSelect?.value || 'otel-get';
-    const config = OTelTraces[selectedKey] || OTelTraces['otel-get'];
-    dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
+    const selectedKey = dom.tracePresetSelect?.value;
+    const businessKey = getBusinessKeyForCurrentPreset(selectedKey);
+    dom.msgKeyInput.value = generateDispersedKey(businessKey);
     showToast('Nuevo ID de partición generado (SplitMix64)', 'info');
-  });
-
-  // Selector de Trazas OTel (4 Opciones GET y POST)
-  dom.tracePresetSelect?.addEventListener('change', (e) => {
-    loadPresetTrace(e.target.value);
   });
 
   // Selector de Tipo de Señal Telemetría (Trace, Metric, Log)
   dom.telemetryTypeSelect?.addEventListener('change', (e) => {
-    updateTelemetryBadge(e.target.value);
+    const signalType = e.target.value;
+    updateTelemetryBadge(signalType);
+    populatePresetDropdown(signalType);
+  });
+
+  // Selector Dinámico de Ejemplos
+  dom.tracePresetSelect?.addEventListener('change', (e) => {
+    loadSelectedPreset(e.target.value);
   });
 
   dom.btnFormatJson?.addEventListener('click', formatTextareaJson);
@@ -180,33 +182,32 @@ async function refreshAll() {
 async function checkHealth() {
   try {
     const res = await fetch('/api/health');
-    if (!res.ok) throw new Error('Error de red');
     const data = await res.json();
     state.clusterHealth = data;
 
     if (data.isConnected) {
-      dom.statusBadge.className = 'status-badge status-connected';
-      dom.statusText.textContent = `Red Hat AMQ Streams (${data.totalTopics} tópicos)`;
-      dom.statClusterHealth.textContent = 'En Línea';
-      dom.statClusterHealth.style.color = 'var(--accent-emerald)';
+      dom.statusBadge.className = 'status-dot';
+      dom.statusText.textContent = 'Broker Conectado (3 Part. / 1 Node)';
+      dom.statClusterHealth.textContent = 'Saludable';
+      dom.statClusterHealth.style.color = '#10b981';
     } else {
-      dom.statusBadge.className = 'status-badge status-disconnected';
-      dom.statusText.textContent = 'Kafka Desconectado';
-      dom.statClusterHealth.textContent = 'Sin Conexión';
-      dom.statClusterHealth.style.color = 'var(--accent-rose)';
+      dom.statusBadge.className = 'status-dot status-offline';
+      dom.statusText.textContent = 'Desconectado de Kafka';
+      dom.statClusterHealth.textContent = 'Fallo Conexión';
+      dom.statClusterHealth.style.color = '#ef4444';
     }
   } catch (err) {
-    dom.statusBadge.className = 'status-badge status-disconnected';
-    dom.statusText.textContent = 'Broker Inaccesible';
+    dom.statusBadge.className = 'status-dot status-offline';
+    dom.statusText.textContent = 'Error de API';
     dom.statClusterHealth.textContent = 'Error';
+    dom.statClusterHealth.style.color = '#ef4444';
   }
 }
 
-// Obtener Tópicos
+// Obtener Lista de Tópicos
 async function fetchTopics() {
   try {
     const res = await fetch(`/api/topics?includeInternal=${state.includeInternal}`);
-    if (!res.ok) throw new Error('Error al listar tópicos');
     const topics = await res.json();
     state.topics = topics;
 
@@ -214,12 +215,7 @@ async function fetchTopics() {
     updateTopicsSelect(topics);
     updateStats(topics);
   } catch (err) {
-    dom.topicsTableBody.innerHTML = `
-      <tr>
-        <td colspan="5" class="table-loading" style="color: var(--accent-rose);">
-          Error al cargar los tópicos de Kafka: ${err.message}
-        </td>
-      </tr>`;
+    showToast(`Error al obtener tópicos: ${err.message}`, 'error');
   }
 }
 
@@ -228,24 +224,28 @@ function renderTopicsTable(topics) {
   if (!topics || topics.length === 0) {
     dom.topicsTableBody.innerHTML = `
       <tr>
-        <td colspan="5" class="table-loading">
-          No hay tópicos disponibles. ¡Crea uno nuevo con el botón superior!
+        <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 32px;">
+          No se encontraron tópicos. Crea uno nuevo con el botón superior.
         </td>
-      </tr>`;
+      </tr>
+    `;
     return;
   }
 
   dom.topicsTableBody.innerHTML = topics.map(t => `
     <tr>
       <td>
-        <strong style="color: var(--text-primary); font-size: 0.95rem;">${escapeHtml(t.name)}</strong>
+        <strong style="color: var(--primary); font-family: monospace; font-size: 0.95rem;">
+          ${escapeHtml(t.name)}
+        </strong>
       </td>
       <td>
-        <span class="badge badge-user">${t.partitionsCount} particiones</span>
+        <span class="badge ${t.partitionsCount >= 3 ? 'badge-user' : 'badge-internal'}">
+          ${t.partitionsCount} Particiones
+        </span>
       </td>
-      <td>${t.replicationFactor}x</td>
       <td>
-        <span class="badge ${t.isInternal ? 'badge-internal' : 'badge-user'}">
+        <span class="badge ${t.isInternal ? 'badge-internal' : 'badge-system'}">
           ${t.isInternal ? 'Interno' : 'Usuario'}
         </span>
       </td>
@@ -265,7 +265,6 @@ function renderTopicsTable(topics) {
 
 // Actualizar Select del formulario (Solo tópico del emisor)
 function updateTopicsSelect(topics) {
-  // Filtrar exclusivamente tópicos del emisor (.emitted.)
   let emitterTopics = topics.filter(t => !t.isInternal && t.name.includes('.emitted.'));
   if (emitterTopics.length === 0) {
     emitterTopics = topics.filter(t => t.name === 'tp.observability.application-log.emitted.v1');
@@ -297,7 +296,12 @@ async function handleCreateTopic(e) {
   const partitions = parseInt(document.getElementById('new-topic-partitions').value, 10);
   const replication = parseInt(document.getElementById('new-topic-replication').value, 10);
 
-  const btn = document.getElementById('btn-submit-create');
+  if (!name) {
+    showToast('El nombre del tópico es obligatorio', 'error');
+    return;
+  }
+
+  const btn = dom.formCreateTopic.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.textContent = 'Creando...';
 
@@ -442,13 +446,13 @@ async function handleSendMessage(e) {
     state.totalSentSession += 1;
     dom.statSentCount.textContent = state.totalSentSession;
 
-    showToast(`✔ Evento publicado en '${topic}' [P:${data.result.partition}, Offset:#${data.result.offset}]`, 'success');
+    showToast(`✔ Evento [${telemetryType}] publicado en '${topic}' [P:${data.result.partition}, Offset:#${data.result.offset}]`, 'success');
     appendSingleToStream(data.result, value);
 
     // Regenerar automáticamente un nuevo ID de partición con SplitMix64 para el siguiente envío
-    const selectedKey = dom.tracePresetSelect?.value || 'otel-get';
-    const config = OTelTraces[selectedKey] || OTelTraces['otel-get'];
-    dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
+    const selectedPresetKey = dom.tracePresetSelect?.value;
+    const businessKey = getBusinessKeyForCurrentPreset(selectedPresetKey);
+    dom.msgKeyInput.value = generateDispersedKey(businessKey);
   } catch (err) {
     showToast(`Error al publicar: ${err.message}`, 'error');
   } finally {
@@ -471,22 +475,24 @@ function appendBatchToStream(batch) {
   batchHeader.className = 'log-item log-batch';
   batchHeader.innerHTML = `
     <div class="log-header">
-      <span class="log-meta">📦 LOTE DE ${batch.totalSent} TRANSACCIONES ENVIADO</span>
+      <span class="log-meta">⚡ LOTE MASIVO: <strong>${batch.totalSent}</strong> eventos enviados</span>
       <span>${new Date().toLocaleTimeString()}</span>
     </div>
-    <div class="log-preview">Destino: <strong>${batch.targetTopic}</strong> | Tiempo de Publicación: <strong>${batch.elapsedMilliseconds.toFixed(1)} ms</strong></div>
+    <div class="log-preview">
+      Destino: <strong>${batch.targetTopic}</strong> | Latencia: <strong>${batch.elapsedMilliseconds.toFixed(2)} ms</strong>
+    </div>
   `;
   dom.messagesStream.prepend(batchHeader);
 
-  batch.results.forEach((item, idx) => {
+  batch.results.slice(0, 5).forEach(item => {
     const logItem = document.createElement('div');
     logItem.className = 'log-item log-success';
     logItem.innerHTML = `
       <div class="log-header">
-        <span class="log-meta">[#${idx + 1}] Partición: ${item.partition} | Offset: #${item.offset}</span>
+        <span class="log-meta">Partición: <strong>${item.partition}</strong> | Offset: <strong>#${item.offset}</strong></span>
         <span>${new Date(item.timestamp).toLocaleTimeString()}</span>
       </div>
-      <div class="log-preview">Clave: <code>${item.key || 'N/A'}</code> | Estado: <span style="color: var(--accent-emerald);">${item.status}</span></div>
+      <div class="log-preview">Key: <code>${item.key}</code></div>
     `;
     dom.messagesStream.prepend(logItem);
   });
@@ -517,52 +523,218 @@ function removeEmptyStreamNotice() {
   if (empty) empty.remove();
 }
 
-// Catálogo de Trazas OTel Disponibles (GET y POST)
+// ===================== CATÁLOGOS DE SEÑALES OPENTELEMETRY =====================
+
+// 1. Catálogo de Trazas OTel Disponibles (4 Ejemplos)
 const OTelTraces = {
   'otel-get': {
     url: '/data/otel_get_trace.json',
     businessKey: '8172201-IN',
-    name: 'GET - /contacts/contacts-by-idClient/8172201/IN (120 Contactos)'
+    label: 'GET - /contacts/contacts-by-idClient/8172201/IN (Lista 120 Contactos)'
   },
   'otel-post-1': {
     url: '/data/otel_post_trace_1.json',
     businessKey: '5103846-IN',
-    name: 'POST - /contacts/local-contact (ID: 1394487)'
+    label: 'POST - /contacts/local-contact (ID: 1394487 | Cédula: 1702756766)'
   },
   'otel-post-2': {
     url: '/data/otel_post_trace_2.json',
     businessKey: '5103846-IN',
-    name: 'POST - /contacts/local-contact (ID: 1394495)'
+    label: 'POST - /contacts/local-contact (ID: 1394495 | Cédula: 1702756766)'
   },
   'otel-post-3': {
     url: '/data/otel_post_trace_3.json',
     businessKey: '5103846-IN',
-    name: 'POST - /contacts/local-contact (ID: 13944955 | Respuesta Exitosa 100000)'
+    label: 'POST - /contacts/local-contact (ID: 13944955 | Respuesta Exitosa 100000)'
   }
 };
 
-// Cargar Traza Seleccionada y Generar Clave de Partición
-async function loadPresetTrace(traceKey = 'otel-get') {
-  const config = OTelTraces[traceKey] || OTelTraces['otel-get'];
-  if (dom.tracePresetSelect) {
-    dom.tracePresetSelect.value = traceKey;
-  }
-  if (dom.telemetryTypeSelect) {
-    dom.telemetryTypeSelect.value = 'Trace';
-    updateTelemetryBadge('Trace');
-  }
+// 2. Catálogo de Métricas OTel (20 Métricas Únicas)
+let cachedMetricsCatalog = null;
 
+const OTelMetricDefinitions = [
+  // Tipo: LongSum (9)
+  { key: 'dotnet.gc.collections', type: 'LongSum', label: '[LongSum] dotnet.gc.collections (Colecciones GC Gen0, Gen1, Gen2)' },
+  { key: 'dotnet.gc.heap.total_allocated', type: 'LongSum', label: '[LongSum] dotnet.gc.heap.total_allocated (Bytes totales en Heap)' },
+  { key: 'dotnet.jit.compiled_il.size', type: 'LongSum', label: '[LongSum] dotnet.jit.compiled_il.size (Bytes de IL compilados)' },
+  { key: 'dotnet.jit.compiled_methods', type: 'LongSum', label: '[LongSum] dotnet.jit.compiled_methods (Métodos compilados JIT)' },
+  { key: 'dotnet.monitor.lock_contentions', type: 'LongSum', label: '[LongSum] dotnet.monitor.lock_contentions (Contenciones de bloqueo)' },
+  { key: 'dotnet.thread_pool.thread.count', type: 'LongSum', label: '[LongSum] dotnet.thread_pool.thread.count (Hilos activos ThreadPool)' },
+  { key: 'dotnet.thread_pool.work_item.count', type: 'LongSum', label: '[LongSum] dotnet.thread_pool.work_item.count (Work Items completados)' },
+  { key: 'dotnet.thread_pool.queue.length', type: 'LongSum', label: '[LongSum] dotnet.thread_pool.queue.length (Cola pendiente ThreadPool)' },
+  { key: 'dotnet.exceptions', type: 'LongSum', label: '[LongSum] dotnet.exceptions (Excepciones por error.type)' },
+  // Tipo: LongSumNonMonotonic (7)
+  { key: 'dotnet.process.memory.working_set', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.process.memory.working_set (Working Set Memoria)' },
+  { key: 'dotnet.gc.last_collection.heap.size', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.gc.last_collection.heap.size (Tamaño Heap GC)' },
+  { key: 'dotnet.gc.last_collection.heap.fragmentation.size', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.gc.last_collection.heap.fragmentation.size (Fragmentación Heap)' },
+  { key: 'dotnet.gc.last_collection.memory.committed_size', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.gc.last_collection.memory.committed_size (Memoria física comprometida)' },
+  { key: 'dotnet.timer.count', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.timer.count (Instancias de Timers activos)' },
+  { key: 'dotnet.assembly.count', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.assembly.count (Ensamblados .NET cargados)' },
+  { key: 'dotnet.process.cpu.count', type: 'LongSumNonMonotonic', label: '[LongSumNonMonotonic] dotnet.process.cpu.count (CPUs/Núcleos disponibles)' },
+  // Tipo: DoubleSum (3)
+  { key: 'dotnet.gc.pause.time', type: 'DoubleSum', label: '[DoubleSum] dotnet.gc.pause.time (Tiempo de pausas GC en seg.)' },
+  { key: 'dotnet.jit.compilation.time', type: 'DoubleSum', label: '[DoubleSum] dotnet.jit.compilation.time (Tiempo compilación JIT en seg.)' },
+  { key: 'dotnet.process.cpu.time', type: 'DoubleSum', label: '[DoubleSum] dotnet.process.cpu.time (Segundos de CPU User/System)' },
+  // Tipo: Histogram (1)
+  { key: 'dns.lookup.duration', type: 'Histogram', label: '[Histogram] dns.lookup.duration (Histograma latencia resolución DNS)' }
+];
+
+// 3. Catálogo de Logs de Ejemplo (3)
+const OTelLogs = {
+  'log-info': {
+    businessKey: 'LOG-INFO-AUTH',
+    label: '[INFO] AuthAudit - Inicio de sesión exitoso de usuario institucional',
+    data: {
+      timestamp: new Date().toISOString(),
+      level: "Information",
+      category: "Produbanco.Security.AuthService",
+      message: "Usuario institucional autenticado satisfactoriamente desde canal Web.",
+      eventId: 1001,
+      properties: {
+        userId: "USR-PROD-81722",
+        channel: "WebBanking",
+        ipAddress: "192.168.10.45",
+        sessionId: "SESS-98B2-45E1"
+      }
+    }
+  },
+  'log-warn': {
+    businessKey: 'LOG-WARN-OTP',
+    label: '[WARN] SecurityThreat - Múltiples intentos fallidos de autenticación OTP',
+    data: {
+      timestamp: new Date().toISOString(),
+      level: "Warning",
+      category: "Produbanco.Security.ThreatDetection",
+      message: "Se detectaron 3 intentos fallidos consecutivos de validación OTP para transferencia.",
+      eventId: 2004,
+      properties: {
+        userId: "USR-PROD-51038",
+        channel: "MobileApp",
+        destinationAccount: "22005828479",
+        failedAttempts: 3
+      }
+    }
+  },
+  'log-error': {
+    businessKey: 'LOG-ERR-TIMEOUT',
+    label: '[ERROR] DatabaseTimeout - Timeout al ejecutar consulta en base de datos secundaria',
+    data: {
+      timestamp: new Date().toISOString(),
+      level: "Error",
+      category: "Produbanco.Infrastructure.DatabasePool",
+      message: "Tiempo de espera agotado (Timeout > 5000ms) en réplica de lectura de cuentas.",
+      eventId: 5003,
+      exception: {
+        type: "System.TimeoutException",
+        message: "The operation has timed out while waiting for connection pool lease.",
+        stackTrace: "at Produbanco.Infrastructure.DbPool.AcquireConnectionAsync(CancellationToken ct)"
+      }
+    }
+  }
+};
+
+// Inicializar Catálogo de Telemetría
+async function initTelemetryCatalog() {
   try {
-    const res = await fetch(config.url);
+    const res = await fetch('/data/otel_metrics_catalog.json');
     if (res.ok) {
-      const traceObj = await res.json();
-      dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
-      dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
-      showToast(`✔ ${config.name} cargada con éxito`, 'info');
+      cachedMetricsCatalog = await res.json();
     }
   } catch (err) {
-    console.error('Error al cargar traza OTel:', err);
-    showToast(`Error al cargar la traza: ${err.message}`, 'error');
+    console.warn('No se pudo precargar otel_metrics_catalog.json:', err);
+  }
+
+  populatePresetDropdown('Trace');
+}
+
+// Poblar Dropdown Dinámico según el Tipo de Señal
+function populatePresetDropdown(signalType) {
+  if (!dom.tracePresetSelect) return;
+
+  if (signalType === 'Trace') {
+    dom.tracePresetSelect.innerHTML = Object.entries(OTelTraces).map(([k, v]) => 
+      `<option value="${k}">${escapeHtml(v.label)}</option>`
+    ).join('');
+
+    if (dom.badgePresetCount) {
+      dom.badgePresetCount.className = 'badge badge-system';
+      dom.badgePresetCount.textContent = '4 Trazas Registradas';
+    }
+    loadSelectedPreset('otel-get');
+  } 
+  else if (signalType === 'Metric') {
+    dom.tracePresetSelect.innerHTML = OTelMetricDefinitions.map(m => 
+      `<option value="${m.key}">${escapeHtml(m.label)}</option>`
+    ).join('');
+
+    if (dom.badgePresetCount) {
+      dom.badgePresetCount.className = 'badge badge-user';
+      dom.badgePresetCount.textContent = '20 Métricas Registradas';
+    }
+    loadSelectedPreset(OTelMetricDefinitions[0].key);
+  } 
+  else if (signalType === 'Log') {
+    dom.tracePresetSelect.innerHTML = Object.entries(OTelLogs).map(([k, v]) => 
+      `<option value="${k}">${escapeHtml(v.label)}</option>`
+    ).join('');
+
+    if (dom.badgePresetCount) {
+      dom.badgePresetCount.className = 'badge badge-internal';
+      dom.badgePresetCount.textContent = '3 Logs Registrados';
+    }
+    loadSelectedPreset('log-info');
+  }
+}
+
+// Cargar Ejemplo Seleccionado en el Área de Texto
+async function loadSelectedPreset(presetKey) {
+  const signalType = dom.telemetryTypeSelect?.value || 'Trace';
+
+  if (signalType === 'Trace') {
+    const config = OTelTraces[presetKey] || OTelTraces['otel-get'];
+    try {
+      const res = await fetch(config.url);
+      if (res.ok) {
+        const traceObj = await res.json();
+        dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
+        dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
+        showToast(`✔ ${config.label} cargada con éxito`, 'info');
+      }
+    } catch (err) {
+      showToast(`Error al cargar la traza: ${err.message}`, 'error');
+    }
+  } 
+  else if (signalType === 'Metric') {
+    if (!cachedMetricsCatalog) {
+      try {
+        const res = await fetch('/data/otel_metrics_catalog.json');
+        if (res.ok) cachedMetricsCatalog = await res.json();
+      } catch (_) {}
+    }
+
+    const metricObj = cachedMetricsCatalog?.[presetKey];
+    if (metricObj) {
+      dom.msgValueInput.value = JSON.stringify(metricObj, null, 2);
+      dom.msgKeyInput.value = generateDispersedKey(`METRIC-${presetKey}`);
+      showToast(`✔ Métrica '${presetKey}' cargada (${metricObj.Type})`, 'info');
+    }
+  } 
+  else if (signalType === 'Log') {
+    const logConfig = OTelLogs[presetKey] || OTelLogs['log-info'];
+    dom.msgValueInput.value = JSON.stringify(logConfig.data, null, 2);
+    dom.msgKeyInput.value = generateDispersedKey(logConfig.businessKey);
+    showToast(`✔ ${logConfig.label} cargado con éxito`, 'info');
+  }
+}
+
+function getBusinessKeyForCurrentPreset(presetKey) {
+  const signalType = dom.telemetryTypeSelect?.value || 'Trace';
+  if (signalType === 'Trace') {
+    return OTelTraces[presetKey]?.businessKey || '8172201-IN';
+  } else if (signalType === 'Metric') {
+    return `METRIC-${presetKey || 'sample'}`;
+  } else {
+    return OTelLogs[presetKey]?.businessKey || 'LOG-PROD';
   }
 }
 
