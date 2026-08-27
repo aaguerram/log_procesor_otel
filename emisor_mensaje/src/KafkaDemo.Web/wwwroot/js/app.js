@@ -29,6 +29,8 @@ const dom = {
   msgKeyInput: document.getElementById('msg-key-input'),
   btnRegenKey: document.getElementById('btn-regen-key'),
   tracePresetSelect: document.getElementById('trace-preset-select'),
+  telemetryTypeSelect: document.getElementById('telemetry-type-select'),
+  badgeTelemetryStatus: document.getElementById('badge-telemetry-status'),
   msgValueInput: document.getElementById('msg-value-input'),
   btnSampleJson: document.getElementById('btn-sample-json'),
   btnFormatJson: document.getElementById('btn-format-json'),
@@ -140,6 +142,11 @@ function setupEvents() {
     loadPresetTrace(e.target.value);
   });
 
+  // Selector de Tipo de Señal Telemetría (Trace, Metric, Log)
+  dom.telemetryTypeSelect?.addEventListener('change', (e) => {
+    updateTelemetryBadge(e.target.value);
+  });
+
   dom.btnFormatJson?.addEventListener('click', formatTextareaJson);
 
   dom.btnClearLogs.addEventListener('click', () => {
@@ -148,6 +155,20 @@ function setupEvents() {
         <p>Historial limpiado. Los nuevos eventos aparecerán aquí.</p>
       </div>`;
   });
+}
+
+function updateTelemetryBadge(type) {
+  if (!dom.badgeTelemetryStatus) return;
+  if (type === 'Trace') {
+    dom.badgeTelemetryStatus.className = 'badge badge-system';
+    dom.badgeTelemetryStatus.textContent = '🔍 Trace (Aplica Swagger)';
+  } else if (type === 'Metric') {
+    dom.badgeTelemetryStatus.className = 'badge badge-user';
+    dom.badgeTelemetryStatus.textContent = '📊 Metric (Directo Cosmos DB)';
+  } else {
+    dom.badgeTelemetryStatus.className = 'badge badge-internal';
+    dom.badgeTelemetryStatus.textContent = '📝 Log (Directo Cosmos DB)';
+  }
 }
 
 // Recarga General
@@ -406,11 +427,13 @@ async function handleSendMessage(e) {
   btn.disabled = true;
   btn.textContent = 'Publicando evento...';
 
+  const telemetryType = dom.telemetryTypeSelect?.value || 'Trace';
+
   try {
     const res = await fetch('/api/messages/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic, key, value })
+      body: JSON.stringify({ topic, key, value, telemetryType })
     });
 
     const data = await res.json();
@@ -523,6 +546,10 @@ async function loadPresetTrace(traceKey = 'otel-get') {
   const config = OTelTraces[traceKey] || OTelTraces['otel-get'];
   if (dom.tracePresetSelect) {
     dom.tracePresetSelect.value = traceKey;
+  }
+  if (dom.telemetryTypeSelect) {
+    dom.telemetryTypeSelect.value = 'Trace';
+    updateTelemetryBadge('Trace');
   }
 
   try {

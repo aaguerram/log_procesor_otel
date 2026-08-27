@@ -34,7 +34,8 @@ public interface IPayloadCryptoPort
         string partitionKey,
         VaultKeyMaterial keyMaterial,
         IDictionary<string, string>? customHeaders = null,
-        string? swaggerYaml = null);
+        string? swaggerYaml = null,
+        TelemetryType? telemetryType = null);
 
     string DecryptEnvelopeToJson(
         EncryptedPayloadEnvelope envelope,

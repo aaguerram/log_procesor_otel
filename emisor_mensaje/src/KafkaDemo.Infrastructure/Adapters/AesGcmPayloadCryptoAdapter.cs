@@ -21,7 +21,8 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
         string partitionKey,
         VaultKeyMaterial keyMaterial,
         IDictionary<string, string>? customHeaders = null,
-        string? swaggerYaml = null)
+        string? swaggerYaml = null,
+        TelemetryType? telemetryType = null)
     {
         var plaintextBytes = Encoding.UTF8.GetBytes(jsonPayload);
         var plaintextLength = plaintextBytes.Length;
@@ -45,8 +46,8 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
                 associatedData.AsSpan());
         }
 
-        // 3. Detectar tipo de señal de observabilidad OpenTelemetry (Trace, Metric, Log)
-        var telemetryType = DetectTelemetryType(jsonPayload);
+        // 3. Detectar o asignar tipo de señal de observabilidad OpenTelemetry (Trace, Metric, Log)
+        var effectiveTelemetryType = telemetryType ?? DetectTelemetryType(jsonPayload);
 
         // 4. Empaquetado binario en Protocol Buffers Autosuficiente
         return new EncryptedPayloadEnvelope
@@ -60,7 +61,7 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
             TransactionId = transactionId,
             TimestampUnixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             Swagger = swaggerYaml ?? string.Empty,
-            TelemetryType = telemetryType
+            TelemetryType = effectiveTelemetryType
         };
     }
 

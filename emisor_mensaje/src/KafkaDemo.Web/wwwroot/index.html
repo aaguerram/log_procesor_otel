@@ -160,6 +160,19 @@
               <input type="text" id="msg-key-input" class="form-input code-input" placeholder="PK-XXXXXXXXXXXXXXXX-8172201-IN" required>
             </div>
 
+            <!-- Selector de Tipo de Telemetría (Trace, Metric, Log) -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="telemetry-type-select">Tipo de Señal OpenTelemetry (Protobuf Signal Type) *</label>
+                <span id="badge-telemetry-status" class="badge badge-system">🔍 Trace (Aplica Swagger)</span>
+              </div>
+              <select id="telemetry-type-select" class="form-input">
+                <option value="Trace" selected>🔍 Trace (Traza OTel - Aplica validación y enmascaramiento con Swagger)</option>
+                <option value="Metric">📊 Metric (Métrica OTel - Guardado directo sin Swagger)</option>
+                <option value="Log">📝 Log (Log General - Guardado directo sin Swagger)</option>
+              </select>
+            </div>
+
             <!-- Selector de Ejemplos de Trazas OTel (GET / POST) -->
             <div class="form-group">
               <div class="label-row">

@@ -6,6 +6,7 @@ using KafkaDemo.Domain.Configuration;
 using KafkaDemo.Domain.Models;
 using KafkaDemo.Domain.Ports;
 using KafkaDemo.Domain.Utils;
+using Produbanco.Security.V1;
 
 namespace KafkaDemo.Application.UseCases;
 
@@ -86,7 +87,15 @@ public class SendMessagesUseCase(
         // 2. Podar arreglos de respuesta si es una traza GET de OpenTelemetry (Zero-Allocation Streaming)
         var payloadToEncrypt = OTelTracePruner.PruneIfGetTrace(request.Value, pruningSettings);
 
-        // 3. Cifrar con AES-256-GCM y construir Envelope Protobuf Autosuficiente
+        // 3. Parsear tipo de telemetría si viene especificado desde el portal
+        TelemetryType? requestedType = null;
+        if (!string.IsNullOrWhiteSpace(request.TelemetryType) &&
+            Enum.TryParse<TelemetryType>(request.TelemetryType, true, out var parsedType))
+        {
+            requestedType = parsedType;
+        }
+
+        // 4. Cifrar con AES-256-GCM y construir Envelope Protobuf Autosuficiente
         var envelope = cryptoPort.EncryptJsonToEnvelope(
             payloadToEncrypt,
             eventId,
@@ -94,7 +103,8 @@ public class SendMessagesUseCase(
             partitionKey,
             keyMaterial,
             request.Headers,
-            swaggerYaml);
+            swaggerYaml,
+            requestedType);
 
         var protobufBytes = envelope.ToByteArray();
 
