@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs": {
-    "mtime": 1787796211.7175589,
-    "seen": 1787796367.0322285,
-    "ast_hash": "be2aa20050aa00e14a118c7139675ec5",
+    "mtime": 1787797350.5490105,
+    "seen": 1787798870.6171596,
+    "ast_hash": "70b4c4d7be4c9a77d616ef4d5d1f9276",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj": {
@@ -156,15 +156,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
-    "mtime": 1787791758.1953387,
-    "seen": 1787792495.3128035,
-    "ast_hash": "5ab116ccadc210b426cd5cc7d3a07101",
+    "mtime": 1787797713.5292912,
+    "seen": 1787798870.6172042,
+    "ast_hash": "4aaa8c86a3b486b25f2ed4d610e1b89b",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
-    "mtime": 1787791737.5842588,
-    "seen": 1787792495.3128588,
-    "ast_hash": "96fd7fac648454800919804cf1f2617b",
+    "mtime": 1787797638.5455904,
+    "seen": 1787798870.6172457,
+    "ast_hash": "82df941170626c82d79101432a2d8130",
     "semantic_hash": ""
   },
   "consumer_streams/ConsumerStreams.slnx": {
@@ -549,6 +549,24 @@
     "mtime": 1787788260.11572,
     "seen": 1787796367.0323453,
     "ast_hash": "4a092a30c8b25c23a89d31ba8dbafc81",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/data/otel_post_trace_1.json": {
+    "mtime": 1787797606.0175965,
+    "seen": 1787798870.6172,
+    "ast_hash": "7150149dce71158bae09a8e6b5f7d494",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/data/otel_post_trace_2.json": {
+    "mtime": 1787797615.0779464,
+    "seen": 1787798870.6172013,
+    "ast_hash": "628510f20d5b460e7768f39c1a70537a",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/data/otel_post_trace_3.json": {
+    "mtime": 1787797624.7350276,
+    "seen": 1787798870.6172025,
+    "ast_hash": "d34c0dc99ea1d4b8b33ff849a43c8226",
     "semantic_hash": ""
   }
 }

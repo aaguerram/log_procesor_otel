@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Application/UseCases/SendMessagesUseCase.cs": {
-    "mtime": 1787789959.8579993,
-    "seen": 1787792495.3127499,
-    "ast_hash": "4bf42d46745a149cefea637286a5350e",
+    "mtime": 1787796211.7175589,
+    "seen": 1787796367.0322285,
+    "ast_hash": "be2aa20050aa00e14a118c7139675ec5",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.ConsoleApp/KafkaDemo.ConsoleApp.csproj": {
@@ -132,15 +132,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/KafkaDemo.Web.csproj": {
-    "mtime": 1787753764.1415217,
-    "seen": 1787757351.9383297,
-    "ast_hash": "b235d623777fea6b977a30be3161c6e6",
+    "mtime": 1787796101.6077797,
+    "seen": 1787796367.032272,
+    "ast_hash": "5122644f8b6213c4b18878f4cf269ab3",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/Program.cs": {
-    "mtime": 1787791769.3158562,
-    "seen": 1787792495.312794,
-    "ast_hash": "812a6e53809ef576fa2c3b9df3c66ef4",
+    "mtime": 1787796173.2317202,
+    "seen": 1787796367.032274,
+    "ast_hash": "fd2ad2cf7f07596c384be6c315622e83",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/Properties/launchSettings.json": {
@@ -288,15 +288,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs": {
-    "mtime": 1787761255.5757825,
-    "seen": 1787761621.01853,
-    "ast_hash": "d3b4d3736a7b5d3f6d9eabf461e661be",
+    "mtime": 1787796124.6509628,
+    "seen": 1787796367.032248,
+    "ast_hash": "82d79d9fa44fc76a7851255f7f0120bc",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AesGcmPayloadCryptoAdapter.cs": {
-    "mtime": 1787763385.9812138,
-    "seen": 1787763566.8364155,
-    "ast_hash": "9f43cf1e74d7b4f62d092fbc95005803",
+    "mtime": 1787796136.705627,
+    "seen": 1787796367.0322564,
+    "ast_hash": "0d17fd19222efce76fbff370c706e558",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Infrastructure/Adapters/AzureKeyVaultTokenAdapter.cs": {
@@ -531,6 +531,24 @@
     "mtime": 1787792984.1375918,
     "seen": 1787795807.7742312,
     "ast_hash": "26547e174baad46a140f40945911d693",
+    "semantic_hash": ""
+  },
+  "data_guia/test_swagger_in_protobuf.py": {
+    "mtime": 1787796333.5490448,
+    "seen": 1787796367.032189,
+    "ast_hash": "ac83477024d17b603977ddc200995ce3",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/Contracts/transfer-mspx-prometeus.management.standard.yaml": {
+    "mtime": 1787788260.11572,
+    "seen": 1787796367.0323436,
+    "ast_hash": "4a092a30c8b25c23a89d31ba8dbafc81",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/data/transfer-mspx-prometeus.management.standard.yaml": {
+    "mtime": 1787788260.11572,
+    "seen": 1787796367.0323453,
+    "ast_hash": "4a092a30c8b25c23a89d31ba8dbafc81",
     "semantic_hash": ""
   }
 }
