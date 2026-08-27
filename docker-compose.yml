@@ -133,7 +133,7 @@ services:
       - kafka-net
 
   # =================================================================
-  # 6. AZURE COSMOS DB / DOCUMENTDB (Motor Ligero NoSQL)
+  # 6. AZURE COSMOS DB / DOCUMENTDB (Motor Ligero NoSQL y Data Explorer UI)
   # =================================================================
   azure-documentdb:
     build:
@@ -143,6 +143,7 @@ services:
     hostname: azure-documentdb
     ports:
       - "8081:8081"                  # Endpoint REST Oficial de Cosmos DB / DocumentDB
+      - "8082:8082"                  # Interfaz Gráfica Ligera Cosmos DB Data Explorer UI
     networks:
       - kafka-net
 
@@ -156,24 +157,6 @@ services:
       - "3000:3000"                  # NoSQL Web GUI Interface (Puerto 3000)
     environment:
       - MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://azure-documentdb:27017
-    depends_on:
-      - azure-documentdb
-    networks:
-      - kafka-net
-
-  # =================================================================
-  # 6.2 MONGO EXPRESS (NoSQL Web GUI Express - Puerto 8082)
-  # =================================================================
-  mongo-express:
-    image: mongo-express:latest
-    container_name: mongo-express-gui
-    ports:
-      - "8082:8081"                  # Mongo Express Web UI (Puerto 8082)
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=azure-documentdb
-      - ME_CONFIG_MONGODB_PORT=27017
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-      - ME_CONFIG_BASICAUTH=false
     depends_on:
       - azure-documentdb
     networks:
