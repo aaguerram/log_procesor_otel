@@ -206,23 +206,22 @@ function renderTopicsTable(topics) {
   `).join('');
 }
 
-// Actualizar Select del formulario
+// Actualizar Select del formulario (Solo tópico del emisor)
 function updateTopicsSelect(topics) {
-  const userTopics = topics.filter(t => !t.isInternal);
-  const currentVal = dom.msgTopicSelect.value;
+  // Filtrar exclusivamente tópicos del emisor (.emitted.)
+  let emitterTopics = topics.filter(t => !t.isInternal && t.name.includes('.emitted.'));
+  if (emitterTopics.length === 0) {
+    emitterTopics = topics.filter(t => t.name === 'tp.observability.application-log.emitted.v1');
+  }
+  if (emitterTopics.length === 0) {
+    emitterTopics = [{ name: 'tp.observability.application-log.emitted.v1', partitionsCount: 40 }];
+  }
 
-  dom.msgTopicSelect.innerHTML = userTopics.map(t => 
+  dom.msgTopicSelect.innerHTML = emitterTopics.map(t => 
     `<option value="${escapeHtml(t.name)}">${escapeHtml(t.name)} (${t.partitionsCount} part.)</option>`
   ).join('');
 
-  // Mantener tp.observability.application-log.emitted.v1 por defecto
-  if (userTopics.some(t => t.name === 'tp.observability.application-log.emitted.v1')) {
-    dom.msgTopicSelect.value = 'tp.observability.application-log.emitted.v1';
-  } else if (userTopics.some(t => t.name === currentVal)) {
-    dom.msgTopicSelect.value = currentVal;
-  } else if (userTopics.length > 0) {
-    dom.msgTopicSelect.value = userTopics[0].name;
-  }
+  dom.msgTopicSelect.value = emitterTopics[0].name;
 }
 
 // Actualizar Tarjetas de Estadísticas
