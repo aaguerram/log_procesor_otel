@@ -44,21 +44,20 @@ const dom = {
 // Generador de clave de particionamiento con dispersión de ultra-alta entropía (SplitMix64 Avalanche)
 let _dispersedCounter = 0n;
 
-function generateDispersedKey(businessId = '8172201-IN') {
+function generateDispersedKey(signalType = 'TRACE') {
   _dispersedCounter = (_dispersedCounter + 1n) & 0xFFFFFFFFFFFFFFFFn;
   const nowTicks = BigInt(Date.now());
   const randomSalt = BigInt(Math.floor(Math.random() * 0xFFFFFF));
   let seed = ((nowTicks ^ randomSalt) ^ (_dispersedCounter * 0x9e3779b97f4a7c15n)) & 0xFFFFFFFFFFFFFFFFn;
 
-  if (businessId && businessId.trim() !== '') {
-    let fnv = 0xcbf29ce484222325n;
-    const cleanId = businessId.trim();
-    for (let i = 0; i < cleanId.length; i++) {
-      fnv = (fnv ^ BigInt(cleanId.charCodeAt(i))) & 0xFFFFFFFFFFFFFFFFn;
-      fnv = (fnv * 0x100000001b3n) & 0xFFFFFFFFFFFFFFFFn;
-    }
-    seed = (seed ^ fnv) & 0xFFFFFFFFFFFFFFFFn;
+  const normalizedType = (signalType && signalType.trim() !== '') ? signalType.trim().toUpperCase() : 'TRACE';
+
+  let fnv = 0xcbf29ce484222325n;
+  for (let i = 0; i < normalizedType.length; i++) {
+    fnv = (fnv ^ BigInt(normalizedType.charCodeAt(i))) & 0xFFFFFFFFFFFFFFFFn;
+    fnv = (fnv * 0x100000001b3n) & 0xFFFFFFFFFFFFFFFFn;
   }
+  seed = (seed ^ fnv) & 0xFFFFFFFFFFFFFFFFn;
 
   // Mezclador SplitMix64 / Murmur3 Avalanche
   seed = (seed ^ (seed >> 30n)) & 0xFFFFFFFFFFFFFFFFn;
@@ -68,7 +67,7 @@ function generateDispersedKey(businessId = '8172201-IN') {
   seed = (seed ^ (seed >> 31n)) & 0xFFFFFFFFFFFFFFFFn;
 
   const hex16 = seed.toString(16).toUpperCase().padStart(16, '0');
-  return businessId && businessId.trim() !== '' ? `PK-${hex16}-${businessId.trim()}` : `PK-${hex16}`;
+  return `PK-${hex16}-${normalizedType}`;
 }
 
 // Inicialización
@@ -130,12 +129,11 @@ function setupEvents() {
   dom.formCreateTopic.addEventListener('submit', handleCreateTopic);
   dom.formSendMessage.addEventListener('submit', handleSendMessage);
   
-  // Botón para regenerar ID de partición con SplitMix64
+  // Botón para regenerar ID de partición genérico con SplitMix64
   dom.btnRegenKey?.addEventListener('click', () => {
-    const selectedKey = dom.tracePresetSelect?.value;
-    const businessKey = getBusinessKeyForCurrentPreset(selectedKey);
-    dom.msgKeyInput.value = generateDispersedKey(businessKey);
-    showToast('Nuevo ID de partición generado (SplitMix64)', 'info');
+    const signalType = dom.telemetryTypeSelect?.value || 'TRACE';
+    dom.msgKeyInput.value = generateDispersedKey(signalType.toUpperCase());
+    showToast(`Nuevo ID de partición generado (PK-...-${signalType.toUpperCase()})`, 'info');
   });
 
   // Selector de Tipo de Señal Telemetría (Trace, Metric, Log)
@@ -531,22 +529,18 @@ function removeEmptyStreamNotice() {
 const OTelTraces = {
   'otel-get': {
     url: '/data/otel_get_trace.json',
-    businessKey: 'TRACE-GET-CONTACTS-8172201',
     label: 'GET - /contacts/contacts-by-idClient/8172201/IN (Lista 120 Contactos)'
   },
   'otel-post-1': {
     url: '/data/otel_post_trace_1.json',
-    businessKey: 'TRACE-POST-CONTACT-1394487',
     label: 'POST - /contacts/local-contact (ID: 1394487 | Cédula: 1702756766)'
   },
   'otel-post-2': {
     url: '/data/otel_post_trace_2.json',
-    businessKey: 'TRACE-POST-CONTACT-1394495',
     label: 'POST - /contacts/local-contact (ID: 1394495 | Cédula: 1702756766)'
   },
   'otel-post-3': {
     url: '/data/otel_post_trace_3.json',
-    businessKey: 'TRACE-POST-CONTACT-13944955',
     label: 'POST - /contacts/local-contact (ID: 13944955 | Respuesta Exitosa 100000)'
   }
 };
@@ -584,7 +578,6 @@ const OTelMetricDefinitions = [
 // 3. Catálogo de Logs de Ejemplo (3)
 const OTelLogs = {
   'log-info': {
-    businessKey: 'LOG-INFO-AUTH',
     label: '[INFO] AuthAudit - Inicio de sesión exitoso de usuario institucional',
     data: {
       timestamp: new Date().toISOString(),
@@ -601,7 +594,6 @@ const OTelLogs = {
     }
   },
   'log-warn': {
-    businessKey: 'LOG-WARN-OTP',
     label: '[WARN] SecurityThreat - Múltiples intentos fallidos de autenticación OTP',
     data: {
       timestamp: new Date().toISOString(),
@@ -618,7 +610,6 @@ const OTelLogs = {
     }
   },
   'log-error': {
-    businessKey: 'LOG-ERR-TIMEOUT',
     label: '[ERROR] DatabaseTimeout - Timeout al ejecutar consulta en base de datos secundaria',
     data: {
       timestamp: new Date().toISOString(),
@@ -699,7 +690,7 @@ async function loadSelectedPreset(presetKey) {
       if (res.ok) {
         const traceObj = await res.json();
         dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
-        dom.msgKeyInput.value = generateDispersedKey(config.businessKey);
+        dom.msgKeyInput.value = generateDispersedKey('TRACE');
         showToast(`✔ ${config.label} cargada con éxito`, 'info');
       }
     } catch (err) {
@@ -717,26 +708,15 @@ async function loadSelectedPreset(presetKey) {
     const metricObj = cachedMetricsCatalog?.[presetKey];
     if (metricObj) {
       dom.msgValueInput.value = JSON.stringify(metricObj, null, 2);
-      dom.msgKeyInput.value = generateDispersedKey(`METRIC-${presetKey}`);
+      dom.msgKeyInput.value = generateDispersedKey('METRIC');
       showToast(`✔ Métrica '${presetKey}' cargada (${metricObj.Type})`, 'info');
     }
   } 
   else if (signalType === 'Log') {
     const logConfig = OTelLogs[presetKey] || OTelLogs['log-info'];
     dom.msgValueInput.value = JSON.stringify(logConfig.data, null, 2);
-    dom.msgKeyInput.value = generateDispersedKey(logConfig.businessKey);
+    dom.msgKeyInput.value = generateDispersedKey('LOG');
     showToast(`✔ ${logConfig.label} cargado con éxito`, 'info');
-  }
-}
-
-function getBusinessKeyForCurrentPreset(presetKey) {
-  const signalType = dom.telemetryTypeSelect?.value || 'Trace';
-  if (signalType === 'Trace') {
-    return OTelTraces[presetKey]?.businessKey || 'TRACE-GET-CONTACTS-8172201';
-  } else if (signalType === 'Metric') {
-    return `METRIC-${presetKey || 'SAMPLE'}`;
-  } else {
-    return OTelLogs[presetKey]?.businessKey || 'LOG-INFO-AUTH';
   }
 }
 
