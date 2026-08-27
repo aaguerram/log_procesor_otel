@@ -25,6 +25,8 @@ public class StreamProcessingPipelineUseCase(
     ITransactionTransformerPort transformer,
     IVaultTokenProviderPort vaultTokenPort,
     IPayloadCryptoPort cryptoPort,
+    IContractRulesCachePort contractRulesCache,
+    ConsumerStreams.Domain.Configuration.DataProtectionRulesSettings dataProtectionSettings,
     ILogger<StreamProcessingPipelineUseCase> logger)
 {
     public async Task ExecutePipelineAsync(string sourceTopic, string targetTopic, CancellationToken cancellationToken)
@@ -55,6 +57,17 @@ public class StreamProcessingPipelineUseCase(
 
                         // 3. Descifrado AES-256-GCM por hardware en CPU (~0.15 ms)
                         decryptedJson = cryptoPort.DecryptEnvelopeToJson(envelope, keyMaterial);
+
+                        // 4. Aplicar políticas x-log-data-protection con caché atómica thread-safe (TTL 10 min)
+                        if (!string.IsNullOrEmpty(envelope.Swagger) && dataProtectionSettings.Enabled)
+                        {
+                            var rules = contractRulesCache.GetOrCompile(envelope.Swagger);
+                            var maskedBytes = JsonStreamDataProtectionMasker.MaskPayload(
+                                Encoding.UTF8.GetBytes(decryptedJson),
+                                rules,
+                                dataProtectionSettings);
+                            decryptedJson = Encoding.UTF8.GetString(maskedBytes);
+                        }
                     }
                     else
                     {

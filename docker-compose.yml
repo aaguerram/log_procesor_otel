@@ -121,6 +121,11 @@ services:
       - KafkaStream__AutoOffsetReset=Earliest
       - KeyVault__VaultUri=https://azure-keyvault:8443
       - KeyVault__VaultName=produbanco-local-vault
+      - DataProtectionRules__Enabled=true
+      - DataProtectionRules__HashSha256=true
+      - DataProtectionRules__PartialLast4=true
+      - DataProtectionRules__Remove=true
+      - DataProtectionRules__Full=true
     depends_on:
       kafka:
         condition: service_healthy

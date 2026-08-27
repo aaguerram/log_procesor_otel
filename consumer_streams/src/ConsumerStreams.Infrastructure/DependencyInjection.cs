@@ -55,12 +55,25 @@ public static class DependencyInjection
 
         services.AddSingleton(Options.Create(streamSettings));
 
-        // 2. Puertos y Adaptadores (Hexagonal)
+        // 2. Configuración de Reglas de Protección de Datos (x-log-data-protection)
+        var protectionSettings = new ConsumerStreams.Domain.Configuration.DataProtectionRulesSettings
+        {
+            Enabled = !bool.TryParse(configuration["DataProtectionRules:Enabled"] ?? configuration["DATA_PROTECTION_ENABLED"], out var enabled) || enabled,
+            HashSha256 = !bool.TryParse(configuration["DataProtectionRules:HashSha256"] ?? configuration["DATA_PROTECTION_HASH_SHA256"], out var hash) || hash,
+            PartialLast4 = !bool.TryParse(configuration["DataProtectionRules:PartialLast4"] ?? configuration["DATA_PROTECTION_PARTIAL_LAST4"], out var part) || part,
+            Remove = !bool.TryParse(configuration["DataProtectionRules:Remove"] ?? configuration["DATA_PROTECTION_REMOVE"], out var rem) || rem,
+            Full = !bool.TryParse(configuration["DataProtectionRules:Full"] ?? configuration["DATA_PROTECTION_FULL"], out var full) || full
+        };
+        services.AddSingleton(protectionSettings);
+        services.AddSingleton(Options.Create(protectionSettings));
+
+        // 3. Puertos y Adaptadores (Hexagonal)
         services.AddSingleton<IStreamConsumerPort, KafkaStreamConsumerAdapter>();
         services.AddSingleton<IStreamProducerPort, KafkaStreamProducerAdapter>();
         services.AddSingleton<ITransactionTransformerPort, TransactionEnricher>();
         services.AddSingleton<IVaultTokenProviderPort, AzureKeyVaultTokenAdapter>();
         services.AddSingleton<IPayloadCryptoPort, AesGcmPayloadCryptoAdapter>();
+        services.AddSingleton<IContractRulesCachePort, ThreadSafeContractRulesCacheAdapter>();
 
         // 3. Casos de Uso
         services.AddSingleton<StreamProcessingPipelineUseCase>();
