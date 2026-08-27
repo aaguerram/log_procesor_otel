@@ -1,0 +1,154 @@
+{
+  "http_method": "POST",
+  "swagger_path": "/contacts/local-contact",
+  "operation_id": "InsertContact",
+  "summary": "Endpoint base / Health probe",
+  "swagger_metadata": {
+    "tags": [
+      "Contacts"
+    ],
+    "operationId": "InsertContact",
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/ClientContactRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "200": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ResultDtoResult"
+            }
+          }
+        }
+      }
+    }
+  },
+  "total_traces": 3,
+  "traces": [
+    {
+      "TraceId": "557fe6e7d406bb68bcdb6f58aaad4378",
+      "SpanId": "3d52a4f53034af7f",
+      "ParentSpanId": "0000000000000000",
+      "Name": "POST /contacts/local-contact",
+      "Kind": "Server",
+      "StartTimeUtc": "2026-08-26T15:47:02.4972104Z",
+      "DurationMs": 65.2214,
+      "Tags": {
+        "server.address": "localhost",
+        "http.request.method": "POST",
+        "url.scheme": "http",
+        "url.path": "/transfer-mspx-prometeus-management/contacts/local-contact",
+        "network.protocol.version": "1.1",
+        "user_agent.original": "PostmanRuntime/7.51.1",
+        "http.request.body_preview": "{\r\n    \"id\": 1394487,\r\n    \"clientId\": 5103846,\r\n    \"identification\": \"1702756766\",\r\n    \"identificationType\": \"C\",\r\n    \"name\": \"NOMBRE_175901\",\r\n    \"lastName\": \"PRIMER_APELLIDO_1759\",\r\n    \"businessName\": \"\",\r\n    \"email\": \"cuenta9507254@correo.com\",\r\n    \"phoneNumber\": \"0902174764\",\r\n    \"favorite\": false,\r\n    \"alias\": \"\",\r\n    \"national\": true,\r\n    \"channel\": \"IN\"\r\n}",
+        "http.route": "/contacts/local-contact"
+      },
+      "Events": [],
+      "Links": [],
+      "ParsedRequestBody": {
+        "id": 1394487,
+        "clientId": 5103846,
+        "identification": "1702756766",
+        "identificationType": "C",
+        "name": "NOMBRE_175901",
+        "lastName": "PRIMER_APELLIDO_1759",
+        "businessName": "",
+        "email": "cuenta9507254@correo.com",
+        "phoneNumber": "0902174764",
+        "favorite": false,
+        "alias": "",
+        "national": true,
+        "channel": "IN"
+      }
+    },
+    {
+      "TraceId": "8d77becc50226003318ce8aa9f9386dc",
+      "SpanId": "b51565e0a7484343",
+      "ParentSpanId": "0000000000000000",
+      "Name": "POST /contacts/local-contact",
+      "Kind": "Server",
+      "StartTimeUtc": "2026-08-26T15:47:15.0580938Z",
+      "DurationMs": 36.0928,
+      "Tags": {
+        "server.address": "localhost",
+        "http.request.method": "POST",
+        "url.scheme": "http",
+        "url.path": "/transfer-mspx-prometeus-management/contacts/local-contact",
+        "network.protocol.version": "1.1",
+        "user_agent.original": "PostmanRuntime/7.51.1",
+        "http.request.body_preview": "{\r\n    \"id\": 1394495,\r\n    \"clientId\": 5103846,\r\n    \"identification\": \"1702756766\",\r\n    \"identificationType\": \"C\",\r\n    \"name\": \"NOMBRE_175901\",\r\n    \"lastName\": \"PRIMER_APELLIDO_1759\",\r\n    \"businessName\": \"\",\r\n    \"email\": \"cuenta9507254@correo.com\",\r\n    \"phoneNumber\": \"0902174764\",\r\n    \"favorite\": false,\r\n    \"alias\": \"\",\r\n    \"national\": true,\r\n    \"channel\": \"IN\"\r\n}",
+        "http.route": "/contacts/local-contact"
+      },
+      "Events": [],
+      "Links": [],
+      "ParsedRequestBody": {
+        "id": 1394495,
+        "clientId": 5103846,
+        "identification": "1702756766",
+        "identificationType": "C",
+        "name": "NOMBRE_175901",
+        "lastName": "PRIMER_APELLIDO_1759",
+        "businessName": "",
+        "email": "cuenta9507254@correo.com",
+        "phoneNumber": "0902174764",
+        "favorite": false,
+        "alias": "",
+        "national": true,
+        "channel": "IN"
+      }
+    },
+    {
+      "TraceId": "5c2cef6fe000d41cc76d3180440dce58",
+      "SpanId": "4d59e061ed1fc27a",
+      "ParentSpanId": "0000000000000000",
+      "Name": "POST /contacts/local-contact",
+      "Kind": "Server",
+      "StartTimeUtc": "2026-08-26T15:47:18.712385Z",
+      "DurationMs": 44.1914,
+      "Tags": {
+        "server.address": "localhost",
+        "http.request.method": "POST",
+        "url.scheme": "http",
+        "url.path": "/transfer-mspx-prometeus-management/contacts/local-contact",
+        "network.protocol.version": "1.1",
+        "user_agent.original": "PostmanRuntime/7.51.1",
+        "http.request.body_preview": "{\r\n    \"id\": 13944955,\r\n    \"clientId\": 5103846,\r\n    \"identification\": \"1702756766\",\r\n    \"identificationType\": \"C\",\r\n    \"name\": \"NOMBRE_175901\",\r\n    \"lastName\": \"PRIMER_APELLIDO_1759\",\r\n    \"businessName\": \"\",\r\n    \"email\": \"cuenta9507254@correo.com\",\r\n    \"phoneNumber\": \"0902174764\",\r\n    \"favorite\": false,\r\n    \"alias\": \"\",\r\n    \"national\": true,\r\n    \"channel\": \"IN\"\r\n}",
+        "http.response.body_preview": "{\"Value\":{\"Resultado\":0},\"IsSuccess\":true,\"Error\":null,\"Code\":100000}",
+        "http.route": "/contacts/local-contact"
+      },
+      "Events": [],
+      "Links": [],
+      "ParsedRequestBody": {
+        "id": 13944955,
+        "clientId": 5103846,
+        "identification": "1702756766",
+        "identificationType": "C",
+        "name": "NOMBRE_175901",
+        "lastName": "PRIMER_APELLIDO_1759",
+        "businessName": "",
+        "email": "cuenta9507254@correo.com",
+        "phoneNumber": "0902174764",
+        "favorite": false,
+        "alias": "",
+        "national": true,
+        "channel": "IN"
+      },
+      "ParsedResponseBody": {
+        "Value": {
+          "Resultado": 0
+        },
+        "IsSuccess": true,
+        "Error": null,
+        "Code": 100000
+      }
+    }
+  ]
+}

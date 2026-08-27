@@ -1,0 +1,29 @@
+{
+  "http_method": "GET",
+  "swagger_path": "(Endpoint base)",
+  "operation_id": "N/A",
+  "summary": "Endpoint base / Health probe",
+  "swagger_metadata": {},
+  "total_traces": 1,
+  "traces": [
+    {
+      "TraceId": "410876c15fca60de36145f152c988556",
+      "SpanId": "873a52413fe89edc",
+      "ParentSpanId": "0000000000000000",
+      "Name": "GET",
+      "Kind": "Server",
+      "StartTimeUtc": "2026-08-26T15:46:38.2237996Z",
+      "DurationMs": 14.1552,
+      "Tags": {
+        "server.address": "localhost",
+        "http.request.method": "GET",
+        "url.scheme": "http",
+        "url.path": "/transfer-mspx-prometeus-management",
+        "network.protocol.version": "1.1",
+        "user_agent.original": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36 Edg/151.0.0.0"
+      },
+      "Events": [],
+      "Links": []
+    }
+  ]
+}
