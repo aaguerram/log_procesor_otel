@@ -54,9 +54,14 @@ public static partial class OpenApiContractCompiler
         var operations = new Dictionary<string, Dictionary<string, DataProtectionRuleType>>(StringComparer.OrdinalIgnoreCase);
         var routeParamBuilders = new Dictionary<string, (List<(int SegmentIndex, string ParamName, DataProtectionRuleType Rule)> PathRules, Dictionary<string, DataProtectionRuleType> QueryRules)>(StringComparer.OrdinalIgnoreCase);
 
+        var opSchemaRefs = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+        var schemas = new Dictionary<string, (Dictionary<string, DataProtectionRuleType> Props, HashSet<string> SubRefs)>(StringComparer.OrdinalIgnoreCase);
+
         var lines = swaggerYaml.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+        bool inComponents = false;
         string currentPath = string.Empty;
         string currentMethod = string.Empty;
+        string currentSchema = string.Empty;
         string pendingProperty = string.Empty;
         string currentParamIn = string.Empty;
 
@@ -65,106 +70,190 @@ public static partial class OpenApiContractCompiler
             string line = lines[i];
             string trimmed = line.Trim();
 
-            // Detectar Path: "  /contacts/..."
-            if (line.StartsWith("  /") && trimmed.EndsWith(':'))
+            if (line.StartsWith("components:"))
             {
-                currentPath = NormalizeRoute(trimmed.TrimEnd(':'));
+                inComponents = true;
+                currentPath = string.Empty;
                 currentMethod = string.Empty;
                 pendingProperty = string.Empty;
-                currentParamIn = string.Empty;
                 continue;
             }
 
-            // Detectar Método HTTP: "    get:" o "    post:"
-            if (line.StartsWith("    ") && !line.StartsWith("      ") && trimmed.EndsWith(':'))
+            if (!inComponents)
             {
-                string maybeMethod = trimmed.TrimEnd(':').ToUpperInvariant();
-                if (maybeMethod is "GET" or "POST" or "PUT" or "DELETE" or "PATCH")
+                // Detectar Path: "  /contacts/..."
+                if (line.StartsWith("  /") && trimmed.EndsWith(':'))
                 {
-                    currentMethod = maybeMethod;
+                    currentPath = NormalizeRoute(trimmed.TrimEnd(':'));
+                    currentMethod = string.Empty;
                     pendingProperty = string.Empty;
                     currentParamIn = string.Empty;
                     continue;
                 }
-            }
 
-            // Detectar "in: path" o "in: query"
-            if (trimmed.StartsWith("in:"))
-            {
-                var inParts = trimmed.Split(':', 2);
-                if (inParts.Length > 1)
-                    currentParamIn = inParts[1].Trim().Trim('\'', '"').ToLowerInvariant();
-            }
-
-            // Detectar nombres de parámetros: "- name: idClient" o "name: idClient"
-            if (trimmed.StartsWith("- name:") || trimmed.StartsWith("name:"))
-            {
-                var parts = trimmed.Split(':', 2);
-                if (parts.Length > 1)
+                // Detectar Método HTTP: "    get:" o "    post:" o "    put:" o "    delete:"
+                if (line.StartsWith("    ") && !line.StartsWith("      ") && trimmed.EndsWith(':'))
                 {
-                    pendingProperty = parts[1].Trim().Trim('\'', '"');
-                    if (trimmed.StartsWith("- name:"))
-                        currentParamIn = string.Empty;
-                }
-            }
-            else if (trimmed.EndsWith(':'))
-            {
-                string key = trimmed.TrimEnd(':');
-                if (!IsReservedYamlKeyword(key))
-                {
-                    pendingProperty = key;
-                }
-            }
-
-            // Detectar directiva x-log-data-protection
-            if (trimmed.Contains("x-log-data-protection:"))
-            {
-                var parts = trimmed.Split(':', 2);
-                if (parts.Length > 1)
-                {
-                    string ruleText = parts[1].Trim().Trim('\'', '"');
-                    var ruleType = ParseRuleType(ruleText);
-
-                    if (!string.IsNullOrEmpty(pendingProperty))
+                    string maybeMethod = trimmed.TrimEnd(':').ToUpperInvariant();
+                    if (maybeMethod is "GET" or "POST" or "PUT" or "DELETE" or "PATCH")
                     {
-                        // Asignar al Endpoint actual si estamos dentro de un path/método
+                        currentMethod = maybeMethod;
+                        pendingProperty = string.Empty;
+                        currentParamIn = string.Empty;
+
+                        string opKey = $"{currentMethod} {currentPath}";
+                        if (!opSchemaRefs.ContainsKey(opKey))
+                            opSchemaRefs[opKey] = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                        continue;
+                    }
+                }
+
+                // Detectar "in: path" o "in: query"
+                if (trimmed.StartsWith("in:"))
+                {
+                    var inParts = trimmed.Split(':', 2);
+                    if (inParts.Length > 1)
+                        currentParamIn = inParts[1].Trim().Trim('\'', '"').ToLowerInvariant();
+                }
+
+                // Detectar $ref en operación
+                if (trimmed.Contains("$ref:"))
+                {
+                    var refParts = trimmed.Split("$ref:", 2);
+                    if (refParts.Length > 1)
+                    {
+                        string refTarget = refParts[1].Trim().Trim('\'', '"');
+                        string schemaName = refTarget.Substring(refTarget.LastIndexOf('/') + 1);
                         if (!string.IsNullOrEmpty(currentPath) && !string.IsNullOrEmpty(currentMethod))
                         {
                             string opKey = $"{currentMethod} {currentPath}";
-                            if (!operations.TryGetValue(opKey, out var opDict))
+                            if (!opSchemaRefs.TryGetValue(opKey, out var refSet))
                             {
-                                opDict = new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase);
-                                operations[opKey] = opDict;
+                                refSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                                opSchemaRefs[opKey] = refSet;
                             }
-                            opDict[pendingProperty] = ruleType;
+                            refSet.Add(schemaName);
+                        }
+                    }
+                }
 
-                            // Registrar para Path & Query parameter rules
-                            if (!routeParamBuilders.TryGetValue(opKey, out var paramBuilder))
-                            {
-                                paramBuilder = (new List<(int, string, DataProtectionRuleType)>(), new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase));
-                                routeParamBuilders[opKey] = paramBuilder;
-                            }
+                // Detectar nombres de parámetros
+                if (trimmed.StartsWith("- name:") || trimmed.StartsWith("name:"))
+                {
+                    var parts = trimmed.Split(':', 2);
+                    if (parts.Length > 1)
+                    {
+                        pendingProperty = parts[1].Trim().Trim('\'', '"');
+                        if (trimmed.StartsWith("- name:"))
+                            currentParamIn = string.Empty;
+                    }
+                }
+                else if (trimmed.EndsWith(':'))
+                {
+                    string key = trimmed.TrimEnd(':');
+                    if (!IsReservedYamlKeyword(key))
+                    {
+                        pendingProperty = key;
+                    }
+                }
 
-                            // Evaluar si es Path Parameter buscando en los segmentos de la ruta
-                            var segments = currentPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-                            int segmentIdx = -1;
-                            for (int s = 0; s < segments.Length; s++)
+                // Detectar directiva x-log-data-protection
+                if (trimmed.Contains("x-log-data-protection:"))
+                {
+                    var parts = trimmed.Split(':', 2);
+                    if (parts.Length > 1)
+                    {
+                        string ruleText = parts[1].Trim().Trim('\'', '"');
+                        var ruleType = ParseRuleType(ruleText);
+
+                        if (!string.IsNullOrEmpty(pendingProperty))
+                        {
+                            if (!string.IsNullOrEmpty(currentPath) && !string.IsNullOrEmpty(currentMethod))
                             {
-                                var seg = segments[s].Trim('{', '}');
-                                if (seg.Equals(pendingProperty, StringComparison.OrdinalIgnoreCase))
+                                string opKey = $"{currentMethod} {currentPath}";
+                                if (!operations.TryGetValue(opKey, out var opDict))
                                 {
-                                    segmentIdx = s;
-                                    break;
+                                    opDict = new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase);
+                                    operations[opKey] = opDict;
+                                }
+                                opDict[pendingProperty] = ruleType;
+
+                                if (!routeParamBuilders.TryGetValue(opKey, out var paramBuilder))
+                                {
+                                    paramBuilder = (new List<(int, string, DataProtectionRuleType)>(), new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase));
+                                    routeParamBuilders[opKey] = paramBuilder;
+                                }
+
+                                var segments = currentPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                                int segmentIdx = -1;
+                                for (int s = 0; s < segments.Length; s++)
+                                {
+                                    var seg = segments[s].Trim('{', '}');
+                                    if (seg.Equals(pendingProperty, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        segmentIdx = s;
+                                        break;
+                                    }
+                                }
+
+                                if (segmentIdx >= 0 || currentParamIn == "path")
+                                {
+                                    paramBuilder.PathRules.Add((segmentIdx, pendingProperty, ruleType));
+                                }
+                                else
+                                {
+                                    paramBuilder.QueryRules[pendingProperty] = ruleType;
                                 }
                             }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Sección Components -> Schemas
+                if (line.StartsWith("    ") && !line.StartsWith("      ") && trimmed.EndsWith(':'))
+                {
+                    currentSchema = trimmed.TrimEnd(':');
+                    if (!schemas.ContainsKey(currentSchema))
+                    {
+                        schemas[currentSchema] = (new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase), new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+                    }
+                    pendingProperty = string.Empty;
+                    continue;
+                }
 
-                            if (segmentIdx >= 0 || currentParamIn == "path")
+                if (!string.IsNullOrEmpty(currentSchema))
+                {
+                    if (trimmed.Contains("$ref:"))
+                    {
+                        var refParts = trimmed.Split("$ref:", 2);
+                        if (refParts.Length > 1)
+                        {
+                            string refTarget = refParts[1].Trim().Trim('\'', '"');
+                            string subSchema = refTarget.Substring(refTarget.LastIndexOf('/') + 1);
+                            schemas[currentSchema].SubRefs.Add(subSchema);
+                        }
+                    }
+                    else if (trimmed.EndsWith(':'))
+                    {
+                        string key = trimmed.TrimEnd(':');
+                        if (!IsReservedYamlKeyword(key))
+                        {
+                            pendingProperty = key;
+                        }
+                    }
+
+                    if (trimmed.Contains("x-log-data-protection:"))
+                    {
+                        var parts = trimmed.Split(':', 2);
+                        if (parts.Length > 1)
+                        {
+                            string ruleText = parts[1].Trim().Trim('\'', '"');
+                            var ruleType = ParseRuleType(ruleText);
+                            if (!string.IsNullOrEmpty(pendingProperty))
                             {
-                                paramBuilder.PathRules.Add((segmentIdx, pendingProperty, ruleType));
-                            }
-                            else
-                            {
-                                paramBuilder.QueryRules[pendingProperty] = ruleType;
+                                schemas[currentSchema].Props[pendingProperty] = ruleType;
                             }
                         }
                     }
@@ -172,7 +261,39 @@ public static partial class OpenApiContractCompiler
             }
         }
 
-        // 4. Convertir a FrozenDictionaries inmutables de alto rendimiento
+        // 4. Resolver y Vincular Propiedades de Esquemas referenciados a cada Operación
+        void ResolveSchemaProps(string schemaName, Dictionary<string, DataProtectionRuleType> targetDict, HashSet<string> visited)
+        {
+            if (visited.Contains(schemaName) || !schemas.TryGetValue(schemaName, out var sEntry))
+                return;
+
+            visited.Add(schemaName);
+            foreach (var (p, r) in sEntry.Props)
+            {
+                targetDict[p] = r;
+            }
+            foreach (var subRef in sEntry.SubRefs)
+            {
+                ResolveSchemaProps(subRef, targetDict, visited);
+            }
+        }
+
+        foreach (var (opKey, refSet) in opSchemaRefs)
+        {
+            if (!operations.TryGetValue(opKey, out var opDict))
+            {
+                opDict = new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase);
+                operations[opKey] = opDict;
+            }
+
+            var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var sRef in refSet)
+            {
+                ResolveSchemaProps(sRef, opDict, visited);
+            }
+        }
+
+        // 5. Convertir a FrozenDictionaries inmutables de alto rendimiento
         var frozenOps = operations.ToFrozenDictionary(
             kvp => kvp.Key,
             kvp => kvp.Value.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase),
