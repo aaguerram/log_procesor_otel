@@ -104,7 +104,8 @@ public class SendMessagesUseCase(
             keyMaterial,
             request.Headers,
             swaggerYaml,
-            requestedType);
+            requestedType,
+            request.ServiceName);
 
         var protobufBytes = envelope.ToByteArray();
 

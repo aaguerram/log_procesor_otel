@@ -42,12 +42,26 @@ public class StreamProcessingPipelineUseCase(
                 string? tokenUsed = null;
 
                 // 1. Intentar deserializar como Protobuf EncryptedPayloadEnvelope Autosuficiente
+                string serviceName = "Transfer.Mspx.Prometeus.Management";
+                string telemetryTypeStr = "Trace";
+
                 try
                 {
                     var envelope = EncryptedPayloadEnvelope.Parser.ParseFrom(rawBytes);
                     if (envelope != null && !string.IsNullOrEmpty(envelope.VaultTokenId) && envelope.Data.Length > 0)
                     {
                         tokenUsed = envelope.VaultTokenId;
+
+                        if (!string.IsNullOrWhiteSpace(envelope.ServiceName))
+                            serviceName = envelope.ServiceName;
+
+                        telemetryTypeStr = envelope.TelemetryType switch
+                        {
+                            TelemetryType.Trace => "Trace",
+                            TelemetryType.Metric => "Metric",
+                            TelemetryType.Log => "Log",
+                            _ => "Trace"
+                        };
 
                         // 2. Resolver la clave de Azure Key Vault a partir del token (Caché RAM TTL 1 hora)
                         var keyMaterial = await vaultTokenPort.ResolveKeyByTokenAsync(
@@ -99,12 +113,18 @@ public class StreamProcessingPipelineUseCase(
                 // 6. Serialización segura Native AOT del JSON enriquecido en claro
                 var processedJson = JsonSerializer.Serialize(processedEvent, StreamJsonContext.Default.ProcessedTransactionEvent);
 
-                // 7. Enriquecimiento de cabeceras de trazabilidad y seguridad
+                // 7. Enriquecimiento de cabeceras de trazabilidad, servicio, telemetría y seguridad
+                string sanitizedServiceName = serviceName.Replace('.', '_');
+                string targetCollection = $"{sanitizedServiceName}_{telemetryTypeStr}";
+
                 var enrichedHeaders = new Dictionary<string, string>(headers ?? new Dictionary<string, string>())
                 {
                     ["x-stream-processor"] = "ConsumerStreams.NativeAOT",
                     ["x-decryption-algorithm"] = "AES-256-GCM",
                     ["x-vault-token"] = tokenUsed ?? "NONE",
+                    ["x-service-name"] = serviceName,
+                    ["x-telemetry-type"] = telemetryTypeStr,
+                    ["x-target-collection"] = targetCollection,
                     ["x-processed-status"] = processedEvent.ProcessedStatus ?? "UNKNOWN",
                     ["x-risk-level"] = processedEvent.RiskLevel ?? "LOW",
                     ["x-latency-ms"] = processedEvent.ProcessingLatencyMs.ToString("F2")

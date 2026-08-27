@@ -27,6 +27,14 @@ public record KafkaBatchItem(
     IReadOnlyDictionary<string, string> Headers);
 
 /// <summary>
+/// Elemento para inserción masiva con soporte de colección dinámica por Servicio + Tipo de Telemetría.
+/// </summary>
+public record LogSinkItem(
+    string RawJson,
+    string PartitionKey,
+    string? TargetCollection = null);
+
+/// <summary>
 /// Puerto de persistencia masiva (Bulk Sink) hacia Azure Cosmos DB / DocumentDB.
 /// </summary>
 public interface IDocumentDbBulkSinkPort
@@ -36,7 +44,7 @@ public interface IDocumentDbBulkSinkPort
         CancellationToken cancellationToken = default);
 
     Task<BulkSinkResult> BulkInsertRawJsonLogsAsync(
-        IReadOnlyList<(string RawJson, string PartitionKey)> items,
+        IReadOnlyList<LogSinkItem> items,
         CancellationToken cancellationToken = default);
 }
 

@@ -22,7 +22,8 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
         VaultKeyMaterial keyMaterial,
         IDictionary<string, string>? customHeaders = null,
         string? swaggerYaml = null,
-        TelemetryType? telemetryType = null)
+        TelemetryType? telemetryType = null,
+        string? serviceName = null)
     {
         var plaintextBytes = Encoding.UTF8.GetBytes(jsonPayload);
         var plaintextLength = plaintextBytes.Length;
@@ -61,7 +62,8 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
             TransactionId = transactionId,
             TimestampUnixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             Swagger = swaggerYaml ?? string.Empty,
-            TelemetryType = effectiveTelemetryType
+            TelemetryType = effectiveTelemetryType,
+            ServiceName = string.IsNullOrWhiteSpace(serviceName) ? "Transfer.Mspx.Prometeus.Management" : serviceName
         };
     }
 

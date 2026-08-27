@@ -9,6 +9,7 @@ public record SendMessageRequestDto
     public required string Value { get; init; }
     public Dictionary<string, string>? Headers { get; init; }
     public string? TelemetryType { get; init; }
+    public string? ServiceName { get; init; }
 }
 
 public record BatchSendResultDto

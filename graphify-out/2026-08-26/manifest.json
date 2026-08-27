@@ -156,15 +156,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
-    "mtime": 1787804471.9978848,
-    "seen": 1787804595.312807,
-    "ast_hash": "9f8303dcb60147ca38cc7b2a55e61836",
+    "mtime": 1787805449.7511742,
+    "seen": 1787805517.1973348,
+    "ast_hash": "90f47c8a12ead300939450a0de95d2a2",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
-    "mtime": 1787804407.189749,
-    "seen": 1787804595.3128684,
-    "ast_hash": "2fd729a7773b084b9a5abad14a6d7b64",
+    "mtime": 1787804902.471583,
+    "seen": 1787805015.9576638,
+    "ast_hash": "f648f9a4312ceab672dc2b00adf1ca77",
     "semantic_hash": ""
   },
   "consumer_streams/ConsumerStreams.slnx": {
@@ -615,6 +615,12 @@
     "mtime": 1787803024.063327,
     "seen": 1787803082.8609078,
     "ast_hash": "42093d97da9360bce3be428c32cab043",
+    "semantic_hash": ""
+  },
+  "emisor_mensaje/src/KafkaDemo.Web/wwwroot/data/otel_metrics_catalog.json": {
+    "mtime": 1787804884.363411,
+    "seen": 1787805015.9575222,
+    "ast_hash": "3f5a03c637969d9f9276d8b517a364dd",
     "semantic_hash": ""
   }
 }

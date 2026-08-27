@@ -33,4 +33,7 @@ message EncryptedPayloadEnvelope {
 
   // 6. Tipo de Señal de Observabilidad OpenTelemetry (Trace, Metric, Log)
   TelemetryType telemetry_type = 10;
+
+  // 7. Nombre del Servicio Microservicio Emisor
+  string service_name = 11;
 }

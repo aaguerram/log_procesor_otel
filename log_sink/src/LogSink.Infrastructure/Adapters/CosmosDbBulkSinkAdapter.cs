@@ -115,7 +115,7 @@ public class CosmosDbBulkSinkAdapter : IDocumentDbBulkSinkPort
     }
 
     public async Task<BulkSinkResult> BulkInsertRawJsonLogsAsync(
-        IReadOnlyList<(string RawJson, string PartitionKey)> items,
+        IReadOnlyList<LogSinkItem> items,
         CancellationToken cancellationToken = default)
     {
         if (items.Count == 0)
@@ -140,7 +140,7 @@ public class CosmosDbBulkSinkAdapter : IDocumentDbBulkSinkPort
                 await _concurrencySemaphore.WaitAsync(cancellationToken);
                 try
                 {
-                    var (success, ru) = await InsertSingleRawJsonWithRetryAsync(item.RawJson, item.PartitionKey, credentials, cancellationToken);
+                    var (success, ru) = await InsertSingleRawJsonWithRetryAsync(item.RawJson, item.PartitionKey, item.TargetCollection, credentials, cancellationToken);
                     if (success)
                     {
                         Interlocked.Increment(ref successfulCount);
@@ -175,13 +175,18 @@ public class CosmosDbBulkSinkAdapter : IDocumentDbBulkSinkPort
     private async Task<(bool Success, double RUs)> InsertSingleRawJsonWithRetryAsync(
         string rawJson,
         string partitionKey,
+        string? targetCollection,
         CosmosDbCredentials credentials,
         CancellationToken cancellationToken)
     {
         try
         {
+            var effectiveCollection = !string.IsNullOrWhiteSpace(targetCollection)
+                ? targetCollection
+                : credentials.ContainerName;
+
             var jsonBytes = Encoding.UTF8.GetBytes(rawJson);
-            var resourceLink = $"dbs/{credentials.DatabaseName}/colls/{credentials.ContainerName}";
+            var resourceLink = $"dbs/{credentials.DatabaseName}/colls/{effectiveCollection}";
             var resourceUri = $"{credentials.Endpoint.TrimEnd('/')}/{resourceLink}/docs";
 
             using var request = new HttpRequestMessage(HttpMethod.Post, resourceUri);

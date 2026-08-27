@@ -108,12 +108,28 @@ app.MapGet("/dbs/{databaseName}/colls/{containerName}/docs", (string databaseNam
     });
 });
 
-// 3. API de Estadísticas para la consola Web Explorer
-app.MapGet("/api/stats", () =>
+// 3. API de Estadísticas para la consola Web Explorer (con soporte de múltiples colecciones)
+app.MapGet("/api/stats", (string? container) =>
 {
-    var totalDocs = documentStore.Count;
-    var partitionsCount = documentStore.Values.Select(d => d.PartitionKey).Distinct().Count();
-    var latestDocs = documentStore.Values.OrderByDescending(d => d.StoredAt).Take(15).ToList();
+    var allDocs = documentStore.Values.ToList();
+    var collections = allDocs.Select(d => d.ContainerName).Distinct().OrderBy(c => c).ToList();
+    if (collections.Count == 0)
+    {
+        collections.Add("audit_logs");
+    }
+
+    var selectedContainer = string.IsNullOrWhiteSpace(container) 
+        ? (collections.FirstOrDefault() ?? "audit_logs") 
+        : container;
+
+    var filteredDocs = allDocs
+        .Where(d => d.ContainerName.Equals(selectedContainer, StringComparison.OrdinalIgnoreCase))
+        .OrderByDescending(d => d.StoredAt)
+        .Take(50)
+        .ToList();
+
+    var totalDocs = allDocs.Count;
+    var partitionsCount = allDocs.Select(d => d.PartitionKey).Distinct().Count();
 
     return Results.Ok(new
     {
@@ -121,8 +137,9 @@ app.MapGet("/api/stats", () =>
         totalRequestUnits = ruCounter,
         distinctPartitionKeys = partitionsCount,
         database = "ProdubancoObservability",
-        container = "audit_logs",
-        documents = latestDocs
+        container = selectedContainer,
+        collections = collections,
+        documents = filteredDocs
     });
 });
 
@@ -405,7 +422,7 @@ static string GetExplorerHtml()
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="label">Documentos Persistidos (audit_logs)</div>
+                    <div class="label">Total Documentos (Cosmos DB)</div>
                     <div class="value" id="stat-docs">0</div>
                 </div>
                 <div class="stat-card">
@@ -413,8 +430,8 @@ static string GetExplorerHtml()
                     <div class="value" id="stat-rus">0.0</div>
                 </div>
                 <div class="stat-card">
-                    <div class="label">Particiones Lógicas Activas</div>
-                    <div class="value" id="stat-pk">0</div>
+                    <div class="label">Colección Activa</div>
+                    <div class="value" id="stat-active-col" style="font-size: 1.05rem; color: var(--accent-cyan); word-break: break-all; margin-top: 6px;">audit_logs</div>
                 </div>
                 <div class="stat-card">
                     <div class="label">Estado del Bulk Sink</div>
@@ -426,9 +443,14 @@ static string GetExplorerHtml()
 
             <div class="main-content">
                 <div class="tree-panel">
-                    <div class="panel-header">
-                        <span>📁 ProdubancoObservability / audit_logs</span>
-                        <span id="doc-counter" style="font-size: 0.75rem; color: var(--text-muted);">0 docs</span>
+                    <div class="panel-header" style="flex-direction: column; align-items: stretch; gap: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 700; color: var(--accent-cyan); font-size: 0.85rem;">🪐 Colecciones / Contenedores:</span>
+                            <span id="doc-counter" style="font-size: 0.75rem; color: var(--text-muted);">0 docs</span>
+                        </div>
+                        <select id="collection-select" onchange="onCollectionChange(this.value)" style="width: 100%; background: #07090e; color: #38bdf8; border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 10px; font-family: 'Fira Code', monospace; font-size: 0.8rem; outline: none; cursor: pointer;">
+                            <option value="audit_logs">📁 audit_logs (Por defecto)</option>
+                        </select>
                     </div>
                     <ul class="doc-list" id="doc-list">
                         <li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 20px;">Esperando ingesta de Kafka Bulk Sink...</li>
@@ -445,18 +467,21 @@ static string GetExplorerHtml()
         </div>
 
         <script>
+            let currentContainer = '';
             let currentDocs = [];
 
             async function fetchData() {
                 try {
-                    const res = await fetch('/api/stats');
+                    const url = currentContainer ? `/api/stats?container=${encodeURIComponent(currentContainer)}` : '/api/stats';
+                    const res = await fetch(url);
                     const data = await res.json();
 
                     document.getElementById('stat-docs').innerText = data.totalDocuments.toLocaleString();
                     document.getElementById('stat-rus').innerText = data.totalRequestUnits.toFixed(1);
-                    document.getElementById('stat-pk').innerText = data.distinctPartitionKeys;
-                    document.getElementById('doc-counter').innerText = `${data.totalDocuments} docs`;
+                    document.getElementById('stat-active-col').innerText = data.container || 'audit_logs';
+                    document.getElementById('doc-counter').innerText = `${data.documents.length} docs`;
 
+                    updateCollectionSelect(data.collections || [], data.container);
                     currentDocs = data.documents || [];
                     renderDocList();
                 } catch (e) {
@@ -464,10 +489,33 @@ static string GetExplorerHtml()
                 }
             }
 
+            function updateCollectionSelect(collections, active) {
+                const select = document.getElementById('collection-select');
+                if (!select) return;
+
+                if (!currentContainer && active) {
+                    currentContainer = active;
+                }
+
+                const previousVal = select.value;
+                const optionsHtml = collections.map(c => 
+                    `<option value="${c}" ${c === currentContainer ? 'selected' : ''}>📁 ${c}</option>`
+                ).join('');
+
+                if (select.innerHTML !== optionsHtml) {
+                    select.innerHTML = optionsHtml;
+                }
+            }
+
+            function onCollectionChange(val) {
+                currentContainer = val;
+                fetchData();
+            }
+
             function renderDocList() {
                 const list = document.getElementById('doc-list');
                 if (currentDocs.length === 0) {
-                    list.innerHTML = '<li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 20px;">Sin documentos. Envía transacciones desde el panel web de Kafka.</li>';
+                    list.innerHTML = `<li style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 20px;">Sin documentos en '${currentContainer || 'esta colección'}'.</li>`;
                     return;
                 }
 
@@ -491,7 +539,7 @@ static string GetExplorerHtml()
 
                 const doc = currentDocs[idx];
                 if (doc) {
-                    document.getElementById('viewer-title').innerText = `Documento: ${doc.id}`;
+                    document.getElementById('viewer-title').innerText = `Documento: ${doc.id} [${doc.containerName}]`;
                     document.getElementById('viewer-timestamp').innerText = `Almacenado: ${new Date(doc.storedAt).toLocaleTimeString()}`;
                     try {
                         const parsed = JSON.parse(doc.rawJson);
@@ -505,6 +553,7 @@ static string GetExplorerHtml()
             async function clearData() {
                 if (confirm('¿Deseas limpiar todos los documentos en Cosmos DB?')) {
                     await fetch('/api/documents', { method: 'DELETE' });
+                    currentContainer = '';
                     fetchData();
                 }
             }

@@ -40,13 +40,27 @@ public class BulkSinkPipelineUseCase(
                 if (batchItems.Count == 0) return true;
 
                 var stopwatch = Stopwatch.StartNew();
-                var rawItems = new List<(string RawJson, string PartitionKey)>(batchItems.Count);
+                var rawItems = new List<LogSinkItem>(batchItems.Count);
 
                 foreach (var item in batchItems)
                 {
                     if (!string.IsNullOrWhiteSpace(item.RawJson))
                     {
-                        rawItems.Add((item.RawJson, item.Key ?? "default"));
+                        string? targetCollection = null;
+                        if (item.Headers.TryGetValue("x-target-collection", out var col) && !string.IsNullOrWhiteSpace(col))
+                        {
+                            targetCollection = col;
+                        }
+                        else if (item.Headers.TryGetValue("x-service-name", out var sName) && item.Headers.TryGetValue("x-telemetry-type", out var tType))
+                        {
+                            string sanitized = sName.Replace('.', '_');
+                            targetCollection = $"{sanitized}_{tType}";
+                        }
+
+                        rawItems.Add(new LogSinkItem(
+                            RawJson: item.RawJson,
+                            PartitionKey: item.Key ?? "default",
+                            TargetCollection: targetCollection));
                     }
                 }
 

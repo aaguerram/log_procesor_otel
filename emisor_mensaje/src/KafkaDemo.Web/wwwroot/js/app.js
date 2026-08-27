@@ -26,6 +26,7 @@ const dom = {
   detailsTopicTitle: document.getElementById('details-topic-title'),
   formSendMessage: document.getElementById('form-send-message'),
   msgTopicSelect: document.getElementById('msg-topic-select'),
+  msgServiceNameInput: document.getElementById('msg-service-name-input'),
   msgKeyInput: document.getElementById('msg-key-input'),
   btnRegenKey: document.getElementById('btn-regen-key'),
   tracePresetSelect: document.getElementById('trace-preset-select'),
@@ -432,12 +433,13 @@ async function handleSendMessage(e) {
   btn.textContent = 'Publicando evento...';
 
   const telemetryType = dom.telemetryTypeSelect?.value || 'Trace';
+  const serviceName = dom.msgServiceNameInput?.value.trim() || 'Transfer.Mspx.Prometeus.Management';
 
   try {
     const res = await fetch('/api/messages/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic, key, value, telemetryType })
+      body: JSON.stringify({ topic, key, value, telemetryType, serviceName })
     });
 
     const data = await res.json();
