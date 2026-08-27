@@ -26,14 +26,15 @@ instalado): arranque en milisegundos y contenedor mínimo (`runtime-deps:10.0`).
 3. [Arquitectura hexagonal del servicio](#-arquitectura-hexagonal-del-servicio)
 4. [Flujo de procesamiento de un mensaje](#-flujo-de-procesamiento-de-un-mensaje)
 5. [Enmascarado por contrato OpenAPI](#-enmascarado-por-contrato-openapi-el-corazón-del-servicio)
-6. [Enriquecimiento y scoring de riesgo](#-enriquecimiento-y-scoring-de-riesgo)
-7. [Manejo de errores y DLQ](#-manejo-de-errores-y-dlq)
-8. [Escenarios de uso](#-escenarios-de-uso)
-9. [Consideraciones de implementación](#-consideraciones-de-implementación)
-10. [Configuración](#-configuración)
-11. [Cabeceras Kafka](#-cabeceras-kafka)
-12. [Compilación, ejecución y pruebas](#-compilación-ejecución-y-pruebas)
-13. [Estructura de carpetas](#-estructura-de-carpetas)
+6. [Cómo se almacena: ejemplos de enmascarado por operación](#-cómo-se-almacena-ejemplos-de-enmascarado-por-operación)
+7. [Enriquecimiento y scoring de riesgo](#-enriquecimiento-y-scoring-de-riesgo)
+8. [Manejo de errores y DLQ](#-manejo-de-errores-y-dlq)
+9. [Escenarios de uso](#-escenarios-de-uso)
+10. [Consideraciones de implementación](#-consideraciones-de-implementación)
+11. [Configuración](#-configuración)
+12. [Cabeceras Kafka](#-cabeceras-kafka)
+13. [Compilación, ejecución y pruebas](#-compilación-ejecución-y-pruebas)
+14. [Estructura de carpetas](#-estructura-de-carpetas)
 
 ---
 
@@ -67,8 +68,8 @@ instalado): arranque en milisegundos y contenedor mínimo (`runtime-deps:10.0`).
 | **`EncryptedErrorPayloadEnvelope`** | Mismo sobre + campo `error_detail` (tipo + mensaje + *stack trace*). Se publica **solo** en `…error.v1`. Proto propio de este servicio. |
 | **`x-log-data-protection`** | Directiva institucional en el contrato OpenAPI. Sintaxis: `@Log.Hash(SHA256)`, `@Log.Partial(LAST_4)`, `@Log.Remove`, `@Log.Full`. |
 | **Regla de protección (`DataProtectionRuleType`)** | `Full` (0, intacto), `HashSha256` (1), `PartialLast4` (2), `Remove` (3). Cada tipo tiene un interruptor global en `DataProtectionRules:*`. |
-| **`CompiledContractRules`** | Árbol inmutable (`FrozenDictionary`) producido por `OpenApiContractCompiler`: `"{MÉTODO} {ruta}"` → `"{ruta jerárquica de propiedad}"` → regla, más metadatos de *path/query params*. |
-| **Ruta jerárquica de propiedad** | `padre.propiedad` (p. ej. `clientePrincipal.idCliente`). El compilador indexa por esta ruta con **alcance por operación**; **no hay *fallback* de propiedad global** (evita falsos positivos entre operaciones). |
+| **`CompiledContractRules`** | Árbol inmutable (`FrozenDictionary`) producido por `OpenApiContractCompiler`: `"{MÉTODO} {ruta}"` → `"{propiedad}"` → regla, más metadatos de *path/query params*. Las propiedades de los *schemas* `$ref` (incluidos los anidados) se **aplanan por nombre simple** en un único mapa por operación. |
+| **Ruta jerárquica de propiedad** | `padre.propiedad` (p. ej. `ordenante.identificacion`). `GetRule` la consulta **primero**, pero el compilador de `$ref` **solo** genera esa clave si el contrato nombra literalmente la propiedad con un punto — de lo normal cae al **nombre simple**. Dos objetos anidados con el mismo nombre de propiedad comparten regla (ver [Ejemplo E](#ejemplo-e--misma-ruta-y-método-dos-objetos-con-la-misma-propiedad-y-política-distinta)). **No hay *fallback* de propiedad global** entre operaciones. |
 | **Alcance por operación** | Una regla solo aplica dentro de su `MÉTODO /ruta`. Si no se puede extraer método/ruta del JSON, la regla efectiva es `Full` (nada se enmascara). |
 | **Enriquecimiento** | Cálculo de `FraudScore` / `RiskLevel` / latencia. El `ProcessedTransactionEvent` resultante **no se serializa al tópico**: alimenta la clave de partición y las cabeceras `x-risk-level` / `x-processed-status` / `x-latency-ms`. |
 | **Semilla determinista** | `SHA256("PRODUBANCO-SECRET-KEY-SEED-produbanco-encryption-cert-2026")` — la clave AES-256 efectiva, idéntica a la del emisor. `DeterministicSeedAesKeyMaterialFactory`. |
@@ -153,14 +154,116 @@ Un solo pase línea a línea del YAML (sin parser YAML completo):
 - Normaliza rutas: `/x/{idClient:int}/{channel}` → `/x/{idClient}/{channel}`.
 - Salida: `FrozenDictionary` (lecturas concurrentes sin *locks*), más `RouteParameterRules` (índices de segmento de *path params* y reglas de *query params* por endpoint).
 
-### 2 · Caché — `ThreadSafeContractRulesCacheAdapter`
+### 2 · Caché de políticas — `ThreadSafeContractRulesCacheAdapter`
+
+Compilar un contrato de ~130 KB en cada mensaje sería carísimo. `PayloadMaskingService` llama a
+`contractRulesCache.GetOrCompile(envelope.Swagger)` y el adaptador **reutiliza** el árbol de
+reglas ya compilado mientras el mismo contrato siga en uso.
 
 | Aspecto | Valor |
 | :--- | :--- |
-| Clave | *fingerprint* SHA-256 (16 bytes hex) del YAML |
-| Expiración | **TTL deslizante de 10 minutos** (`Touch` en cada acceso) |
-| Barrido | timer cada 1 minuto (`TimeProvider.CreateTimer`) |
-| Reloj | `TimeProvider` inyectado (expiración verificable en pruebas) |
+| Estructura | `ConcurrentDictionary<string, CachedContractEntry>` **en memoria del proceso** (no Redis) |
+| Clave | *fingerprint* de contenido: `SHA-256(yaml)` truncado a **16 bytes**, hex minúscula (**32 caracteres**) |
+| Valor | `CachedContractEntry { CompiledContractRules Rules; long _lastAccessedUtcTicks }` |
+| Expiración | **TTL deslizante de 10 min** (`Touch()` reinicia el reloj en cada `GetOrCompile`) |
+| Barrido | timer de evicción cada 1 min (`TimeProvider.CreateTimer`) |
+| Alcance | por proceso: se pierde al reiniciar y **cada réplica compila su propia copia** la primera vez que ve el contrato |
+
+#### Cómo se genera la clave
+
+```
+clave = Convert.ToHexStringLower( SHA256( UTF8(swaggerYaml) )[0..16] )
+```
+
+1. Se toma el **YAML completo** tal como llegó en `EncryptedPayloadEnvelope.swagger` (ya descifrado).
+2. Se codifica en UTF-8 y se aplica **SHA-256** → 32 bytes.
+3. Se conservan los **primeros 16 bytes** y se pasan a hex minúscula → 32 caracteres.
+
+Es un *hash de contenido*: **cualquier** cambio en el YAML (hasta un espacio) produce otra clave
+→ se compila y cachea la versión nueva, y la anterior se desaloja a los 10 min de no usarse
+(*rotación de contrato*). El compilador calcula el **mismo** hash de forma independiente y lo
+expone, ya legible, en `CompiledContractRules.ContractKey = "{title}:{version}:{hash16}"`.
+
+Para el contrato real `data_guia/transfer-mspx-prometeus.management.standard.yaml` (137 086 bytes):
+
+```
+clave (dict)        3e882fae076e45d0004a8be6e1d2856b
+ContractKey (valor) Transfer.Mspx.Prometeus.Management:1.0.0:3e882fae076e45d0004a8be6e1d2856b
+```
+
+#### Contenido del valor (`CompiledContractRules`, todo `FrozenDictionary`, nunca se serializa)
+
+```
+ServiceName  = "Transfer.Mspx.Prometeus.Management"        // regex  title:
+Version      = "1.0.0"                                     // regex  version:
+ContractKey  = "Transfer.Mspx.Prometeus.Management:1.0.0:3e882fae076e45d0004a8be6e1d2856b"
+Operations   = {
+  "GET /contacts/contacts-by-idClient/{idClient}/{channel}" : { idClient:1, identificacion:2, nombre:0, numeroCelular:2, numeroProducto:2, idContacto:1 },
+  "POST /contacts/local-contact" : { clientId:1, identification:2, name:0, email:0, phoneNumber:2 },
+  "PUT /contacts/local-contact"  : { identification:2, name:0, email:0, phoneNumber:2 }
+}
+RouteParameterRules = {
+  "GET /contacts/contacts-by-idClient/{idClient}/{channel}" : { templateSegments:[contacts,contacts-by-idClient,{idClient},{channel}], pathParamRules:[(2,idClient,1)], queryParamRules:{} }
+}
+// DataProtectionRuleType: Full=0 · HashSha256=1 · PartialLast4=2 · Remove=3
+```
+
+#### Si se externalizara a Redis
+
+No está implementado. Sería el paso natural para que las *N* réplicas de `consumer_streams`
+compartan la compilación y esta sobreviva a reinicios. Diseño equivalente:
+
+**Clave** (namespace funcional + *fingerprint*):
+
+```
+csx:contract-rules:v1:3e882fae076e45d0004a8be6e1d2856b
+```
+
+**Valor** (Redis `String` con JSON; los enums a texto legible):
+
+```json
+{
+  "serviceName": "Transfer.Mspx.Prometeus.Management",
+  "version": "1.0.0",
+  "contractKey": "Transfer.Mspx.Prometeus.Management:1.0.0:3e882fae076e45d0004a8be6e1d2856b",
+  "operations": {
+    "GET /contacts/contacts-by-idClient/{idClient}/{channel}": {
+      "idClient": "HashSha256", "identificacion": "PartialLast4", "nombre": "Full",
+      "numeroCelular": "PartialLast4", "numeroProducto": "PartialLast4", "idContacto": "HashSha256"
+    },
+    "POST /contacts/local-contact": {
+      "clientId": "HashSha256", "identification": "PartialLast4",
+      "name": "Full", "email": "Full", "phoneNumber": "PartialLast4"
+    },
+    "PUT /contacts/local-contact": {
+      "identification": "PartialLast4", "name": "Full", "email": "Full", "phoneNumber": "PartialLast4"
+    }
+  },
+  "routeParameterRules": {
+    "GET /contacts/contacts-by-idClient/{idClient}/{channel}": {
+      "normalizedRoute": "/contacts/contacts-by-idClient/{idClient}/{channel}",
+      "templateSegments": ["contacts", "contacts-by-idClient", "{idClient}", "{channel}"],
+      "pathParamRules": [{ "segmentIndex": 2, "name": "idClient", "rule": "HashSha256" }],
+      "queryParamRules": {}
+    }
+  }
+}
+```
+
+**TTL deslizante** (equivale a `SlidingTtl` = 10 min → `600 s`):
+
+```
+SET    csx:contract-rules:v1:3e882fae076e45d0004a8be6e1d2856b  '<json>'  EX 600
+GETEX  csx:contract-rules:v1:3e882fae076e45d0004a8be6e1d2856b  EX 600      # cada uso: lee y renueva
+```
+
+Alternativa como `Hash` (leer una sola operación sin traer todo el árbol):
+
+```
+HSET   csx:contract:3e882fae076e45d0004a8be6e1d2856b  meta  '{"serviceName":"Transfer.Mspx.Prometeus.Management","version":"1.0.0"}'
+HSET   csx:contract:3e882fae076e45d0004a8be6e1d2856b  "op:POST /contacts/local-contact"  '{"clientId":"HashSha256","identification":"PartialLast4","name":"Full"}'
+EXPIRE csx:contract:3e882fae076e45d0004a8be6e1d2856b  600
+```
 
 ### 3 · Aplicación — `JsonStreamDataProtectionMasker.MaskPayload`
 
@@ -177,7 +280,238 @@ Un solo pase línea a línea del YAML (sin parser YAML completo):
 | `url.path` / `http.target` / `url.full` / `http.url` (con `MaskUrlPathAndQuery`) | separa `path?query`; enmascara los segmentos que son *path params* alineando la ruta real contra la plantilla, y los pares de la *query* según `QueryParamRules` |
 | `url.query` / `http.query` | enmascara los pares `clave=valor` de la *query string* |
 
-**Prioridad de coincidencia** (`CompiledContractRules.GetRule`): ruta jerárquica exacta (`clientePrincipal.idCliente`) → nombre simple (`idCliente`) → `Full`.
+**Prioridad de coincidencia** (`CompiledContractRules.GetRule`): ruta jerárquica exacta
+(`ordenante.identificacion` — solo si el contrato la nombró así) → **nombre simple** (`identificacion`)
+→ `Full`. Con *schemas* `$ref` normales gana siempre el nombre simple, de modo que dos objetos
+anidados con el mismo nombre de propiedad reciben la misma regla (ver [Ejemplo E](#ejemplo-e--misma-ruta-y-método-dos-objetos-con-la-misma-propiedad-y-política-distinta)).
+
+---
+
+## 📦 Cómo se almacena: ejemplos de enmascarado por operación
+
+> El documento que `consumer_streams` publica en `…processed.v1` — y que `log_sink` guarda
+> **tal cual** en la colección `Transfer_Mspx_Prometeus_Management_Trace` — es la **traza OTel
+> con los campos sensibles ya tratados**. Las reglas se resuelven **por operación**
+> (`MÉTODO + ruta`): **nunca hay _fallback_ global** y, dentro de una operación, la coincidencia
+> es por **nombre simple de propiedad** (las propiedades de todos los *schemas* `$ref` —incluidos
+> los anidados— se aplanan en un único conjunto por operación).
+
+### Contrato de referencia (extracto real del YAML)
+
+```yaml
+paths:
+  /contacts/contacts-by-idClient/{idClient}/{channel}:
+    get:                        # operationId: ConsultContacts
+      parameters:
+        - { name: idClient, in: path, schema: { x-log-data-protection: '@Log.Hash(SHA256)' } }
+      responses: { '200': { $ref: ConsultContactResponseResult } }
+
+  /contacts/local-contact:
+    post: { requestBody: { $ref: ClientContactRequest } }         # operationId: InsertContact
+    put:  { requestBody: { $ref: ClientContactUpdateRequest } }    # operationId: UpdateLocalContact
+
+components:
+  schemas:
+    ClientContactRequest:           # solo POST
+      clientId:       '@Log.Hash(SHA256)'
+      identification: '@Log.Partial(LAST_4)'
+      name:           '@Log.Full'
+      email:          '@Log.Full'
+      phoneNumber:    '@Log.Partial(LAST_4)'
+    ClientContactUpdateRequest:     # solo PUT — NO declara clientId
+      identification: '@Log.Partial(LAST_4)'
+      name:           '@Log.Full'
+      email:          '@Log.Full'
+      phoneNumber:    '@Log.Partial(LAST_4)'
+    ConsultContactResponse:         # 'value' de la respuesta del GET
+      contactos: { items: { $ref: ContactProduct } }
+      productos: { items: { $ref: ProductResponse } }
+    ContactProduct:                 # objeto anidado
+      identificacion: '@Log.Partial(LAST_4)'
+      nombre:         '@Log.Full'
+      numeroCelular:  '@Log.Partial(LAST_4)'
+    ProductResponse:                # objeto anidado
+      numeroProducto: '@Log.Partial(LAST_4)'
+      idContacto:     '@Log.Hash(SHA256)'
+```
+
+`OpenApiContractCompiler` lo aplana a un mapa de reglas **por operación**:
+
+| Operación (`MÉTODO + ruta`) | Reglas efectivas (propiedad → regla) |
+| :--- | :--- |
+| `GET /contacts/contacts-by-idClient/{idClient}/{channel}` | `idClient`→Hash · `identificacion`→Partial · `nombre`→Full · `numeroCelular`→Partial · `numeroProducto`→Partial · `idContacto`→Hash |
+| `POST /contacts/local-contact` | `clientId`→**Hash** · `identification`→Partial · `name`→Full · `email`→Full · `phoneNumber`→Partial |
+| `PUT /contacts/local-contact` | `identification`→Partial · `name`→Full · `email`→Full · `phoneNumber`→Partial &nbsp;*(sin `clientId`)* |
+
+> `@Log.Full` = **registrar en claro, sin cambios** (no es "ofuscar del todo"). `HashSha256`
+> produce 64 hex minúsculas; `PartialLast4` deja `****` + los 4 últimos caracteres; `Remove`
+> **elimina** la propiedad. Un campo sin regla (`id`, `code`, `banco`…) queda intacto.
+
+---
+
+### Ejemplo A · `GET` con objetos anidados en la respuesta
+
+**Traza descifrada** que llega a `consumer_streams` (`telemetry_type = Trace`):
+
+```json
+{
+  "Name": "GET /contacts/contacts-by-idClient/{idClient}/{channel}",
+  "Tags": {
+    "http.request.method": "GET",
+    "http.route": "/contacts/contacts-by-idClient/{idClient}/{channel}",
+    "url.path": "/transfer-mspx-prometeus-management/contacts/contacts-by-idClient/8172201/IN",
+    "http.response.body_preview": "{\"isSuccess\":true,\"code\":0,\"value\":{\"contactos\":[{\"id\":55,\"identificacion\":\"1712345678\",\"nombre\":\"MARIA\",\"numeroCelular\":\"0991234567\"}],\"productos\":[{\"id\":9,\"numeroProducto\":\"2201555001234\",\"idContacto\":55,\"banco\":\"PICHINCHA\"}]}}"
+  }
+}
+```
+
+**Documento almacenado** en `Transfer_Mspx_Prometeus_Management_Trace`:
+
+```json
+{
+  "Name": "GET /contacts/contacts-by-idClient/{idClient}/{channel}",
+  "Tags": {
+    "http.request.method": "GET",
+    "http.route": "/contacts/contacts-by-idClient/{idClient}/{channel}",
+    "url.path": "/transfer-mspx-prometeus-management/contacts/contacts-by-idClient/9c1f8a…(64 hex)/IN",
+    "http.response.body_preview": "{\"isSuccess\":true,\"code\":0,\"value\":{\"contactos\":[{\"id\":55,\"identificacion\":\"******5678\",\"nombre\":\"MARIA\",\"numeroCelular\":\"******4567\"}],\"productos\":[{\"id\":9,\"numeroProducto\":\"*********1234\",\"idContacto\":\"5f9b2c…(64 hex)\",\"banco\":\"PICHINCHA\"}]}}"
+  }
+}
+```
+
+- **`url.path`** → el segmento del *path param* `{idClient}` (`8172201`) se **hashea** alineando la ruta real contra la plantilla; `{channel}` (`IN`) no tiene regla → intacto.
+- **`value.contactos[]`** → `identificacion`→Partial · `nombre`→`@Log.Full` (intacto) · `numeroCelular`→Partial · `id`→sin regla.
+- **`value.productos[]`** → `numeroProducto`→Partial · `idContacto` (número) → `HashSha256` (se convierte en string) · `banco`, `id`→sin regla.
+- La coincidencia es por **nombre simple** dentro de la operación: `identificacion` se enmascara igual esté en `contactos` o en cualquier otro objeto anidado de *esta* operación.
+
+---
+
+### Ejemplo B · `POST /contacts/local-contact`
+
+```jsonc
+// entra
+"http.request.body_preview": "{\"clientId\":1394487,\"identification\":\"1702756766\",\"name\":\"JUANA\",\"email\":\"juana@x.com\",\"phoneNumber\":\"0987654321\"}"
+
+// se almacena
+"http.request.body_preview": "{\"clientId\":\"a71e33…(64 hex)\",\"identification\":\"******6766\",\"name\":\"JUANA\",\"email\":\"juana@x.com\",\"phoneNumber\":\"******4321\"}"
+```
+
+`clientId` → **Hash** (lo declara `ClientContactRequest`) · `identification` / `phoneNumber` → Partial · `name` / `email` → `@Log.Full` (intactos).
+
+---
+
+### Ejemplo C · `PUT /contacts/local-contact` — mismo contrato, misma ruta, **distinto método**
+
+```jsonc
+// entra — payload con el MISMO clientId que el POST del ejemplo B
+"http.request.body_preview": "{\"id\":77,\"clientId\":1394487,\"identification\":\"1702756766\",\"name\":\"JUANA\",\"phoneNumber\":\"0987654321\"}"
+
+// se almacena
+"http.request.body_preview": "{\"id\":77,\"clientId\":1394487,\"identification\":\"******6766\",\"name\":\"JUANA\",\"phoneNumber\":\"******4321\"}"
+```
+
+⚠️ **`clientId` queda EN CLARO.** El esquema del `PUT` (`ClientContactUpdateRequest`) **no
+declara regla para `clientId`**, y **no hay _fallback_ global**: la regla `@Log.Hash` del `POST`
+**no se hereda** a otra operación aunque compartan ruta y contrato. Para protegerlo también en el
+`PUT` hay que añadir `x-log-data-protection` en `ClientContactUpdateRequest`.
+
+---
+
+### Ejemplo D · Contratos diferentes (otro microservicio)
+
+Si `service_name = Payments.Core.Api` emite trazas con **su propio** contrato OpenAPI:
+
+- `consumer_streams` compila un `CompiledContractRules` **independiente** (otro *fingerprint*, otra entrada de caché con su propio TTL deslizante de 10 min).
+- Las reglas de `Transfer.Mspx.Prometeus.Management` **no se mezclan**: un `GET /contacts/...` del contrato de Payments se enmascara con las reglas de Payments.
+- El documento se guarda en **otra colección**: `Payments_Core_Api_Trace` (`x-target-collection`).
+
+---
+
+### Ejemplo E · Misma ruta y método, dos objetos con la **misma propiedad** y **política distinta**
+
+⚠️ **Caso conflictivo.** El compilador aplana las propiedades de *todos* los *schemas* `$ref` de
+una operación en **un único mapa por nombre simple** (`opDict[prop] = regla`). Si dos objetos
+anidados de la misma operación declaran la misma propiedad con reglas distintas, **la última que
+se procesa gana y la otra se pierde en silencio** (sin *log*, sin error). El orden de aplanado es
+*el esquema referenciado después* — normalmente el que aparece **más abajo en el YAML**.
+
+Contrato (hipotético) — `POST /transfers/interbank` con `ordenante` y `beneficiario`:
+
+```yaml
+paths:
+  /transfers/interbank:
+    post:                       # operationId: CreateInterbankTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterbankTransferCommand'
+
+components:
+  schemas:
+    InterbankTransferCommand:
+      type: object
+      properties:
+        amount:
+          type: number
+        ordenante:
+          $ref: '#/components/schemas/Ordenante'
+        beneficiario:
+          $ref: '#/components/schemas/Beneficiario'      # definido DESPUÉS de Ordenante
+    Ordenante:
+      type: object
+      properties:
+        identificacion:
+          type: string
+          x-log-data-protection: '@Log.Hash(SHA256)'      # ← el ordenante se quiere HASHEAR
+        cuenta:
+          type: string
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+    Beneficiario:
+      type: object
+      properties:
+        identificacion:
+          type: string
+          x-log-data-protection: '@Log.Partial(LAST_4)'   # ← el beneficiario solo PARCIAL
+        cuenta:
+          type: string
+          x-log-data-protection: '@Log.Partial(LAST_4)'
+```
+
+Reglas compiladas para `POST /transfers/interbank` (aplanado):
+
+```
+opDict = { identificacion: PartialLast4,   cuenta: PartialLast4 }
+                          ▲
+      Beneficiario (procesado después) SOBRESCRIBE la regla Hash de Ordenante
+```
+
+Traza que entra:
+
+```json
+"http.request.body_preview": "{\"amount\":1500.00,\"ordenante\":{\"identificacion\":\"1712345678\",\"cuenta\":\"2201999888\"},\"beneficiario\":{\"identificacion\":\"0912223334\",\"cuenta\":\"3301777666\"}}"
+```
+
+Documento **almacenado** (ambos `identificacion` reciben `PartialLast4`):
+
+```json
+"http.request.body_preview": "{\"amount\":1500.00,\"ordenante\":{\"identificacion\":\"******5678\",\"cuenta\":\"******9888\"},\"beneficiario\":{\"identificacion\":\"******3334\",\"cuenta\":\"******7666\"}}"
+```
+
+- Al enmascarar, `GetRule` prueba primero la ruta jerárquica `ordenante.identificacion` — pero el
+  compilador de `$ref` **no genera** esa clave → cae al nombre simple `identificacion` → `PartialLast4`
+  para **los dos** objetos. La intención de hashear `ordenante.identificacion` **no se cumple**.
+- El ganador depende del **orden en el YAML**: si `Ordenante` estuviera definido después, ganaría
+  `Hash` y el `beneficiario` también se hashearía. En el peor caso la **política más permisiva
+  sobrescribe a la más estricta** sin aviso.
+
+**Cómo evitarlo:**
+
+| Estrategia | Qué hacer |
+| :--- | :--- |
+| **Homologar la política** *(lo que hace el contrato real)* | Usar la **misma** regla para `identificacion` en `Ordenante` y `Beneficiario` (elegir la más estricta). Cada nombre de propiedad → una sola política por operación. |
+| **Renombrar** | `identificacionOrdenante` / `identificacionBeneficiario` — nombres distintos, reglas distintas. Cambia la forma del contrato. |
+| **Clave jerárquica explícita** | Nombrar la propiedad como `"ordenante.identificacion"` en el `properties:` del esquema — entonces `GetRule` la resuelve por el paso 1 (ruta jerárquica). No es idiomático en OpenAPI. |
 
 ---
 
@@ -271,6 +605,7 @@ un campo obligatorio ausente, `data` que descifra a un JSON no parseable como `R
 - **El cuerpo reenviado es el JSON original enmascarado**, no un `ProcessedTransactionEvent`. El scoring es informativo: solo `x-risk-level` / `x-processed-status` / `x-latency-ms` salen en cabeceras. `log_sink` persiste el body tal cual.
 - **`at-least-once`, no `exactly-once`.** El `Commit` ocurre tras el reenvío. Caída entre reenviar y confirmar → el mensaje se reprocesa y `log_sink` puede crear un documento duplicado (el emulador Cosmos genera clave de almacenamiento única por escritura).
 - **Sin *fallback* de propiedad global** en el compilador de contratos: una regla `x-log-data-protection` solo aplica dentro de su operación `MÉTODO /ruta`. Es deliberado (evita enmascarar de más entre endpoints con nombres de campo iguales).
+- **Colisión de reglas dentro de una operación (*last write wins*).** El compilador aplana los *schemas* `$ref` por **nombre simple**: si dos objetos anidados de la misma operación declaran la misma propiedad con reglas distintas, gana la última en aplanarse (≈ la definida más abajo en el YAML) y la otra se pierde **sin aviso**; la política más permisiva puede sobrescribir a la más estricta. Homologar la política por nombre de propiedad, o renombrar. Ver [Ejemplo E](#ejemplo-e--misma-ruta-y-método-dos-objetos-con-la-misma-propiedad-y-política-distinta).
 - **Extracción de método/ruta *best-effort*.** Si la traza no trae `http.request.method` + `http.route` ni un `Name` con formato `"VERBO /ruta"`, se asume `GET` + ruta vacía y **nada se enmascara** (regla `Full`).
 - **Métricas y logs nunca se enmascaran**, aunque el sobre incluya el contrato.
 - **Los `.proto` están duplicados.** `Protos/encrypted_envelope.proto` debe ser **byte a byte idéntico** al de `emisor_mensaje`. `encrypted_error_envelope.proto` solo existe aquí.

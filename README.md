@@ -309,10 +309,9 @@ promedio ≈ 53 msgs/partición, rango 32–77, **0 particiones vacías**.
 
 `log_sink` implementa el patrón **Bulk Execution Sink**:
 
-1. **Vaciado de ráfaga:** hasta **500 documentos** o **250 ms**.
-2. **Serialización sin reflexión:** *source generators* de `System.Text.Json` (`SinkJsonContext`),
-   requisito de Native AOT.
-3. **Fan-out HTTP concurrente:** `SemaphoreSlim(100)`, `SocketsHttpHandler` con *pooling*.
+1. **Vaciado de ráfaga:** hasta **500 documentos** o **250 ms** (ventana contada desde el primer mensaje del lote).
+2. **Paso a través del documento:** el *value* de Kafka se reenvía a Cosmos **tal cual** (bytes UTF-8); `log_sink` no deserializa ni valida — no usa `System.Text.Json`.
+3. **Fan-out HTTP concurrente:** `SemaphoreSlim(100)`, `SocketsHttpHandler` con *pooling* (`MaxConnectionsPerServer=200`, HTTP/1.1).
 4. **Pipeline de resiliencia por documento (Polly.Core 8.7):**
 
    ```
@@ -395,9 +394,9 @@ demo_kafka/
 │   ├── Dockerfile
 │   ├── LogSink.slnx
 │   ├── src/
-│   │   ├── LogSink.Domain/           # LogDocument, puertos, TargetCollectionResolver, ObservabilityHeaders
-│   │   ├── LogSink.Application/       # BulkSinkPipelineUseCase (micro-batching), SinkJsonContext
-│   │   ├── LogSink.Infrastructure/    # KafkaBatch, CosmosDbBulkSinkAdapter, Polly resilience, Vault, DLQ
+│   │   ├── LogSink.Domain/           # BulkSinkResult, puertos, TargetCollectionResolver, ObservabilityHeaders
+│   │   ├── LogSink.Application/       # BulkSinkPipelineUseCase (micro-batching)
+│   │   ├── LogSink.Infrastructure/    # KafkaBatch, CosmosDbBulkSinkAdapter, CosmosDocumentClient, Polly resilience, DLQ
 │   │   └── LogSink.Worker/            # Host BackgroundService (AOT)
 │   └── tests/                         # xUnit + Moq + TimeProvider.Testing
 │
