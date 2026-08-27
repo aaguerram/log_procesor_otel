@@ -153,8 +153,11 @@
             </div>
 
             <div class="form-group">
-              <label for="msg-key-input">Clave de Partición (Message Key / Cuenta Origen)</label>
-              <input type="text" id="msg-key-input" class="form-input" placeholder="Ej: ACCT-19283746" value="ACCT-10928374">
+              <div class="label-row">
+                <label for="msg-key-input">Clave de Partición (Message Key / Cuenta Origen) *</label>
+                <button type="button" id="btn-regen-key" class="btn-chip" title="Generar nuevo ID con SplitMix64 Avalanche">🎲 Regenerar ID</button>
+              </div>
+              <input type="text" id="msg-key-input" class="form-input code-input" placeholder="PK-XXXXXXXXXXXXXXXX-8172201-IN" required>
             </div>
 
             <!-- Botones de Presets Rápidos -->

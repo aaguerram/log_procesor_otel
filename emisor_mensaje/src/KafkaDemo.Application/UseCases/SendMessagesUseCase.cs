@@ -72,7 +72,11 @@ public class SendMessagesUseCase(
         var txnId = request.Key ?? $"TXN-{DateTime.UtcNow:yyyyMMdd}-{eventId[..6].ToUpper()}";
         
         // Generar clave de particionamiento con dispersión matemática de efecto avalancha
-        var partitionKey = UniformPartitionKeyGenerator.GenerateDispersedKey(request.Key ?? txnId);
+        var partitionKey = string.IsNullOrWhiteSpace(request.Key)
+            ? UniformPartitionKeyGenerator.GenerateDispersedKey(txnId)
+            : (request.Key.StartsWith("PK-") && request.Key.Length > 20
+                ? request.Key
+                : UniformPartitionKeyGenerator.GenerateDispersedKey(request.Key));
 
         // Obtener contrato Swagger en YAML
         var swaggerYaml = GetSwaggerYamlContent();

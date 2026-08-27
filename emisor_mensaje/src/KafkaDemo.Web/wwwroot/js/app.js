@@ -27,6 +27,7 @@ const dom = {
   formSendMessage: document.getElementById('form-send-message'),
   msgTopicSelect: document.getElementById('msg-topic-select'),
   msgKeyInput: document.getElementById('msg-key-input'),
+  btnRegenKey: document.getElementById('btn-regen-key'),
   msgValueInput: document.getElementById('msg-value-input'),
   btnSampleJson: document.getElementById('btn-sample-json'),
   btnFormatJson: document.getElementById('btn-format-json'),
@@ -34,6 +35,36 @@ const dom = {
   btnClearLogs: document.getElementById('btn-clear-logs'),
   toastContainer: document.getElementById('toast-container')
 };
+
+// Generador de clave de particionamiento con dispersión de ultra-alta entropía (SplitMix64 Avalanche)
+let _dispersedCounter = 0n;
+
+function generateDispersedKey(businessId = '8172201-IN') {
+  _dispersedCounter = (_dispersedCounter + 1n) & 0xFFFFFFFFFFFFFFFFn;
+  const nowTicks = BigInt(Date.now());
+  const randomSalt = BigInt(Math.floor(Math.random() * 0xFFFFFF));
+  let seed = ((nowTicks ^ randomSalt) ^ (_dispersedCounter * 0x9e3779b97f4a7c15n)) & 0xFFFFFFFFFFFFFFFFn;
+
+  if (businessId && businessId.trim() !== '') {
+    let fnv = 0xcbf29ce484222325n;
+    const cleanId = businessId.trim();
+    for (let i = 0; i < cleanId.length; i++) {
+      fnv = (fnv ^ BigInt(cleanId.charCodeAt(i))) & 0xFFFFFFFFFFFFFFFFn;
+      fnv = (fnv * 0x100000001b3n) & 0xFFFFFFFFFFFFFFFFn;
+    }
+    seed = (seed ^ fnv) & 0xFFFFFFFFFFFFFFFFn;
+  }
+
+  // Mezclador SplitMix64 / Murmur3 Avalanche
+  seed = (seed ^ (seed >> 30n)) & 0xFFFFFFFFFFFFFFFFn;
+  seed = (seed * 0xbf58476d1ce4e5b9n) & 0xFFFFFFFFFFFFFFFFn;
+  seed = (seed ^ (seed >> 27n)) & 0xFFFFFFFFFFFFFFFFn;
+  seed = (seed * 0x94d049bb133111ebn) & 0xFFFFFFFFFFFFFFFFn;
+  seed = (seed ^ (seed >> 31n)) & 0xFFFFFFFFFFFFFFFFn;
+
+  const hex16 = seed.toString(16).toUpperCase().padStart(16, '0');
+  return businessId && businessId.trim() !== '' ? `PK-${hex16}-${businessId.trim()}` : `PK-${hex16}`;
+}
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
@@ -95,6 +126,14 @@ function setupEvents() {
   dom.formCreateTopic.addEventListener('submit', handleCreateTopic);
   dom.formSendMessage.addEventListener('submit', handleSendMessage);
   
+  // Botón para regenerar ID de partición con SplitMix64
+  dom.btnRegenKey?.addEventListener('click', () => {
+    const currentPreset = document.querySelector('.btn-chip-active')?.getAttribute('data-preset');
+    const hint = currentPreset === 'otel-get' ? '8172201-IN' : '8172201-IN';
+    dom.msgKeyInput.value = generateDispersedKey(hint);
+    showToast('Nuevo ID de partición generado (SplitMix64)', 'info');
+  });
+
   // Presets de JSON
   document.querySelectorAll('[data-preset]').forEach(btn => {
     btn.addEventListener('click', (e) => {
@@ -385,6 +424,12 @@ async function handleSendMessage(e) {
 
     showToast(`✔ Evento publicado en '${topic}' [P:${data.result.partition}, Offset:#${data.result.offset}]`, 'success');
     appendSingleToStream(data.result, value);
+
+    // Regenerar automáticamente un nuevo ID de partición con SplitMix64 para el siguiente envío
+    const activeChip = document.querySelector('.btn-chip-active');
+    const preset = activeChip ? activeChip.getAttribute('data-preset') : 'otel-get';
+    const hint = preset === 'otel-get' ? '8172201-IN' : '8172201-IN';
+    dom.msgKeyInput.value = generateDispersedKey(hint);
   } catch (err) {
     showToast(`Error al publicar: ${err.message}`, 'error');
   } finally {
@@ -470,8 +515,8 @@ async function loadPresetJson(type = 'otel-get') {
       if (res.ok) {
         const traceObj = await res.json();
         dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
-        dom.msgKeyInput.value = 'PK-8172201-IN';
-        showToast('Traza OTel GET (Contactos) cargada en el editor', 'info');
+        dom.msgKeyInput.value = generateDispersedKey('8172201-IN');
+        showToast('Traza OTel GET cargada y clave de partición generada con SplitMix64', 'info');
         return;
       }
     } catch (e) {
@@ -515,7 +560,7 @@ async function loadPresetJson(type = 'otel-get') {
   }
 
   dom.msgValueInput.value = JSON.stringify(presetObj, null, 2);
-  dom.msgKeyInput.value = presetObj.originAccount;
+  dom.msgKeyInput.value = generateDispersedKey(presetObj.originAccount);
 }
 
 function formatTextareaJson() {
