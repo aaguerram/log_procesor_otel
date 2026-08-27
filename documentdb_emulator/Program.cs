@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    // Escuchar en HTTP 8081 para acceso directo y compatibilidad
+    // Puerto 8081: Endpoint REST Oficial de Azure Cosmos DB / DocumentDB
     options.ListenAnyIP(8081);
+    // Puerto 8082: Interfaz Gráfica Ligera Cosmos DB Data Explorer UI
+    options.ListenAnyIP(8082);
 });
 
 var app = builder.Build();

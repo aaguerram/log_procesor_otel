@@ -133,21 +133,17 @@ services:
       - kafka-net
 
   # =================================================================
-  # 6. AZURE COSMOS DB / DOCUMENTDB (Microsoft Official Emulator & Data Explorer)
+  # 6. AZURE COSMOS DB / DOCUMENTDB (Motor Ligero NoSQL y Data Explorer UI)
   # =================================================================
   azure-documentdb:
-    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
+    build:
+      context: ./documentdb_emulator
+      dockerfile: Dockerfile
     container_name: azure-cosmos-emulator
     hostname: azure-documentdb
-    mem_limit: 3g
-    cpu_count: 2
-    environment:
-      - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=10
-      - AZURE_COSMOS_EMULATOR_ENABLE_DATA_EXPLORER=true
-      - AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1
     ports:
-      - "8081:8081"                  # Azure Data Explorer Web UI Oficial & API NoSQL
-      - "10251-10255:10251-10255"    # Rango de puertos directos de Cosmos DB
+      - "8081:8081"                  # Endpoint REST Oficial de Cosmos DB / DocumentDB
+      - "8082:8082"                  # Interfaz Gráfica Ligera Cosmos DB Data Explorer UI
     networks:
       - kafka-net
 
