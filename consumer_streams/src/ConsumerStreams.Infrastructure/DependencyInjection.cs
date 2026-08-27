@@ -48,6 +48,7 @@ public static class DependencyInjection
             GroupId = groupId,
             SourceTopic = sourceTopic,
             TargetTopic = targetTopic,
+            ErrorTopic = configuration["KafkaStream:ErrorTopic"] ?? "tp.observability.application-log.error.v1",
             AutoOffsetReset = configuration["KafkaStream:AutoOffsetReset"] ?? "Earliest",
             EnableAutoCommit = bool.TryParse(configuration["KafkaStream:EnableAutoCommit"], out var ec) && ec,
             PollTimeoutMs = int.TryParse(configuration["KafkaStream:PollTimeoutMs"], out var pt) ? pt : 1000
@@ -62,7 +63,8 @@ public static class DependencyInjection
             HashSha256 = !bool.TryParse(configuration["DataProtectionRules:HashSha256"] ?? configuration["DATA_PROTECTION_HASH_SHA256"], out var hash) || hash,
             PartialLast4 = !bool.TryParse(configuration["DataProtectionRules:PartialLast4"] ?? configuration["DATA_PROTECTION_PARTIAL_LAST4"], out var part) || part,
             Remove = !bool.TryParse(configuration["DataProtectionRules:Remove"] ?? configuration["DATA_PROTECTION_REMOVE"], out var rem) || rem,
-            Full = !bool.TryParse(configuration["DataProtectionRules:Full"] ?? configuration["DATA_PROTECTION_FULL"], out var full) || full
+            Full = !bool.TryParse(configuration["DataProtectionRules:Full"] ?? configuration["DATA_PROTECTION_FULL"], out var full) || full,
+            MaskUrlPathAndQuery = !bool.TryParse(configuration["DataProtectionRules:MaskUrlPathAndQuery"] ?? configuration["DATA_PROTECTION_MASK_URL"], out var maskUrl) || maskUrl
         };
         services.AddSingleton(protectionSettings);
         services.AddSingleton(Options.Create(protectionSettings));

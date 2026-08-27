@@ -118,6 +118,7 @@ services:
       - KafkaStream__GroupId=consumer-streams-produbanco-v1
       - KafkaStream__SourceTopic=tp.observability.application-log.emitted.v1
       - KafkaStream__TargetTopic=tp.observability.application-log.processed.v1
+      - KafkaStream__ErrorTopic=tp.observability.application-log.error.v1
       - KafkaStream__AutoOffsetReset=Earliest
       - KeyVault__VaultUri=https://azure-keyvault:8443
       - KeyVault__VaultName=produbanco-local-vault

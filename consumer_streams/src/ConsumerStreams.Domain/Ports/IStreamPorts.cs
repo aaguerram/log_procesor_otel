@@ -24,6 +24,16 @@ public interface IStreamProducerPort
         string jsonPayload,
         IDictionary<string, string>? headers,
         CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Publica un sobre binario Protobuf (ej. en cola de error / DLQ) en Kafka.
+    /// </summary>
+    Task<bool> ForwardProtobufAsync(
+        string targetTopic,
+        string? key,
+        byte[] protoBytes,
+        IDictionary<string, string>? headers,
+        CancellationToken cancellationToken);
 }
 
 /// <summary>

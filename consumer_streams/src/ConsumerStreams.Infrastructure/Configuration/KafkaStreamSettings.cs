@@ -12,6 +12,7 @@ public class KafkaStreamSettings
     public string GroupId { get; set; } = string.Empty;
     public string SourceTopic { get; set; } = string.Empty;
     public string TargetTopic { get; set; } = string.Empty;
+    public string ErrorTopic { get; set; } = "tp.observability.application-log.error.v1";
     public string AutoOffsetReset { get; set; } = "Earliest";
     public bool EnableAutoCommit { get; set; }
     public int PollTimeoutMs { get; set; }

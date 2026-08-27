@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\encrypted_envelope.proto" GrpcServices="None" />
+    <Protobuf Include="Protos\encrypted_error_envelope.proto" GrpcServices="None" />
   </ItemGroup>
 
 </Project>

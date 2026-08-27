@@ -28,6 +28,7 @@ public class StreamWorkerService(
         logger.LogInformation("🚀 [Kafka Streaming AOT] Iniciando procesador de flujo de eventos...");
         logger.LogInformation("   - Tópico Origen (Consumo): '{Source}'", _settings.SourceTopic);
         logger.LogInformation("   - Tópico Destino (Emisión): '{Target}'", _settings.TargetTopic);
+        logger.LogInformation("   - Tópico Error / DLQ:       '{ErrorTopic}'", _settings.ErrorTopic);
         logger.LogInformation("   - Consumer Group:           '{Group}'", _settings.GroupId);
         logger.LogInformation("   - Servidores Bootstrap:     '{Servers}'", _settings.BootstrapServers);
 
@@ -38,6 +39,7 @@ public class StreamWorkerService(
                 await pipelineUseCase.ExecutePipelineAsync(
                     _settings.SourceTopic,
                     _settings.TargetTopic,
+                    _settings.ErrorTopic,
                     stoppingToken);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)

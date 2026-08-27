@@ -6,9 +6,9 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1787803208.0853436,
-    "seen": 1787803609.9652627,
-    "ast_hash": "09f29870431ab0f9a680e59ff33dea0b",
+    "mtime": 1787809768.359021,
+    "seen": 1787810005.3271441,
+    "ast_hash": "83752f4f4f87cff50771b0932c06b31a",
     "semantic_hash": ""
   },
   "emisor_mensaje/KafkaDemoHexagonal.slnx": {
@@ -156,9 +156,9 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
-    "mtime": 1787807186.5180933,
-    "seen": 1787807248.7211728,
-    "ast_hash": "f84a7b7c3a65711f64cb919169a00c5a",
+    "mtime": 1787807436.0540774,
+    "seen": 1787807479.3942618,
+    "ast_hash": "4b9a5d5a7cb54d07ef2063d59e3e64b1",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
@@ -282,9 +282,9 @@
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Worker/appsettings.json": {
-    "mtime": 1787801342.5827775,
-    "seen": 1787801433.693511,
-    "ast_hash": "31b9137716cbefed07b6c34004a0b3f4",
+    "mtime": 1787809757.8222506,
+    "seen": 1787810005.327015,
+    "ast_hash": "c1eefd53ea787e36fa88a0b8a7bfe842",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Domain/Ports/ICryptoPorts.cs": {
@@ -420,15 +420,15 @@
     "semantic_hash": ""
   },
   "documentdb_emulator/DocumentDbEmulator.csproj": {
-    "mtime": 1787773088.558273,
-    "seen": 1787773199.4323273,
-    "ast_hash": "6754289bdd2782ef2efc4f15c106507e",
+    "mtime": 1787808579.3223803,
+    "seen": 1787808728.9922352,
+    "ast_hash": "4928de02df14dfeed75fc936fa3dfa02",
     "semantic_hash": ""
   },
   "documentdb_emulator/Program.cs": {
-    "mtime": 1787806199.881957,
-    "seen": 1787806349.4389088,
-    "ast_hash": "72a81173b379230494172327c6b0fde2",
+    "mtime": 1787808589.0266943,
+    "seen": 1787808728.9922378,
+    "ast_hash": "b9faabda77f042128db13ac9d9726ca2",
     "semantic_hash": ""
   },
   "data_guia/20260826-154638001-otel-metrics.json": {
@@ -582,15 +582,15 @@
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Configuration/DataProtectionRulesSettings.cs": {
-    "mtime": 1787801336.2605348,
-    "seen": 1787801433.6934698,
-    "ast_hash": "1752ad113fd7c4c04d054c3c1a614aa7",
+    "mtime": 1787809696.017213,
+    "seen": 1787810005.3269749,
+    "ast_hash": "3359c2a38e25fcf2322b080cf70939b1",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Models/DataProtectionModels.cs": {
-    "mtime": 1787802998.8975203,
-    "seen": 1787803082.860878,
-    "ast_hash": "0747af543f97dc367a1dc21a279f5fa3",
+    "mtime": 1787811224.1790042,
+    "seen": 1787811328.243287,
+    "ast_hash": "9b3b0e1f028c973ac4b01bd757dcc67c",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Ports/IContractRulesCachePort.cs": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Utils/JsonStreamDataProtectionMasker.cs": {
-    "mtime": 1787803480.5634494,
-    "seen": 1787803609.9650693,
-    "ast_hash": "2b6172f8a998eb81124797a8e8763cbb",
+    "mtime": 1787811246.4083824,
+    "seen": 1787811328.2432995,
+    "ast_hash": "ca6186d8a7c43ed55946a1feaba1e26c",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Utils/OpenApiContractCompiler.cs": {
-    "mtime": 1787803470.731693,
-    "seen": 1787803609.9650726,
-    "ast_hash": "c21a3dd40ff1549f73099098adf01179",
+    "mtime": 1787810872.7576394,
+    "seen": 1787810973.8192463,
+    "ast_hash": "ce62334cca354453286b9e7cafa9d717",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/ThreadSafeContractRulesCacheAdapter.cs": {

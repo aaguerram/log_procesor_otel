@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package produbanco.security.v1;
+
+option csharp_namespace = "Produbanco.Security.V1";
+
+import "Protos/encrypted_envelope.proto";
+
+message EncryptedErrorPayloadEnvelope {
+  // 1. El JSON Cifrado o Payload original
+  bytes data = 1;
+
+  // 2. Parámetros Criptográficos AEAD
+  bytes nonce = 2;
+  bytes auth_tag = 3;
+  int32 algorithm_version = 4;
+
+  // 3. Identificación y Tokenización de Azure Key Vault
+  string cert_thumbprint = 5;
+  string vault_token_id = 6;
+
+  // 4. Metadatos de Trazabilidad
+  string transaction_id = 7;
+  int64 timestamp_unix_ms = 8;
+
+  // 5. Contrato Swagger / OpenAPI en formato YAML
+  string swagger = 9;
+
+  // 6. Tipo de Señal de Observabilidad OpenTelemetry
+  TelemetryType telemetry_type = 10;
+
+  // 7. Nombre del Servicio Microservicio Emisor
+  string service_name = 11;
+
+  // 8. Detalle del Error capturado en el sistema para trazabilidad en DLQ / Error Topic
+  string error_detail = 12;
+}

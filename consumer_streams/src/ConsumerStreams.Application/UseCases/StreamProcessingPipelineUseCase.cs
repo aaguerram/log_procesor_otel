@@ -29,13 +29,20 @@ public class StreamProcessingPipelineUseCase(
     ConsumerStreams.Domain.Configuration.DataProtectionRulesSettings dataProtectionSettings,
     ILogger<StreamProcessingPipelineUseCase> logger)
 {
-    public async Task ExecutePipelineAsync(string sourceTopic, string targetTopic, CancellationToken cancellationToken)
+    public async Task ExecutePipelineAsync(
+        string sourceTopic,
+        string targetTopic,
+        string errorTopic,
+        CancellationToken cancellationToken)
     {
-        logger.LogInformation("Iniciando pipeline de streaming reactivo cifrado Protobuf: '{Source}' (40 part.) ➔ '{Target}' (30 part.)", sourceTopic, targetTopic);
+        logger.LogInformation("Iniciando pipeline de streaming reactivo cifrado Protobuf: '{Source}' (40 part.) ➔ '{Target}' (30 part.) | DLQ Error: '{ErrorTopic}'",
+            sourceTopic, targetTopic, errorTopic);
 
         await consumerPort.StartStreamingAsync(sourceTopic, async (key, rawBytes, headers, ct) =>
         {
             var stopwatch = Stopwatch.StartNew();
+            EncryptedPayloadEnvelope? currentEnvelope = null;
+
             try
             {
                 string decryptedJson;
@@ -47,79 +54,73 @@ public class StreamProcessingPipelineUseCase(
 
                 try
                 {
-                    var envelope = EncryptedPayloadEnvelope.Parser.ParseFrom(rawBytes);
-                    if (envelope != null)
-                    {
-                        // 1.1 Validación estricta: Todos los campos del proto excepto Swagger son obligatorios
-                        ValidateMandatoryEnvelopeFields(envelope);
-
-                        tokenUsed = envelope.VaultTokenId;
-                        serviceName = envelope.ServiceName;
-
-                        telemetryTypeStr = envelope.TelemetryType switch
-                        {
-                            TelemetryType.Trace => "Trace",
-                            TelemetryType.Metric => "Metric",
-                            TelemetryType.Log => "Log",
-                            _ => "Trace"
-                        };
-
-                        // 2. Resolver la clave de Azure Key Vault a partir del token (Caché RAM TTL 1 hora)
-                        var keyMaterial = await vaultTokenPort.ResolveKeyByTokenAsync(
-                            envelope.VaultTokenId,
-                            envelope.CertThumbprint,
-                            ct);
-
-                        // 3. Descifrado AES-256-GCM por hardware en CPU (~0.15 ms)
-                        decryptedJson = cryptoPort.DecryptEnvelopeToJson(envelope, keyMaterial);
-
-                        // 4. Aplicar políticas x-log-data-protection ÚNICAMENTE si el mensaje es de tipo TRACE
-                        //    Si es Metric o Log, se omite el procesamiento Swagger y se envía directo al tópico
-                        if (envelope.TelemetryType == TelemetryType.Trace && !string.IsNullOrEmpty(envelope.Swagger) && dataProtectionSettings.Enabled)
-                        {
-                            var rules = contractRulesCache.GetOrCompile(envelope.Swagger);
-                            var maskedBytes = JsonStreamDataProtectionMasker.MaskPayload(
-                                Encoding.UTF8.GetBytes(decryptedJson),
-                                rules,
-                                dataProtectionSettings);
-                            decryptedJson = Encoding.UTF8.GetString(maskedBytes);
-                        }
-                    }
-                    else
-                    {
-                        // Fallback a texto UTF-8 plano
-                        decryptedJson = Encoding.UTF8.GetString(rawBytes);
-                    }
+                    currentEnvelope = EncryptedPayloadEnvelope.Parser.ParseFrom(rawBytes);
                 }
                 catch (InvalidProtocolBufferException)
                 {
                     // Si viene en texto JSON plano legacy
-                    decryptedJson = Encoding.UTF8.GetString(rawBytes);
-                }
-                catch (InvalidOperationException valEx)
-                {
-                    logger.LogError("❌ [Protobuf Schema Validation Error] Sobre rechazado por campos obligatorios faltantes: {Error}", valEx.Message);
-                    return false;
+                    currentEnvelope = null;
                 }
 
-                // 4. Deserialización segura Native AOT del JSON descifrado
+                if (currentEnvelope != null)
+                {
+                    // 1.1 Validación estricta: Todos los campos del proto excepto Swagger y ErrorDetail son obligatorios
+                    ValidateMandatoryEnvelopeFields(currentEnvelope);
+
+                    tokenUsed = currentEnvelope.VaultTokenId;
+                    serviceName = currentEnvelope.ServiceName;
+
+                    telemetryTypeStr = currentEnvelope.TelemetryType switch
+                    {
+                        TelemetryType.Trace => "Trace",
+                        TelemetryType.Metric => "Metric",
+                        TelemetryType.Log => "Log",
+                        _ => "Trace"
+                    };
+
+                    // 2. Resolver la clave de Azure Key Vault a partir del token (Caché RAM TTL 1 hora)
+                    var keyMaterial = await vaultTokenPort.ResolveKeyByTokenAsync(
+                        currentEnvelope.VaultTokenId,
+                        currentEnvelope.CertThumbprint,
+                        ct);
+
+                    // 3. Descifrado AES-256-GCM por hardware en CPU (~0.15 ms)
+                    decryptedJson = cryptoPort.DecryptEnvelopeToJson(currentEnvelope, keyMaterial);
+
+                    // 4. Aplicar políticas x-log-data-protection ÚNICAMENTE si el mensaje es de tipo TRACE
+                    if (currentEnvelope.TelemetryType == TelemetryType.Trace && !string.IsNullOrEmpty(currentEnvelope.Swagger) && dataProtectionSettings.Enabled)
+                    {
+                        var rules = contractRulesCache.GetOrCompile(currentEnvelope.Swagger);
+                        var maskedBytes = JsonStreamDataProtectionMasker.MaskPayload(
+                            Encoding.UTF8.GetBytes(decryptedJson),
+                            rules,
+                            dataProtectionSettings);
+                        decryptedJson = Encoding.UTF8.GetString(maskedBytes);
+                    }
+                }
+                else
+                {
+                    // Fallback a texto UTF-8 plano
+                    decryptedJson = Encoding.UTF8.GetString(rawBytes);
+                }
+
+                // 5. Deserialización segura Native AOT del JSON descifrado
                 var rawEvent = JsonSerializer.Deserialize(decryptedJson, StreamJsonContext.Default.RawTransactionEvent);
                 if (rawEvent == null)
                 {
-                    logger.LogWarning("Mensaje descifrado no pudo ser parseado como RawTransactionEvent: {Payload}", decryptedJson);
-                    return false;
+                    throw new InvalidOperationException($"El mensaje no pudo ser parseado como RawTransactionEvent: {decryptedJson}");
                 }
 
                 // Asignar el payload original completo
                 rawEvent = rawEvent with { RawPayloadJson = decryptedJson };
 
-                // 5. Transformación y lógica de negocio de dominio
+                // 6. Transformación y lógica de negocio de dominio
                 var processedEvent = transformer.TransformAndEnrich(rawEvent);
 
-                // 6. Serialización segura Native AOT del JSON enriquecido en claro
+                // 7. Serialización segura Native AOT del JSON enriquecido en claro
                 var processedJson = JsonSerializer.Serialize(processedEvent, StreamJsonContext.Default.ProcessedTransactionEvent);
 
-                // 7. Enriquecimiento de cabeceras de trazabilidad, servicio, telemetría y seguridad
+                // 8. Enriquecimiento de cabeceras de trazabilidad, servicio, telemetría y seguridad
                 string sanitizedServiceName = serviceName.Replace('.', '_');
                 string targetCollection = $"{sanitizedServiceName}_{telemetryTypeStr}";
 
@@ -136,7 +137,7 @@ public class StreamProcessingPipelineUseCase(
                     ["x-latency-ms"] = processedEvent.ProcessingLatencyMs.ToString("F2")
                 };
 
-                // 8. Reenvío del JSON en claro al tópico de destino (30 particiones balanceadas por SplitMix64)
+                // 9. Reenvío del JSON en claro al tópico de destino (30 particiones balanceadas por SplitMix64)
                 var partitionKey = UniformPartitionKeyGenerator.GenerateDispersedKey(processedEvent.OriginAccount ?? key);
 
                 var published = await producerPort.ForwardEventAsync(
@@ -158,10 +159,63 @@ public class StreamProcessingPipelineUseCase(
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error procesando/descifrando evento en pipeline de streaming para key '{Key}'", key);
-                return false;
+                logger.LogError(ex, "❌ Error procesando evento en streaming para key '{Key}'. Redirigiendo a cola DLQ/Error: '{ErrorTopic}'", key, errorTopic);
+                await SendToDlqErrorTopicAsync(errorTopic, key, rawBytes, currentEnvelope, ex, headers, ct);
+                // Retornar true para confirmar offset en Kafka y evitar bloqueo de la partición (Poison Pill Handling)
+                return true;
             }
         }, cancellationToken);
+    }
+
+    private async Task<bool> SendToDlqErrorTopicAsync(
+        string errorTopic,
+        string? key,
+        byte[] rawBytes,
+        EncryptedPayloadEnvelope? envelope,
+        Exception ex,
+        IDictionary<string, string>? headers,
+        CancellationToken ct)
+    {
+        try
+        {
+            var dlqEnvelope = new EncryptedErrorPayloadEnvelope
+            {
+                Data = envelope != null ? envelope.Data : ByteString.CopyFrom(rawBytes),
+                Nonce = envelope != null ? envelope.Nonce : ByteString.CopyFrom(new byte[12]),
+                AuthTag = envelope != null ? envelope.AuthTag : ByteString.CopyFrom(new byte[16]),
+                AlgorithmVersion = envelope?.AlgorithmVersion ?? 1,
+                CertThumbprint = envelope?.CertThumbprint ?? "NONE",
+                VaultTokenId = envelope?.VaultTokenId ?? "NONE",
+                TransactionId = envelope?.TransactionId ?? (key ?? $"ERR-{Guid.NewGuid():N}"),
+                TimestampUnixMs = envelope?.TimestampUnixMs ?? DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+                Swagger = envelope?.Swagger ?? string.Empty,
+                TelemetryType = envelope?.TelemetryType ?? TelemetryType.Log,
+                ServiceName = envelope?.ServiceName ?? "Unknown.Service",
+                ErrorDetail = $"{ex.GetType().FullName}: {ex.Message}\n{ex.StackTrace}"
+            };
+
+            var errorHeaders = new Dictionary<string, string>(headers ?? new Dictionary<string, string>())
+            {
+                ["x-error-type"] = ex.GetType().Name,
+                ["x-error-message"] = ex.Message,
+                ["x-error-timestamp"] = DateTime.UtcNow.ToString("O"),
+                ["x-source-topic"] = "tp.observability.application-log.emitted.v1",
+                ["x-error-handler"] = "ConsumerStreams.DLQ"
+            };
+
+            byte[] dlqBytes = dlqEnvelope.ToByteArray();
+            return await producerPort.ForwardProtobufAsync(
+                errorTopic,
+                key ?? dlqEnvelope.TransactionId,
+                dlqBytes,
+                errorHeaders,
+                ct);
+        }
+        catch (Exception dlqEx)
+        {
+            logger.LogCritical(dlqEx, "❌ [FATAL DLQ ERROR] Fallo crítico al publicar en la cola de error '{ErrorTopic}'", errorTopic);
+            return false;
+        }
     }
 
     private static void ValidateMandatoryEnvelopeFields(EncryptedPayloadEnvelope envelope)
