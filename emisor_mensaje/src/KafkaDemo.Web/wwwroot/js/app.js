@@ -531,22 +531,22 @@ function removeEmptyStreamNotice() {
 const OTelTraces = {
   'otel-get': {
     url: '/data/otel_get_trace.json',
-    businessKey: '8172201-IN',
+    businessKey: 'TRACE-GET-CONTACTS-8172201',
     label: 'GET - /contacts/contacts-by-idClient/8172201/IN (Lista 120 Contactos)'
   },
   'otel-post-1': {
     url: '/data/otel_post_trace_1.json',
-    businessKey: '5103846-IN',
+    businessKey: 'TRACE-POST-CONTACT-1394487',
     label: 'POST - /contacts/local-contact (ID: 1394487 | Cédula: 1702756766)'
   },
   'otel-post-2': {
     url: '/data/otel_post_trace_2.json',
-    businessKey: '5103846-IN',
+    businessKey: 'TRACE-POST-CONTACT-1394495',
     label: 'POST - /contacts/local-contact (ID: 1394495 | Cédula: 1702756766)'
   },
   'otel-post-3': {
     url: '/data/otel_post_trace_3.json',
-    businessKey: '5103846-IN',
+    businessKey: 'TRACE-POST-CONTACT-13944955',
     label: 'POST - /contacts/local-contact (ID: 13944955 | Respuesta Exitosa 100000)'
   }
 };
@@ -732,11 +732,11 @@ async function loadSelectedPreset(presetKey) {
 function getBusinessKeyForCurrentPreset(presetKey) {
   const signalType = dom.telemetryTypeSelect?.value || 'Trace';
   if (signalType === 'Trace') {
-    return OTelTraces[presetKey]?.businessKey || '8172201-IN';
+    return OTelTraces[presetKey]?.businessKey || 'TRACE-GET-CONTACTS-8172201';
   } else if (signalType === 'Metric') {
-    return `METRIC-${presetKey || 'sample'}`;
+    return `METRIC-${presetKey || 'SAMPLE'}`;
   } else {
-    return OTelLogs[presetKey]?.businessKey || 'LOG-PROD';
+    return OTelLogs[presetKey]?.businessKey || 'LOG-INFO-AUTH';
   }
 }
 

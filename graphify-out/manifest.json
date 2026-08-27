@@ -156,15 +156,15 @@
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/js/app.js": {
-    "mtime": 1787806094.2107117,
-    "seen": 1787806349.4390435,
-    "ast_hash": "f6b816b0efb5cf43fe1bcb29cc4ebfe5",
+    "mtime": 1787807001.5776064,
+    "seen": 1787807045.5964642,
+    "ast_hash": "8e510be16ce0edd666418b319132ab9f",
     "semantic_hash": ""
   },
   "emisor_mensaje/src/KafkaDemo.Web/wwwroot/index.html": {
-    "mtime": 1787806062.8983629,
-    "seen": 1787806349.4391224,
-    "ast_hash": "d9d96221530306924ce9d864c756dc1a",
+    "mtime": 1787806975.2108634,
+    "seen": 1787807045.596517,
+    "ast_hash": "fb5ea326455000daa1be3be230255fad",
     "semantic_hash": ""
   },
   "consumer_streams/ConsumerStreams.slnx": {
