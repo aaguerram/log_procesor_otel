@@ -5,12 +5,14 @@ namespace ConsumerStreams.Application.Services;
 
 /// <summary>
 /// Implementación de la lógica de dominio para enriquecimiento y análisis de riesgo en streaming.
+/// El reloj se inyecta como <see cref="TimeProvider"/> para poder verificar el cálculo de latencia
+/// y las marcas de tiempo de forma determinista.
 /// </summary>
-public class TransactionEnricher : ITransactionTransformerPort
+public class TransactionEnricher(TimeProvider timeProvider) : ITransactionTransformerPort
 {
     public ProcessedTransactionEvent TransformAndEnrich(RawTransactionEvent raw)
     {
-        var now = DateTime.UtcNow;
+        var now = timeProvider.GetUtcNow().UtcDateTime;
         var effectiveEmittedAt = raw.EmittedAt != default
             ? raw.EmittedAt
             : (raw.StartTimeUtc ?? now);

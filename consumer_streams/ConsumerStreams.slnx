@@ -5,4 +5,9 @@
     <Project Path="src/ConsumerStreams.Infrastructure/ConsumerStreams.Infrastructure.csproj" />
     <Project Path="src/ConsumerStreams.Worker/ConsumerStreams.Worker.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ConsumerStreams.Domain.Tests/ConsumerStreams.Domain.Tests.csproj" />
+    <Project Path="tests/ConsumerStreams.Application.Tests/ConsumerStreams.Application.Tests.csproj" />
+    <Project Path="tests/ConsumerStreams.Infrastructure.Tests/ConsumerStreams.Infrastructure.Tests.csproj" />
+  </Folder>
 </Solution>

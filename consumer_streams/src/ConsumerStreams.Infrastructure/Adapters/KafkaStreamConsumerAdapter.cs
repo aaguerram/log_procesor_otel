@@ -1,7 +1,7 @@
-using System.Text;
 using Confluent.Kafka;
 using ConsumerStreams.Domain.Ports;
 using ConsumerStreams.Infrastructure.Configuration;
+using ConsumerStreams.Infrastructure.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -69,15 +69,7 @@ public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
                     continue;
                 }
 
-                var headers = new Dictionary<string, string>();
-                if (consumeResult.Message.Headers != null)
-                {
-                    foreach (var h in consumeResult.Message.Headers)
-                    {
-                        var value = Encoding.UTF8.GetString(h.GetValueBytes());
-                        headers[h.Key] = value;
-                    }
-                }
+                var headers = KafkaHeaderMapper.ToDictionary(consumeResult.Message.Headers);
 
                 // Invocación del procesamiento reactivo con los bytes binarios
                 var success = await onMessageReceived(

@@ -1,65 +1,44 @@
 using System.Collections.Concurrent;
-using System.Security.Cryptography;
-using System.Text;
 using ConsumerStreams.Domain.Ports;
-using Microsoft.Extensions.Configuration;
+using ConsumerStreams.Infrastructure.Security;
 using Microsoft.Extensions.Logging;
 
 namespace ConsumerStreams.Infrastructure.Adapters;
 
 /// <summary>
-/// Adaptador para resolución de tokens criptográficos de Azure Key Vault con TTL de 1 hora en memoria en consumer_streams (Native AOT).
+/// Resuelve el material criptográfico asociado a un token de Azure Key Vault y lo cachea en RAM
+/// con TTL de 1 hora. La derivación concreta de la clave la hace <see cref="IAesKeyMaterialFactory"/>;
+/// este adaptador sólo añade la caché. El reloj se inyecta para pruebas deterministas.
 /// </summary>
-public class AzureKeyVaultTokenAdapter : IVaultTokenProviderPort
+public sealed class AzureKeyVaultTokenAdapter(
+    IAesKeyMaterialFactory keyMaterialFactory,
+    TimeProvider timeProvider,
+    ILogger<AzureKeyVaultTokenAdapter> logger) : IVaultTokenProviderPort
 {
     private static readonly TimeSpan CacheTtl = TimeSpan.FromHours(1);
-    private readonly string _vaultUri;
-    private readonly ILogger<AzureKeyVaultTokenAdapter> _logger;
     private readonly ConcurrentDictionary<string, CachedVaultEntry> _keyCache = new();
 
-    private record CachedVaultEntry(VaultKeyMaterial Material, DateTimeOffset ExpiresAtUtc)
-    {
-        public bool IsExpired => DateTimeOffset.UtcNow >= ExpiresAtUtc;
-    }
-
-    public AzureKeyVaultTokenAdapter(IConfiguration configuration, ILogger<AzureKeyVaultTokenAdapter> logger)
-    {
-        _logger = logger;
-        _vaultUri = configuration["KeyVault:VaultUri"] 
-            ?? configuration["TECH-INT-SECU-VAULT_URL"] 
-            ?? configuration["TECH_INT_SECU_VAULT_URL"] 
-            ?? throw new InvalidOperationException("[CONFIG ERROR] 'KeyVault:VaultUri' no está configurado en appsettings.json ni en las variables de entorno.");
-    }
+    private sealed record CachedVaultEntry(VaultKeyMaterial Material, DateTimeOffset ExpiresAtUtc);
 
     public Task<VaultKeyMaterial> ResolveKeyByTokenAsync(string vaultTokenId, string certThumbprint, CancellationToken cancellationToken = default)
     {
-        // 1. Verificar si la clave existe en la memoria RAM y su TTL de 1 hora aún no expira
-        if (_keyCache.TryGetValue(vaultTokenId, out var cached) && !cached.IsExpired)
+        var now = timeProvider.GetUtcNow();
+
+        if (_keyCache.TryGetValue(vaultTokenId, out var cached) && now < cached.ExpiresAtUtc)
         {
             return Task.FromResult(cached.Material);
         }
 
-        // 2. Si no está en RAM o el TTL de 1 hora expiró, se descarga/resuelve desde Azure Key Vault
-        _logger.LogInformation("🌐 [Cache Miss / TTL Expirado] Descargando clave de Azure Key Vault para Token '{Token}' [Thumbprint: {Thumbprint}]...",
+        logger.LogInformation(
+            "🌐 [Cache Miss / TTL Expirado] Resolviendo clave de Azure Key Vault para Token '{Token}' [Thumbprint: {Thumbprint}]...",
             vaultTokenId, certThumbprint);
 
-        var certBytes = Encoding.UTF8.GetBytes($"PRODUBANCO-SECRET-KEY-SEED-produbanco-encryption-cert-2026");
-        var key256 = SHA256.HashData(certBytes);
+        var material = keyMaterialFactory.Create(vaultTokenId, certThumbprint);
+        var expiresAt = now.Add(CacheTtl);
+        _keyCache[vaultTokenId] = new CachedVaultEntry(material, expiresAt);
 
-        var material = new VaultKeyMaterial
-        {
-            VaultTokenId = vaultTokenId,
-            CertThumbprint = certThumbprint,
-            KeyVersion = "2026.1",
-            AesKey256 = key256
-        };
-
-        // 3. Almacenar en RAM con expiración de 1 hora
-        var entry = new CachedVaultEntry(material, DateTimeOffset.UtcNow.Add(CacheTtl));
-        _keyCache[vaultTokenId] = entry;
-
-        _logger.LogInformation("✔ Clave de Key Vault almacenada en RAM con TTL de 1 hora (válida hasta {Expires}) para Token '{Token}'",
-            entry.ExpiresAtUtc, vaultTokenId);
+        logger.LogInformation("✔ Clave de Key Vault almacenada en RAM con TTL de 1 hora (válida hasta {Expires}) para Token '{Token}'",
+            expiresAt, vaultTokenId);
 
         return Task.FromResult(material);
     }

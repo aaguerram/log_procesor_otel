@@ -11,10 +11,12 @@ namespace ConsumerStreams.Domain.Utils;
 /// </summary>
 public static partial class OpenApiContractCompiler
 {
-    [GeneratedRegex(@"^\s+title:\s*(.+)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^[ \t]+title:[ \t]*(.+?)[ \t]*$", RegexOptions.Multiline)]
     private static partial Regex TitleRegex();
 
-    [GeneratedRegex(@"^\s+version:\s*['""]?([^'""]+)['""]?$", RegexOptions.Multiline)]
+    // El grupo excluye CR/LF para que la captura no se derrame a las líneas siguientes
+    // cuando el valor no viene entre comillas (bug: [^'""]+ es codicioso y consume saltos de línea).
+    [GeneratedRegex(@"^[ \t]+version:[ \t]*['""]?([^'""\r\n]+?)['""]?[ \t]*$", RegexOptions.Multiline)]
     private static partial Regex VersionRegex();
 
     [GeneratedRegex(@"\{(\w+)(?::[^\}]+)?\}")]
