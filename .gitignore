@@ -1,8 +1,28 @@
-## .NET Core / C#
+# ==============================================================================
+# .gitignore - Produbanco Observability Kafka & Streams Solution
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. .NET / C# Build Outputs & Temporary Files
+# ------------------------------------------------------------------------------
 [Bb]in/
 [Oo]bj/
-[Ll]og/
-[Ll]ogs/
+[Bb]uild/
+[Oo]ut/
+[Pp]ublish/
+/app/publish/
+*.pdb
+*.dbg
+*.so
+*.dll
+*.exe
+
+# ------------------------------------------------------------------------------
+# 2. Visual Studio / VS Code / Rider / JetBrains
+# ------------------------------------------------------------------------------
+.vs/
+.vscode/
+.idea/
 *.user
 *.userosscache
 *.sln.docstates
@@ -11,26 +31,38 @@
 *.pidb
 *.booproj
 *.svd
-*.pdb
 *.opendb
 *.VC.db
-
-# Visual Studio / VS Code / JetBrains
-.vs/
-.vscode/
-.idea/
 *.DotSettings.user
 
-# Build artifacts and published folders
-publish/
-/app/publish/
+# ------------------------------------------------------------------------------
+# 3. Componentes no productivos / Guías / Emuladores locales
+# ------------------------------------------------------------------------------
+graphify-out/
+.graphify*
+data_guia/
+@data_guia/
+documentdb_emulator/
 
-# OS files
+# ------------------------------------------------------------------------------
+# 4. Logs, Scratches y Archivos Temporales
+# ------------------------------------------------------------------------------
+*.log
+[Ll]og/
+[Ll]ogs/
+scratch/
+.system_generated/
+
+# ------------------------------------------------------------------------------
+# 5. Archivos del Sistema Operativo
+# ------------------------------------------------------------------------------
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Environment and local overrides
+# ------------------------------------------------------------------------------
+# 6. Sobrescrituras y Secretos Locales
+# ------------------------------------------------------------------------------
 *.local.json
 *.override.json
 appsettings.Development.json
