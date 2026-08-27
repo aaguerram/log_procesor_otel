@@ -186,18 +186,18 @@ async function checkHealth() {
     state.clusterHealth = data;
 
     if (data.isConnected) {
-      dom.statusBadge.className = 'status-dot';
-      dom.statusText.textContent = 'Broker Conectado (3 Part. / 1 Node)';
+      dom.statusBadge.className = 'status-badge status-connected';
+      dom.statusText.textContent = 'Broker Conectado';
       dom.statClusterHealth.textContent = 'Saludable';
       dom.statClusterHealth.style.color = '#10b981';
     } else {
-      dom.statusBadge.className = 'status-dot status-offline';
+      dom.statusBadge.className = 'status-badge status-disconnected';
       dom.statusText.textContent = 'Desconectado de Kafka';
       dom.statClusterHealth.textContent = 'Fallo Conexión';
       dom.statClusterHealth.style.color = '#ef4444';
     }
   } catch (err) {
-    dom.statusBadge.className = 'status-dot status-offline';
+    dom.statusBadge.className = 'status-badge status-disconnected';
     dom.statusText.textContent = 'Error de API';
     dom.statClusterHealth.textContent = 'Error';
     dom.statClusterHealth.style.color = '#ef4444';
