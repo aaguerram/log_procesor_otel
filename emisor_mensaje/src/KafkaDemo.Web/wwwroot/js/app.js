@@ -450,9 +450,7 @@ async function handleSendMessage(e) {
     appendSingleToStream(data.result, value);
 
     // Regenerar automáticamente un nuevo ID de partición con SplitMix64 para el siguiente envío
-    const selectedPresetKey = dom.tracePresetSelect?.value;
-    const businessKey = getBusinessKeyForCurrentPreset(selectedPresetKey);
-    dom.msgKeyInput.value = generateDispersedKey(businessKey);
+    dom.msgKeyInput.value = generateDispersedKey(telemetryType);
   } catch (err) {
     showToast(`Error al publicar: ${err.message}`, 'error');
   } finally {
