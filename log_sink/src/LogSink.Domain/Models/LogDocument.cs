@@ -20,6 +20,12 @@ public record LogDocument
     [JsonPropertyName("transactionId")]
     public string? TransactionId { get; init; }
 
+    [JsonPropertyName("traceId")]
+    public string? TraceId { get; init; }
+
+    [JsonPropertyName("spanId")]
+    public string? SpanId { get; init; }
+
     [JsonPropertyName("originAccount")]
     public string? OriginAccount { get; init; }
 

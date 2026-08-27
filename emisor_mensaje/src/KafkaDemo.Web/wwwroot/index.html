@@ -164,15 +164,16 @@
                   Payload del Evento (JSON Estructurado por Defecto) *
                 </label>
                 <div class="presets-row">
+                  <button type="button" class="btn-chip btn-chip-active" data-preset="otel-get">📑 Traza OTel GET (Contactos)</button>
                   <button type="button" class="btn-chip" data-preset="transfer">💳 Transferencia</button>
                   <button type="button" class="btn-chip" data-preset="atm">🏧 Retiro ATM</button>
                   <button type="button" class="btn-chip" data-preset="qr">📱 Pago QR</button>
-                  <button type="button" id="btn-sample-json" class="btn-chip btn-chip-active">🎲 Generar Nuevo</button>
+                  <button type="button" id="btn-sample-json" class="btn-chip">🎲 Generar Nuevo</button>
                   <button type="button" id="btn-format-json" class="btn-chip">✨ Formatear</button>
                 </div>
               </div>
               <textarea id="msg-value-input" class="form-input code-input" rows="12" required></textarea>
-              <small class="form-hint">El JSON cargado por defecto es procesado en tiempo real por el pipeline de <code>consumer_streams</code> (AOT).</small>
+              <small class="form-hint">El JSON del evento/traza OTel se cifra con <code>AES-256-GCM</code> y se encapsula en el campo <code>data</code> del Protobuf <code>EncryptedPayloadEnvelope</code>.</small>
             </div>
 
             <button type="submit" id="btn-submit-message" class="btn btn-gradient btn-block btn-lg">

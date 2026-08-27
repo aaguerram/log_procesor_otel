@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModals();
   setupEvents();
   
-  // Cargar JSON transaccional por defecto al inicio
-  loadPresetJson('transfer');
+  // Cargar Traza OTel GET de Contactos por defecto al inicio
+  loadPresetJson('otel-get');
   
   refreshAll();
   
@@ -455,7 +455,31 @@ function removeEmptyStreamNotice() {
 }
 
 // Cargar Presets de JSON Estructurado por Defecto
-function loadPresetJson(type = 'transfer') {
+async function loadPresetJson(type = 'otel-get') {
+  // Actualizar estilo de chips activos
+  document.querySelectorAll('[data-preset], #btn-sample-json').forEach(btn => {
+    if (btn.getAttribute('data-preset') === type) {
+      btn.classList.add('btn-chip-active');
+    } else {
+      btn.classList.remove('btn-chip-active');
+    }
+  });
+
+  if (type === 'otel-get') {
+    try {
+      const res = await fetch('/data/otel_get_trace.json');
+      if (res.ok) {
+        const traceObj = await res.json();
+        dom.msgValueInput.value = JSON.stringify(traceObj, null, 2);
+        dom.msgKeyInput.value = 'PK-8172201-IN';
+        showToast('Traza OTel GET (Contactos) cargada en el editor', 'info');
+        return;
+      }
+    } catch (e) {
+      console.warn('Fallback al generar traza OTel GET:', e);
+    }
+  }
+
   const hexSuffix = Math.floor(1000 + Math.random() * 9000).toString(16).toUpperCase();
   const randomAmount = (Math.random() * 800 + 25).toFixed(2);
   const originAcct = 'ACCT-' + Math.floor(10000000 + Math.random() * 90000000);

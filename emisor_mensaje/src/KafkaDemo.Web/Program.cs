@@ -116,6 +116,17 @@ app.MapPost("/api/messages/send-batch", async (SendBatchRequest? body, SendMessa
     }
 });
 
+// Obtener muestra de traza OTel GET
+app.MapGet("/api/traces/otel-get", (IWebHostEnvironment env) =>
+{
+    var filePath = Path.Combine(env.WebRootPath, "data", "otel_get_trace.json");
+    if (File.Exists(filePath))
+    {
+        return Results.File(filePath, "application/json");
+    }
+    return Results.NotFound(new { message = "Traza no encontrada" });
+});
+
 // Fallback a index.html
 app.MapFallbackToFile("index.html");
 

@@ -83,24 +83,24 @@ services:
       - kafka-net
 
   # =================================================================
-  # 4. APLICATIVO CONSOLA (.NET 10 - Envío inicial de 20 mensajes a Kafka)
+  # 4. KAFKA PRODUCER (Consola desactivada temporalmente por usuario)
   # =================================================================
-  kafka-console-producer:
-    build:
-      context: ./emisor_mensaje
-      dockerfile: Dockerfile
-    container_name: kafka-console-producer
-    environment:
-      - Kafka__BootstrapServers=kafka:29092
-      - Kafka__ClientId=KafkaDemo-ConsoleDocker
-      - Kafka__TargetTopic=tp.observability.application-log.emitted.v1
-      - KeyVault__VaultUri=https://azure-keyvault:8443
-      - KeyVault__VaultName=produbanco-local-vault
-    depends_on:
-      kafka:
-        condition: service_healthy
-    networks:
-      - kafka-net
+  # kafka-console-producer:
+  #   build:
+  #     context: ./emisor_mensaje
+  #     dockerfile: Dockerfile
+  #   container_name: kafka-console-producer
+  #   environment:
+  #     - Kafka__BootstrapServers=kafka:29092
+  #     - Kafka__ClientId=KafkaDemo-ConsoleDocker
+  #     - Kafka__TargetTopic=tp.observability.application-log.emitted.v1
+  #     - KeyVault__VaultUri=https://azure-keyvault:8443
+  #     - KeyVault__VaultName=produbanco-local-vault
+  #   depends_on:
+  #     kafka:
+  #       condition: service_healthy
+  #   networks:
+  #     - kafka-net
 
   # =================================================================
   # 5. KAFKA STREAMING PROCESSOR (.NET 10 Native AOT)

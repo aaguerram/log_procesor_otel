@@ -11,9 +11,18 @@ public class TransactionEnricher : ITransactionTransformerPort
     public ProcessedTransactionEvent TransformAndEnrich(RawTransactionEvent raw)
     {
         var now = DateTime.UtcNow;
-        var latencyMs = raw.EmittedAt != default
-            ? Math.Max(0.1, (now - raw.EmittedAt).TotalMilliseconds)
-            : 1.0;
+        var effectiveEmittedAt = raw.EmittedAt != default
+            ? raw.EmittedAt
+            : (raw.StartTimeUtc ?? now);
+
+        var latencyMs = raw.DurationMs.HasValue && raw.DurationMs.Value > 0
+            ? raw.DurationMs.Value
+            : Math.Max(0.1, (now - effectiveEmittedAt).TotalMilliseconds);
+
+        var effectiveTxnId = raw.TransactionId ?? raw.TraceId ?? $"TXN-{Guid.NewGuid().ToString()[..8].ToUpper()}";
+        var effectiveEventId = raw.EventId ?? raw.SpanId ?? Guid.NewGuid().ToString();
+        var effectiveChannel = raw.Channel ?? (raw.Tags != null && raw.Tags.TryGetValue("url.path", out var p) ? p : "OTEL_TRACE");
+        var effectiveTxnType = raw.TransactionType ?? raw.Name ?? "OBSERVABILITY_LOG";
 
         // Reglas de negocio: Cálculo de Riesgo y Scoring de Fraude
         int score = 10;
@@ -43,21 +52,34 @@ public class TransactionEnricher : ITransactionTransformerPort
             ["audit.risk"] = riskLevel
         };
 
+        if (raw.Tags != null)
+        {
+            foreach (var (k, v) in raw.Tags)
+            {
+                if (v != null && v.Length < 256) // Limitar tamaño de tags individuales
+                {
+                    audit[$"otel.{k}"] = v;
+                }
+            }
+        }
+
         return new ProcessedTransactionEvent
         {
             StreamProcessId = $"PROC-{Guid.NewGuid().ToString()[..8].ToUpper()}",
-            OriginalEventId = raw.EventId,
-            TransactionId = raw.TransactionId,
-            OriginAccount = raw.OriginAccount,
+            OriginalEventId = effectiveEventId,
+            TransactionId = effectiveTxnId,
+            TraceId = raw.TraceId,
+            SpanId = raw.SpanId,
+            OriginAccount = raw.OriginAccount ?? (raw.TraceId != null ? $"TRACE-{raw.TraceId[..8]}" : null),
             DestinationAccount = raw.DestinationAccount,
             Amount = raw.Amount,
             Currency = raw.Currency ?? "USD",
-            TransactionType = raw.TransactionType,
-            Channel = raw.Channel,
+            TransactionType = effectiveTxnType,
+            Channel = effectiveChannel,
             RiskLevel = riskLevel,
             FraudScore = score,
             ProcessedStatus = processedStatus,
-            OriginalEmittedAt = raw.EmittedAt,
+            OriginalEmittedAt = effectiveEmittedAt,
             ProcessedAt = now,
             ProcessingLatencyMs = Math.Round(latencyMs, 2),
             AuditMetadata = audit
