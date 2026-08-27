@@ -55,21 +55,16 @@ public sealed class CompiledContractRules
     public required FrozenDictionary<string, FrozenDictionary<string, DataProtectionRuleType>> Operations { get; init; }
 
     /// <summary>
-    /// Mapa global fallback de propiedades por si no se especifica ruta: "NombrePropiedad" -> Tipo de Regla.
-    /// </summary>
-    public required FrozenDictionary<string, DataProtectionRuleType> GlobalPropertyRules { get; init; }
-
-    /// <summary>
     /// Metadatos de parámetros de Path y Query compilados por endpoint o ruta.
     /// </summary>
     public FrozenDictionary<string, CompiledRouteParameterInfo> RouteParameterRules { get; init; } = FrozenDictionary<string, CompiledRouteParameterInfo>.Empty;
 
     /// <summary>
-    /// Consulta la regla aplicable en O(1) con 0 asignaciones.
+    /// Consulta la regla aplicable en O(1) con 0 asignaciones para la operación exacta.
     /// </summary>
     public DataProtectionRuleType GetRule(string httpMethod, string routeTemplate, string propertyName)
     {
-        // 1. Intento por operación exacta: "METHOD /route"
+        // Intento por operación exacta: "METHOD /route"
         if (!string.IsNullOrEmpty(httpMethod) && !string.IsNullOrEmpty(routeTemplate))
         {
             string operationKey = $"{httpMethod.ToUpperInvariant()} {routeTemplate}";
@@ -80,13 +75,7 @@ public sealed class CompiledContractRules
             }
         }
 
-        // 2. Fallback por nombre de propiedad en el contrato
-        if (GlobalPropertyRules.TryGetValue(propertyName, out var globalRule))
-        {
-            return globalRule;
-        }
-
-        // 3. Por defecto si no tiene directiva: Full (Intacto)
+        // Por defecto si no tiene directiva en la operación: Full (Intacto)
         return DataProtectionRuleType.Full;
     }
 

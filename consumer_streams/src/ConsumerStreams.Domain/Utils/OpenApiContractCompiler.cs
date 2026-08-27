@@ -29,8 +29,7 @@ public static partial class OpenApiContractCompiler
                 ServiceName = "Unknown",
                 Version = "1.0.0",
                 ContractKey = "empty",
-                Operations = FrozenDictionary<string, FrozenDictionary<string, DataProtectionRuleType>>.Empty,
-                GlobalPropertyRules = FrozenDictionary<string, DataProtectionRuleType>.Empty
+                Operations = FrozenDictionary<string, FrozenDictionary<string, DataProtectionRuleType>>.Empty
             };
         }
 
@@ -53,7 +52,6 @@ public static partial class OpenApiContractCompiler
 
         // 3. Extracción de Operaciones, Parámetros y Esquemas en un solo pase
         var operations = new Dictionary<string, Dictionary<string, DataProtectionRuleType>>(StringComparer.OrdinalIgnoreCase);
-        var globalRules = new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase);
         var routeParamBuilders = new Dictionary<string, (List<(int SegmentIndex, string ParamName, DataProtectionRuleType Rule)> PathRules, Dictionary<string, DataProtectionRuleType> QueryRules)>(StringComparer.OrdinalIgnoreCase);
 
         var lines = swaggerYaml.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
@@ -129,7 +127,7 @@ public static partial class OpenApiContractCompiler
 
                     if (!string.IsNullOrEmpty(pendingProperty))
                     {
-                        // 1. Asignar al Endpoint actual si estamos dentro de un path/método
+                        // Asignar al Endpoint actual si estamos dentro de un path/método
                         if (!string.IsNullOrEmpty(currentPath) && !string.IsNullOrEmpty(currentMethod))
                         {
                             string opKey = $"{currentMethod} {currentPath}";
@@ -140,7 +138,7 @@ public static partial class OpenApiContractCompiler
                             }
                             opDict[pendingProperty] = ruleType;
 
-                            // 1.1 Registrar para Path & Query parameter rules
+                            // Registrar para Path & Query parameter rules
                             if (!routeParamBuilders.TryGetValue(opKey, out var paramBuilder))
                             {
                                 paramBuilder = (new List<(int, string, DataProtectionRuleType)>(), new Dictionary<string, DataProtectionRuleType>(StringComparer.OrdinalIgnoreCase));
@@ -169,9 +167,6 @@ public static partial class OpenApiContractCompiler
                                 paramBuilder.QueryRules[pendingProperty] = ruleType;
                             }
                         }
-
-                        // 2. Asignar al diccionario global fallback de propiedades
-                        globalRules[pendingProperty] = ruleType;
                     }
                 }
             }
@@ -182,8 +177,6 @@ public static partial class OpenApiContractCompiler
             kvp => kvp.Key,
             kvp => kvp.Value.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase),
             StringComparer.OrdinalIgnoreCase);
-
-        var frozenGlobals = globalRules.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
         var routeParameterRules = new Dictionary<string, CompiledRouteParameterInfo>(StringComparer.OrdinalIgnoreCase);
         foreach (var (opKey, (pathRules, queryRules)) in routeParamBuilders)
@@ -210,7 +203,6 @@ public static partial class OpenApiContractCompiler
             Version = version,
             ContractKey = contractKey,
             Operations = frozenOps,
-            GlobalPropertyRules = frozenGlobals,
             RouteParameterRules = routeParameterRules.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase)
         };
     }
