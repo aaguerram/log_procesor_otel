@@ -59,15 +59,18 @@ app.MapPost("/dbs/{databaseName}/colls/{containerName}/docs", async (
                 ? tp.GetString()!
                 : "default");
 
+        // Generar clave única de almacenamiento para permitir registrar múltiples emisiones del mismo evento
+        var storageKey = $"{id}-{Guid.NewGuid():N}";
+
         var stored = new StoredDocument(
-            Id: id,
+            Id: storageKey,
             DatabaseName: databaseName,
             ContainerName: containerName,
             PartitionKey: partitionKey,
             RawJson: body,
             StoredAt: DateTime.UtcNow);
 
-        documentStore[id] = stored;
+        documentStore[storageKey] = stored;
 
         lock (lockObj)
         {
