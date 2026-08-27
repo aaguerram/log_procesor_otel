@@ -4,6 +4,13 @@ package produbanco.security.v1;
 
 option csharp_namespace = "Produbanco.Security.V1";
 
+enum TelemetryType {
+  TELEMETRY_TYPE_UNSPECIFIED = 0;
+  TELEMETRY_TYPE_TRACE = 1;
+  TELEMETRY_TYPE_METRIC = 2;
+  TELEMETRY_TYPE_LOG = 3;
+}
+
 message EncryptedPayloadEnvelope {
   // 1. El JSON Cifrado
   bytes data = 1;                    // Ciphertext binario del JSON original (hasta 1 MB o más)
@@ -23,4 +30,7 @@ message EncryptedPayloadEnvelope {
 
   // 5. Contrato Swagger / OpenAPI en formato YAML (string)
   string swagger = 9;
+
+  // 6. Tipo de Señal de Observabilidad OpenTelemetry (Trace, Metric, Log)
+  TelemetryType telemetry_type = 10;
 }

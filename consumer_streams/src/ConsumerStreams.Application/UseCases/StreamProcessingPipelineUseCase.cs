@@ -58,8 +58,9 @@ public class StreamProcessingPipelineUseCase(
                         // 3. Descifrado AES-256-GCM por hardware en CPU (~0.15 ms)
                         decryptedJson = cryptoPort.DecryptEnvelopeToJson(envelope, keyMaterial);
 
-                        // 4. Aplicar políticas x-log-data-protection con caché atómica thread-safe (TTL 10 min)
-                        if (!string.IsNullOrEmpty(envelope.Swagger) && dataProtectionSettings.Enabled)
+                        // 4. Aplicar políticas x-log-data-protection ÚNICAMENTE si el mensaje es de tipo TRACE
+                        //    Si es Metric o Log, se omite el procesamiento Swagger y se envía directo al tópico
+                        if (envelope.TelemetryType == TelemetryType.Trace && !string.IsNullOrEmpty(envelope.Swagger) && dataProtectionSettings.Enabled)
                         {
                             var rules = contractRulesCache.GetOrCompile(envelope.Swagger);
                             var maskedBytes = JsonStreamDataProtectionMasker.MaskPayload(

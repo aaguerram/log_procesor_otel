@@ -45,7 +45,10 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
                 associatedData.AsSpan());
         }
 
-        // 3. Empaquetado binario en Protocol Buffers Autosuficiente
+        // 3. Detectar tipo de señal de observabilidad OpenTelemetry (Trace, Metric, Log)
+        var telemetryType = DetectTelemetryType(jsonPayload);
+
+        // 4. Empaquetado binario en Protocol Buffers Autosuficiente
         return new EncryptedPayloadEnvelope
         {
             Data = ByteString.CopyFrom(ciphertext),
@@ -56,8 +59,35 @@ public class AesGcmPayloadCryptoAdapter : IPayloadCryptoPort
             VaultTokenId = keyMaterial.VaultTokenId,
             TransactionId = transactionId,
             TimestampUnixMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
-            Swagger = swaggerYaml ?? string.Empty
+            Swagger = swaggerYaml ?? string.Empty,
+            TelemetryType = telemetryType
         };
+    }
+
+    private static TelemetryType DetectTelemetryType(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return TelemetryType.Unspecified;
+
+        if (json.Contains("TraceId", StringComparison.OrdinalIgnoreCase) || 
+            json.Contains("SpanId", StringComparison.OrdinalIgnoreCase))
+        {
+            return TelemetryType.Trace;
+        }
+
+        if (json.Contains("metric", StringComparison.OrdinalIgnoreCase) ||
+            json.Contains("resourceMetrics", StringComparison.OrdinalIgnoreCase))
+        {
+            return TelemetryType.Metric;
+        }
+
+        if (json.Contains("resourceLogs", StringComparison.OrdinalIgnoreCase) ||
+            json.Contains("log_level", StringComparison.OrdinalIgnoreCase))
+        {
+            return TelemetryType.Log;
+        }
+
+        return TelemetryType.Trace;
     }
 
     public string DecryptEnvelopeToJson(EncryptedPayloadEnvelope envelope, VaultKeyMaterial keyMaterial)

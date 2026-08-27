@@ -6,9 +6,9 @@
     "semantic_hash": ""
   },
   "docker-compose.yml": {
-    "mtime": 1787799847.7310572,
-    "seen": 1787800439.4231763,
-    "ast_hash": "600f7731385b7d47a23f7d0491a12c30",
+    "mtime": 1787803208.0853436,
+    "seen": 1787803609.9652627,
+    "ast_hash": "09f29870431ab0f9a680e59ff33dea0b",
     "semantic_hash": ""
   },
   "emisor_mensaje/KafkaDemoHexagonal.slnx": {
@@ -600,15 +600,15 @@
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Utils/JsonStreamDataProtectionMasker.cs": {
-    "mtime": 1787803033.7567952,
-    "seen": 1787803082.8608954,
-    "ast_hash": "10b6da83378e1abb080eb3f66ac2397c",
+    "mtime": 1787803480.5634494,
+    "seen": 1787803609.9650693,
+    "ast_hash": "2b6172f8a998eb81124797a8e8763cbb",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Domain/Utils/OpenApiContractCompiler.cs": {
-    "mtime": 1787803012.7355359,
-    "seen": 1787803082.860897,
-    "ast_hash": "aa6fbf0458b263575d6d448440c43c29",
+    "mtime": 1787803470.731693,
+    "seen": 1787803609.9650726,
+    "ast_hash": "c21a3dd40ff1549f73099098adf01179",
     "semantic_hash": ""
   },
   "consumer_streams/src/ConsumerStreams.Infrastructure/Adapters/ThreadSafeContractRulesCacheAdapter.cs": {
