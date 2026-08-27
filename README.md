@@ -70,7 +70,7 @@ flowchart TD
 
     subgraph BR ["2 · Broker Kafka — Strimzi 3.8 (KRaft, sin ZooKeeper)"]
         K1(["tp.observability.application-log.emitted.v1<br/>Protobuf cifrado · 40 particiones"])
-        K2(["tp.observability.application-log.processed.v1<br/>JSON en claro · enriquecido"])
+        K2(["tp.observability.application-log.processed.v1<br/>JSON en claro · descifrado y enmascarado"])
         E1(["tp.observability.application-log.error.v1<br/>DLQ del stream · EncryptedErrorPayloadEnvelope"])
         E2(["tp.observability.application-log.processed.dlq.v1<br/>DLQ del sink · JSON + cabeceras de error"])
     end
@@ -117,8 +117,8 @@ flowchart TD
 1. El dashboard construye una traza/métrica OTel y la envía a `POST /api/messages/send` (o un lote a `/api/messages/send-batch`).
 2. El emisor poda los arrays de respuesta si es una traza `GET`, genera la clave de partición, cifra el JSON con AES-256-GCM, adjunta el contrato OpenAPI en YAML y lo empaqueta en un `EncryptedPayloadEnvelope` Protobuf.
 3. Publica los bytes en **`…emitted.v1`**.
-4. `consumer_streams` lo consume, valida los campos obligatorios del sobre, resuelve la clave AES en el Vault (caché RAM), descifra, **enmascara** el JSON si es `Trace` y trae contrato, y lo **enriquece** con un *score* de riesgo.
-5. Reenvía el **JSON en claro** a **`…processed.v1`** con cabeceras `x-service-name`, `x-telemetry-type`, `x-target-collection`, `x-risk-level`, etc.
+4. `consumer_streams` lo consume, valida los campos obligatorios del sobre, resuelve la clave AES en el Vault (caché RAM), descifra y **enmascara** el JSON (si es `Trace` y trae contrato); calcula un *score* de riesgo que no altera el cuerpo.
+5. Reenvía el **JSON descifrado y enmascarado** a **`…processed.v1`**; el *scoring* y el enrutado viajan en cabeceras (`x-service-name`, `x-telemetry-type`, `x-target-collection`, `x-risk-level`, `x-processed-status`, `x-latency-ms`, …).
 6. `log_sink` acumula hasta 500 documentos (o 250 ms), resuelve la colección destino desde las cabeceras y hace *upsert* masivo en paralelo contra el emulador de Cosmos DB.
 7. Confirma en Kafka únicamente los offsets ya persistidos.
 
@@ -195,7 +195,7 @@ sufijo `.dlq.<version>`). Dominio técnico: **`observability`**; recurso: **`app
 | # | Tópico | Particiones | Formato del *value* | Productor | Consumidor(es) | Propósito |
 | :- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1 | **`tp.observability.application-log.emitted.v1`** | **40** al crearlo el emisor en un envío por lote; en envíos individuales cae a la autocreación del broker (`num.partitions=3`) | **Protobuf binario** — `EncryptedPayloadEnvelope` (ciphertext AES-256-GCM + nonce + tag + metadatos + `telemetry_type` + `service_name` + `swagger` opcional) | `emisor_mensaje` | `consumer_streams` (grupo `consumer-streams-produbanco-v1`) | Telemetría OTel **recién emitida y cifrada** a nivel de payload. El broker nunca ve el contenido. |
-| 2 | **`tp.observability.application-log.processed.v1`** | Autocreado por el broker (`num.partitions=3`). El generador de claves y los comentarios del código están **dimensionados para 30 particiones**: pre-crea el tópico con ese número antes de arrancar el stack si quieres esa dispersión. | **JSON en claro** — `ProcessedTransactionEvent` (traza/métrica descifrada, enmascarada y enriquecida con `FraudScore`, `RiskLevel`, latencia, `AuditMetadata`, etiquetas `otel.*`) | `consumer_streams` | `log_sink` (grupo `log-sink-cosmosdb-group-v1`) | Evento **listo para auditar y persistir**. Las cabeceras `x-*` llevan servicio, señal y colección destino. |
+| 2 | **`tp.observability.application-log.processed.v1`** | Autocreado por el broker (`num.partitions=3`). El generador de claves y los comentarios del código están **dimensionados para 30 particiones**: pre-crea el tópico con ese número antes de arrancar el stack si quieres esa dispersión. | **JSON en claro** — la traza/métrica/log **descifrada y enmascarada** (mismo esquema que emitió el origen). El *scoring* (`x-risk-level`, `x-processed-status`, `x-latency-ms`), el servicio, la señal y la colección destino viajan en **cabeceras `x-*`**, no en el *value*. | `consumer_streams` | `log_sink` (grupo `log-sink-cosmosdb-group-v1`) | Evento **listo para auditar y persistir**. `log_sink` guarda el *value* tal cual en la colección que indica `x-target-collection`. |
 | 3 | **`tp.observability.application-log.error.v1`** | Autocreado por el broker | **Protobuf binario** — `EncryptedErrorPayloadEnvelope` (= `EncryptedPayloadEnvelope` + campo `error_detail`) | `consumer_streams` (`KafkaDlqProducerAdapter`) | — (inspección manual / futura reproceso) | **DLQ del stream.** Mensajes *poison pill*: fallo de descifrado, JSON inválido, sobre incompleto. El offset en el tópico de origen **sí** se confirma. |
 | 4 | **`tp.observability.application-log.processed.dlq.v1`** | Autocreado por el broker | **JSON en claro** del documento + cabeceras `x-error-*` / `x-circuit-state` | `log_sink` (`KafkaDlqProducerAdapter`) | — (inspección manual) | **DLQ del sink.** Documentos que no se pudieron escribir en Cosmos DB tras los reintentos, o que llegaron con el *circuit breaker* abierto. Se enrutan **individualmente**. |
 
