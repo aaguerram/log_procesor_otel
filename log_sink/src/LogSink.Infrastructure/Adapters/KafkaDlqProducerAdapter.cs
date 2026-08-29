@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using LogSink.Domain.Ports;
 using LogSink.Infrastructure.Configuration;
+using LogSink.Infrastructure.Logging;
 using LogSink.Infrastructure.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,7 +12,7 @@ namespace LogSink.Infrastructure.Adapters;
 /// Adaptador de salida para publicación individual de eventos fallidos en la cola DLQ de Kafka.
 /// Compatible con .NET 10 Native AOT sin reflexión.
 /// </summary>
-public class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
+public sealed class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
 {
     private readonly IProducer<string, string> _producer;
     private readonly ILogger<KafkaDlqProducerAdapter> _logger;
@@ -33,10 +34,10 @@ public class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
         };
 
         _producer = new ProducerBuilder<string, string>(config)
-            .SetErrorHandler((_, e) => _logger.LogError("DLQ Producer Kafka Error [{Code}]: {Reason}", e.Code, e.Reason))
+            .SetErrorHandler((_, e) => InfrastructureLog.DlqProducerError(_logger, e.Code, e.Reason))
             .Build();
 
-        _logger.LogInformation("DLQ Producer Adapter inicializado para bootstrap servers: {Servers}", settings.BootstrapServers);
+        InfrastructureLog.DlqProducerInitialized(_logger, settings.BootstrapServers);
     }
 
     public async Task<bool> SendToDlqAsync(
@@ -59,13 +60,13 @@ public class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
         try
         {
             var deliveryReport = await _producer.ProduceAsync(dlqTopic, message, cancellationToken);
-            _logger.LogWarning("⚠️ [DLQ ITEM PRODUCED] Mensaje fallido enviado de forma independiente a la DLQ '{Topic}' [Partición {Partition}, Offset {Offset}] | Key: {Key}",
-                deliveryReport.Topic, deliveryReport.Partition.Value, deliveryReport.Offset.Value, partitionKey);
+            InfrastructureLog.DlqItemProduced(
+                _logger, deliveryReport.Topic, deliveryReport.Partition.Value, deliveryReport.Offset.Value, partitionKey ?? string.Empty);
             return true;
         }
         catch (ProduceException<string, string> ex)
         {
-            _logger.LogError(ex, "❌ [FATAL DLQ ERROR] Fallo al publicar mensaje en la cola DLQ '{Topic}': {Reason}", dlqTopic, ex.Error.Reason);
+            InfrastructureLog.DlqPublishFailed(_logger, ex, dlqTopic, ex.Error.Reason);
             return false;
         }
     }
@@ -81,7 +82,7 @@ public class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Error cerrando el DLQ producer de Kafka");
+                InfrastructureLog.DlqProducerCloseFailed(_logger, ex);
             }
             _disposed = true;
         }

@@ -25,6 +25,13 @@ public class SinkSettings
     public string PartitionKeyPath { get; set; } = string.Empty;
     public int CosmosTimeoutSeconds { get; set; } = 3;
 
+    /// <summary>
+    /// Cuando es <c>true</c>, tolera el certificado autofirmado del emulador local de Cosmos DB
+    /// sobre HTTPS. Debe permanecer en <c>false</c> (el valor por defecto) fuera de entornos de
+    /// desarrollo: en ese caso se aplica la validación estándar de certificado de servidor.
+    /// </summary>
+    public bool AllowUntrustedCertificates { get; set; }
+
     // Azure Key Vault Settings
     public string KeyVaultEndpoint { get; set; } = string.Empty;
     public string VaultTokenId { get; set; } = string.Empty;

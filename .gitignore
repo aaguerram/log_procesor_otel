@@ -66,3 +66,10 @@ desktop.ini
 *.local.json
 *.override.json
 appsettings.Development.json
+
+# ------------------------------------------------------------------------------
+# 7. SonarQube & Test Results Temporales
+# ------------------------------------------------------------------------------
+.sonarqube/
+[Tt]est[Rr]esults/
+

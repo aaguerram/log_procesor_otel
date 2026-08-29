@@ -1,8 +1,8 @@
 using System.Diagnostics;
-using System.Text;
 using System.Text.Json;
+using ConsumerStreams.Application.Logging;
 using ConsumerStreams.Application.Serialization;
-using ConsumerStreams.Domain.DataProtection;
+using ConsumerStreams.Application.Services;
 using ConsumerStreams.Domain.Models;
 using ConsumerStreams.Domain.Observability;
 using ConsumerStreams.Domain.Ports;
@@ -24,9 +24,7 @@ public class StreamProcessingPipelineUseCase(
     IStreamProducerPort producerPort,
     IDlqProducerPort dlqProducerPort,
     ITransactionTransformerPort transformer,
-    IVaultTokenProviderPort vaultTokenPort,
-    IPayloadCryptoPort cryptoPort,
-    PayloadMaskingService maskingService,
+    EnvelopeDecryptionService decryptionService,
     TimeProvider timeProvider,
     ILogger<StreamProcessingPipelineUseCase> logger)
 {
@@ -34,9 +32,7 @@ public class StreamProcessingPipelineUseCase(
 
     public Task ExecutePipelineAsync(string sourceTopic, string targetTopic, string errorTopic, CancellationToken cancellationToken)
     {
-        logger.LogInformation(
-            "Iniciando pipeline de streaming reactivo cifrado Protobuf: '{Source}' ➔ '{Target}' | DLQ Error: '{ErrorTopic}'",
-            sourceTopic, targetTopic, errorTopic);
+        PipelineLog.PipelineStarting(logger, sourceTopic, targetTopic, errorTopic);
 
         return consumerPort.StartStreamingAsync(
             sourceTopic,
@@ -53,11 +49,11 @@ public class StreamProcessingPipelineUseCase(
         CancellationToken cancellationToken)
     {
         var stopwatch = Stopwatch.StartNew();
-        EnvelopeParser.TryParse(rawBytes, out var envelope);
+        _ = EnvelopeParser.TryParse(rawBytes, out var envelope);
 
         try
         {
-            var decoded = await DecryptAndMaskAsync(envelope, rawBytes, cancellationToken);
+            var decoded = await decryptionService.DecryptAndMaskAsync(envelope, rawBytes, cancellationToken);
             var processedEvent = EnrichPayload(decoded.Json);
 
             var partitionKey = UniformPartitionKeyGenerator.GenerateDispersedKey(processedEvent.OriginAccount ?? key);
@@ -70,47 +66,21 @@ public class StreamProcessingPipelineUseCase(
 
             if (published)
             {
-                logger.LogInformation(
-                    "✔ [AES-GCM Decrypted & Processed] Txn: {TxnId} | Monto: ${Amount} | Riesgo: {Risk} ({Score} pts) | Pipeline: {Elapsed:F2} ms ➔ '{Target}' [DispersedKey: {Key}]",
+                PipelineLog.EventProcessed(logger, new ProcessedEventLog(
                     processedEvent.TransactionId, processedEvent.Amount, processedEvent.RiskLevel,
-                    processedEvent.FraudScore, stopwatch.Elapsed.TotalMilliseconds, targetTopic, partitionKey);
+                    processedEvent.FraudScore, stopwatch.Elapsed.TotalMilliseconds, targetTopic, partitionKey));
             }
 
             return published;
         }
         catch (Exception ex)
         {
-            logger.LogError(ex,
-                "❌ Error procesando evento en streaming para key '{Key}'. Redirigiendo a cola DLQ/Error: '{ErrorTopic}'", key, errorTopic);
+            PipelineLog.EventProcessingFailed(logger, ex, key, errorTopic);
             await RouteToErrorTopicAsync(errorTopic, key, rawBytes, envelope, ex, headers, cancellationToken);
 
             // Confirmar offset para no bloquear la partición (Poison Pill Handling).
             return true;
         }
-    }
-
-    /// <summary>Descifra el sobre (o toma el texto plano legacy) y aplica el enmascarado si procede.</summary>
-    private async Task<DecodedMessage> DecryptAndMaskAsync(
-        EncryptedPayloadEnvelope? envelope,
-        byte[] rawBytes,
-        CancellationToken cancellationToken)
-    {
-        if (envelope is null)
-        {
-            return new DecodedMessage(Encoding.UTF8.GetString(rawBytes), "Transfer.Mspx.Prometeus.Management", "Trace", "NONE");
-        }
-
-        EnvelopeValidator.Validate(envelope);
-
-        var keyMaterial = await vaultTokenPort.ResolveKeyByTokenAsync(envelope.VaultTokenId, envelope.CertThumbprint, cancellationToken);
-        var decryptedJson = cryptoPort.DecryptEnvelopeToJson(envelope, keyMaterial);
-        decryptedJson = maskingService.ApplyIfApplicable(envelope, decryptedJson);
-
-        return new DecodedMessage(
-            decryptedJson,
-            envelope.ServiceName,
-            TelemetryTypeMapper.ToLabel(envelope.TelemetryType),
-            envelope.VaultTokenId);
     }
 
     private ProcessedTransactionEvent EnrichPayload(string decryptedJson)
@@ -142,12 +112,10 @@ public class StreamProcessingPipelineUseCase(
         }
         catch (Exception dlqFailure)
         {
-            logger.LogCritical(dlqFailure, "❌ [FATAL DLQ ERROR] Fallo crítico al publicar en la cola de error '{ErrorTopic}'", errorTopic);
+            PipelineLog.DlqPublishFatal(logger, dlqFailure, errorTopic);
         }
     }
 
-    private static IReadOnlyDictionary<string, string>? AsReadOnly(IDictionary<string, string>? headers)
+    private static Dictionary<string, string>? AsReadOnly(IDictionary<string, string>? headers)
         => headers is null ? null : new Dictionary<string, string>(headers);
-
-    private readonly record struct DecodedMessage(string Json, string ServiceName, string TelemetryLabel, string VaultToken);
 }

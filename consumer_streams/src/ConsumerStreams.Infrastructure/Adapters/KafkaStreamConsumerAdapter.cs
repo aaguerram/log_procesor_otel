@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using ConsumerStreams.Domain.Ports;
 using ConsumerStreams.Infrastructure.Configuration;
+using ConsumerStreams.Infrastructure.Logging;
 using ConsumerStreams.Infrastructure.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -10,7 +11,7 @@ namespace ConsumerStreams.Infrastructure.Adapters;
 /// <summary>
 /// Adaptador de entrada (Source Adapter) para el consumo continuo y reactivo de mensajes binarios Protobuf desde Kafka.
 /// </summary>
-public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
+public sealed class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
 {
     private readonly IConsumer<string, byte[]> _consumer;
     private readonly KafkaStreamSettings _settings;
@@ -40,11 +41,10 @@ public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
         };
 
         _consumer = new ConsumerBuilder<string, byte[]>(config)
-            .SetErrorHandler((_, e) => _logger.LogError("Source Consumer Kafka Error [{Code}]: {Reason}", e.Code, e.Reason))
+            .SetErrorHandler((_, e) => InfrastructureLog.SourceConsumerError(_logger, e.Code, e.Reason))
             .Build();
 
-        _logger.LogInformation("Source Consumer Adapter (Protobuf Binary) inicializado para grupo '{Group}' en servidores: {Servers}",
-            _settings.GroupId, _settings.BootstrapServers);
+        InfrastructureLog.SourceConsumerInitialized(_logger, _settings.GroupId, _settings.BootstrapServers);
     }
 
     public async Task StartStreamingAsync(
@@ -55,7 +55,7 @@ public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         _consumer.Subscribe(sourceTopic);
-        _logger.LogInformation("Suscrito exitosamente al flujo binario del tópico de origen: '{Topic}'", sourceTopic);
+        InfrastructureLog.SourceConsumerSubscribed(_logger, sourceTopic);
 
         var pollTimeout = TimeSpan.FromMilliseconds(_settings.PollTimeoutMs);
 
@@ -86,7 +86,7 @@ public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
             }
             catch (ConsumeException ex)
             {
-                _logger.LogError(ex, "Error consumiendo evento de Kafka: {Reason}", ex.Error.Reason);
+                InfrastructureLog.SourceConsumeException(_logger, ex, ex.Error.Reason);
                 await Task.Delay(1000, cancellationToken);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -95,12 +95,12 @@ public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Excepción inesperada en el ciclo de consumo del stream.");
+                InfrastructureLog.SourceConsumeUnexpected(_logger, ex);
                 await Task.Delay(1000, cancellationToken);
             }
         }
 
-        _logger.LogInformation("Ciclo de consumo de stream finalizado para '{Topic}'", sourceTopic);
+        InfrastructureLog.SourceConsumerFinished(_logger, sourceTopic);
     }
 
     public void Dispose()
@@ -114,7 +114,7 @@ public class KafkaStreamConsumerAdapter : IStreamConsumerPort, IDisposable
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Error cerrando el source consumer de Kafka");
+                InfrastructureLog.SourceConsumerCloseFailed(_logger, ex);
             }
             _disposed = true;
         }

@@ -33,9 +33,12 @@ RUN dotnet publish "ConsumerStreams.Worker.csproj" \
 FROM mcr.microsoft.com/dotnet/runtime-deps:10.0 AS runtime
 WORKDIR /app
 
-# Copiar binario nativo ejecutable generado por Native AOT
-COPY --from=build /app/publish .
+# Copiar binario nativo ejecutable generado por Native AOT, propiedad del usuario sin privilegios
+COPY --from=build --chown=app:app /app/publish .
 
 ENV DOTNET_EnableDiagnostics=0
+
+# Ejecutar como usuario sin privilegios 'app' (uid 1654) incluido en las imágenes base de .NET
+USER app
 
 ENTRYPOINT ["./ConsumerStreams.Worker"]

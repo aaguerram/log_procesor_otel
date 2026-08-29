@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using ConsumerStreams.Domain.Ports;
 using ConsumerStreams.Infrastructure.Configuration;
+using ConsumerStreams.Infrastructure.Logging;
 using ConsumerStreams.Infrastructure.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -30,10 +31,10 @@ public sealed class KafkaStreamProducerAdapter : IStreamProducerPort, IDisposabl
         };
 
         _producer = new ProducerBuilder<string, string>(config)
-            .SetErrorHandler((_, e) => _logger.LogError("Sink Producer Kafka Error [{Code}]: {Reason}", e.Code, e.Reason))
+            .SetErrorHandler((_, e) => InfrastructureLog.SinkProducerError(_logger, e.Code, e.Reason))
             .Build();
 
-        _logger.LogInformation("Sink Producer Adapter inicializado para bootstrap servers: {Servers}", settings.BootstrapServers);
+        InfrastructureLog.SinkProducerInitialized(_logger, settings.BootstrapServers);
     }
 
     public async Task<bool> ForwardEventAsync(
@@ -56,13 +57,12 @@ public sealed class KafkaStreamProducerAdapter : IStreamProducerPort, IDisposabl
         try
         {
             var report = await _producer.ProduceAsync(targetTopic, message, cancellationToken);
-            _logger.LogDebug("Evento reenviado a '{Topic}' [Partición {Partition}, Offset {Offset}]",
-                report.Topic, report.Partition.Value, report.Offset.Value);
+            InfrastructureLog.EventForwarded(_logger, report.Topic, report.Partition.Value, report.Offset.Value);
             return true;
         }
         catch (ProduceException<string, string> ex)
         {
-            _logger.LogError(ex, "Fallo al reenviar evento procesado a '{Topic}': {Reason}", targetTopic, ex.Error.Reason);
+            InfrastructureLog.EventForwardFailed(_logger, ex, targetTopic, ex.Error.Reason);
             return false;
         }
     }
@@ -82,7 +82,7 @@ public sealed class KafkaStreamProducerAdapter : IStreamProducerPort, IDisposabl
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Error cerrando el sink producer de Kafka");
+            InfrastructureLog.SinkProducerCloseFailed(_logger, ex);
         }
 
         GC.SuppressFinalize(this);

@@ -26,12 +26,9 @@ public class BulkSinkWorkerService(
         var timeoutMs = _settings.BatchTimeoutMs > 0 ? _settings.BatchTimeoutMs : 250;
         var waitWindow = TimeSpan.FromMilliseconds(timeoutMs);
 
-        logger.LogInformation("🚀 [Cosmos DB Bulk Sink AOT] Iniciando servicio de persistencia masiva...");
-        logger.LogInformation("   - Tópico Origen (Consumo):  '{Source}'", _settings.SourceTopic);
-        logger.LogInformation("   - Tamaño de Lote (Bulk):    {BatchSize} documentos", batchSize);
-        logger.LogInformation("   - Ventana de Espera Máx:    {Timeout} ms", timeoutMs);
-        logger.LogInformation("   - Endpoint Cosmos DB:       '{Endpoint}'", _settings.CosmosEndpoint);
-        logger.LogInformation("   - Base de Datos / Tabla:    '{Db}' / '{Coll}'", _settings.DatabaseName, _settings.ContainerName);
+        WorkerLog.BulkSinkStarting(
+            logger, _settings.SourceTopic, batchSize, timeoutMs,
+            _settings.CosmosEndpoint, _settings.DatabaseName, _settings.ContainerName);
 
         try
         {
@@ -43,12 +40,13 @@ public class BulkSinkWorkerService(
         }
         catch (OperationCanceledException)
         {
-            logger.LogInformation("Bulk Sink detenido adecuadamente por solicitud de cancelación.");
+            // Cancelación esperada durante el apagado controlado del host.
         }
         catch (Exception ex)
         {
-            logger.LogCritical(ex, "Error fatal no controlado en Bulk Sink Worker Service");
-            throw;
+            throw new InvalidOperationException("Error fatal no controlado en Bulk Sink Worker Service", ex);
         }
+
+        WorkerLog.BulkSinkStopped(logger);
     }
 }

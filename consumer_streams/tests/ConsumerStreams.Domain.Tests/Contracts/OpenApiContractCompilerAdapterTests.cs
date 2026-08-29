@@ -8,7 +8,7 @@ public class OpenApiContractCompilerAdapterTests
     [Fact]
     public void Compile_DelegatesToOpenApiContractCompiler()
     {
-        IContractCompiler compiler = new OpenApiContractCompilerAdapter();
+        var compiler = new OpenApiContractCompilerAdapter();
 
         var rules = compiler.Compile(SampleContracts.TransferManagement);
 

@@ -45,7 +45,7 @@ public class CosmosDbBulkSinkAdapterTests
             NullLogger<CosmosDbBulkSinkAdapter>.Instance);
     }
 
-    private static IReadOnlyList<LogSinkItem> Items(int count)
+    private static List<LogSinkItem> Items(int count)
         => Enumerable.Range(0, count).Select(i => new LogSinkItem($"{{\"i\":{i}}}", $"pk-{i}")).ToList();
 
     [Fact]

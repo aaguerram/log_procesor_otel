@@ -28,6 +28,7 @@ public static class DependencyInjection
         // Servicios de dominio (lógica pura / política)
         services.AddSingleton<IContractCompiler, OpenApiContractCompilerAdapter>();
         services.AddSingleton<PayloadMaskingService>();
+        services.AddSingleton<EnvelopeDecryptionService>();
 
         // Puertos y adaptadores (Hexagonal)
         services.AddSingleton<IStreamConsumerPort, KafkaStreamConsumerAdapter>();

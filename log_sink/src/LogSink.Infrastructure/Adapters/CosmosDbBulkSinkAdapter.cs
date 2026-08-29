@@ -4,6 +4,7 @@ using LogSink.Domain.Models;
 using LogSink.Domain.Ports;
 using LogSink.Infrastructure.Configuration;
 using LogSink.Infrastructure.Cosmos;
+using LogSink.Infrastructure.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -95,8 +96,7 @@ public sealed class CosmosDbBulkSinkAdapter : IDocumentDbBulkSinkPort
         catch (Exception ex)
         {
             metrics.RecordFailure();
-            _logger.LogError(ex, "❌ Fallo en inserción para PartitionKey '{Key}' hacia colección '{Col}'. Redirigiendo a DLQ...",
-                item.PartitionKey, item.TargetCollection ?? credentials.ContainerName);
+            InfrastructureLog.CosmosInsertFailed(_logger, ex, item.PartitionKey, item.TargetCollection ?? credentials.ContainerName);
 
             if (await SendFailedItemToDlqAsync(item, ex, credentials, cancellationToken))
             {
@@ -132,7 +132,7 @@ public sealed class CosmosDbBulkSinkAdapter : IDocumentDbBulkSinkPort
         }
         catch (Exception dlqFailure)
         {
-            _logger.LogCritical(dlqFailure, "❌ [FATAL DLQ ERROR] Error al enviar documento a la DLQ '{Topic}'", _settings.DlqTopic);
+            InfrastructureLog.CosmosDlqFatal(_logger, dlqFailure, _settings.DlqTopic);
             return false;
         }
     }

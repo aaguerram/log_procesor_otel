@@ -2,7 +2,6 @@ using LogSink.Application.UseCases;
 using LogSink.Domain;
 using LogSink.Domain.Models;
 using LogSink.Domain.Ports;
-using LogSink.Domain.Services;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 
@@ -36,7 +35,6 @@ public class BulkSinkPipelineUseCaseTests
         _useCase = new BulkSinkPipelineUseCase(
             _consumer.Object,
             _sink.Object,
-            new TargetCollectionResolver(),
             NullLogger<BulkSinkPipelineUseCase>.Instance);
     }
 

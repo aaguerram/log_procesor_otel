@@ -1,4 +1,5 @@
 using LogSink.Infrastructure.Configuration;
+using LogSink.Infrastructure.Logging;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.CircuitBreaker;
@@ -31,8 +32,9 @@ public static class CosmosDbResiliencePipelineFactory
                     .Handle<TaskCanceledException>(ex => !ex.CancellationToken.IsCancellationRequested),
                 OnRetry = args =>
                 {
-                    logger.LogWarning("⚠️ [RETRY #{Attempt}] Reintentando inserción en Cosmos DB tras fallo transitorio. Espera: {Delay}s. Causa: {Error}",
-                        args.AttemptNumber + 1, args.RetryDelay.TotalSeconds, args.Outcome.Exception?.Message ?? "Error no tipificado");
+                    InfrastructureLog.ResilienceRetry(
+                        logger, args.AttemptNumber + 1, args.RetryDelay.TotalSeconds,
+                        args.Outcome.Exception?.Message ?? "Error no tipificado");
                     return default;
                 }
             })
@@ -49,18 +51,17 @@ public static class CosmosDbResiliencePipelineFactory
                     .Handle<TaskCanceledException>(ex => !ex.CancellationToken.IsCancellationRequested),
                 OnOpened = args =>
                 {
-                    logger.LogCritical("🔴 [CIRCUIT BREAKER OPEN] El circuito hacia Azure Cosmos DB se ha ABIERTO por {BreakDuration}s. Los mensajes serán derivados directamente a DLQ.",
-                        args.BreakDuration.TotalSeconds);
+                    InfrastructureLog.CircuitBreakerOpened(logger, args.BreakDuration.TotalSeconds);
                     return default;
                 },
                 OnClosed = _ =>
                 {
-                    logger.LogInformation("🟢 [CIRCUIT BREAKER CLOSED] El circuito hacia Azure Cosmos DB se ha RESTABLECIDO. Inserciones normales reanudadas.");
+                    InfrastructureLog.CircuitBreakerClosed(logger);
                     return default;
                 },
                 OnHalfOpened = _ =>
                 {
-                    logger.LogWarning("🟡 [CIRCUIT BREAKER HALF-OPEN] Evaluando recuperación de Cosmos DB...");
+                    InfrastructureLog.CircuitBreakerHalfOpened(logger);
                     return default;
                 }
             })

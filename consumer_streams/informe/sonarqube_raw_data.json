@@ -1,0 +1,165 @@
+{
+  "project": "consumer_streams",
+  "scanDate": "2026-08-29 18:27:13",
+  "qualityGate": {
+    "status": "ERROR",
+    "conditions": [
+      {
+        "status": "ERROR",
+        "metricKey": "new_coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "16.8"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_duplicated_lines_density",
+        "comparator": "GT",
+        "errorThreshold": "3",
+        "actualValue": "0.0"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "0"
+      }
+    ],
+    "ignoredConditions": false,
+    "period": {
+      "mode": "PREVIOUS_VERSION",
+      "date": "2026-08-29T11:31:08-05:00"
+    },
+    "caycStatus": "compliant"
+  },
+  "measures": [
+    {
+      "metric": "complexity",
+      "value": "689"
+    },
+    {
+      "metric": "duplicated_lines_density",
+      "value": "0.0",
+      "bestValue": true
+    },
+    {
+      "metric": "duplicated_lines",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "sqale_index",
+      "value": "333",
+      "bestValue": false
+    },
+    {
+      "metric": "sqale_rating",
+      "value": "1.0",
+      "bestValue": true
+    },
+    {
+      "metric": "test_execution_time",
+      "value": "0"
+    },
+    {
+      "metric": "bugs",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "test_failures",
+      "value": "82",
+      "bestValue": false
+    },
+    {
+      "metric": "lines_to_cover",
+      "value": "1697"
+    },
+    {
+      "metric": "branch_coverage",
+      "value": "19.5",
+      "bestValue": false
+    },
+    {
+      "metric": "duplicated_files",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "ncloc",
+      "value": "3919"
+    },
+    {
+      "metric": "line_coverage",
+      "value": "22.2",
+      "bestValue": false
+    },
+    {
+      "metric": "test_errors",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "coverage",
+      "value": "21.4",
+      "bestValue": false
+    },
+    {
+      "metric": "reliability_rating",
+      "value": "1.0",
+      "bestValue": true
+    },
+    {
+      "metric": "code_smells",
+      "value": "31",
+      "bestValue": false
+    },
+    {
+      "metric": "security_rating",
+      "value": "3.0",
+      "bestValue": false
+    },
+    {
+      "metric": "violations",
+      "value": "34",
+      "bestValue": false
+    },
+    {
+      "metric": "security_hotspots",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "test_success_density",
+      "value": "28.1",
+      "bestValue": false
+    },
+    {
+      "metric": "tests",
+      "value": "114"
+    },
+    {
+      "metric": "uncovered_lines",
+      "value": "1320",
+      "bestValue": false
+    },
+    {
+      "metric": "cognitive_complexity",
+      "value": "341",
+      "bestValue": false
+    },
+    {
+      "metric": "duplicated_blocks",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "vulnerabilities",
+      "value": "3",
+      "bestValue": false
+    }
+  ],
+  "activeIssuesCount": 0,
+  "activeIssues": null
+}

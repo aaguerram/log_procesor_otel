@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using ConsumerStreams.Domain.Ports;
+using ConsumerStreams.Infrastructure.Logging;
 using ConsumerStreams.Infrastructure.Security;
 using Microsoft.Extensions.Logging;
 
@@ -29,16 +30,13 @@ public sealed class AzureKeyVaultTokenAdapter(
             return Task.FromResult(cached.Material);
         }
 
-        logger.LogInformation(
-            "🌐 [Cache Miss / TTL Expirado] Resolviendo clave de Azure Key Vault para Token '{Token}' [Thumbprint: {Thumbprint}]...",
-            vaultTokenId, certThumbprint);
+        InfrastructureLog.VaultKeyResolving(logger, vaultTokenId, certThumbprint);
 
         var material = keyMaterialFactory.Create(vaultTokenId, certThumbprint);
         var expiresAt = now.Add(CacheTtl);
         _keyCache[vaultTokenId] = new CachedVaultEntry(material, expiresAt);
 
-        logger.LogInformation("✔ Clave de Key Vault almacenada en RAM con TTL de 1 hora (válida hasta {Expires}) para Token '{Token}'",
-            expiresAt, vaultTokenId);
+        InfrastructureLog.VaultKeyCached(logger, expiresAt, vaultTokenId);
 
         return Task.FromResult(material);
     }

@@ -25,12 +25,8 @@ public class StreamWorkerService(
         if (string.IsNullOrWhiteSpace(_settings.TargetTopic))
             throw new InvalidOperationException("[RUNTIME ERROR] TargetTopic no está configurado.");
 
-        logger.LogInformation("🚀 [Kafka Streaming AOT] Iniciando procesador de flujo de eventos...");
-        logger.LogInformation("   - Tópico Origen (Consumo): '{Source}'", _settings.SourceTopic);
-        logger.LogInformation("   - Tópico Destino (Emisión): '{Target}'", _settings.TargetTopic);
-        logger.LogInformation("   - Tópico Error / DLQ:       '{ErrorTopic}'", _settings.ErrorTopic);
-        logger.LogInformation("   - Consumer Group:           '{Group}'", _settings.GroupId);
-        logger.LogInformation("   - Servidores Bootstrap:     '{Servers}'", _settings.BootstrapServers);
+        WorkerLog.StreamingProcessorStarted(
+            logger, _settings.SourceTopic, _settings.TargetTopic, _settings.ErrorTopic, _settings.GroupId, _settings.BootstrapServers);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -44,12 +40,11 @@ public class StreamWorkerService(
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
             {
-                logger.LogInformation("Pipeline de streaming detenido de manera controlada.");
                 break;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error en el ciclo de streaming. Reintentando reconexión en 5 segundos...");
+                WorkerLog.StreamingCycleError(logger, ex);
                 try
                 {
                     await Task.Delay(5000, stoppingToken);
@@ -60,5 +55,7 @@ public class StreamWorkerService(
                 }
             }
         }
+
+        WorkerLog.PipelineStopped(logger);
     }
 }

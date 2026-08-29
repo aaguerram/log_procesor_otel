@@ -1,0 +1,11 @@
+{
+  "key": "5ea3d1ee-8238-4bca-832e-387f9dfa75af",
+  "severity": "INFO",
+  "type": "CODE_SMELL",
+  "rule": "external_roslyn:CA1873",
+  "component": "log_sink:log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
+  "line": 53,
+  "message": "La evaluación de este argumento puede ser costosa e innecesaria si el registro está deshabilitado",
+  "effort": "0min",
+  "debt": "0min"
+}

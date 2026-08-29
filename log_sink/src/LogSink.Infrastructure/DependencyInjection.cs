@@ -1,8 +1,8 @@
 using System.Net;
 using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using LogSink.Application.UseCases;
 using LogSink.Domain.Ports;
-using LogSink.Domain.Services;
 using LogSink.Infrastructure.Adapters;
 using LogSink.Infrastructure.Configuration;
 using LogSink.Infrastructure.Cosmos;
@@ -20,9 +20,6 @@ public static class DependencyInjection
         services.AddSingleton(Options.Create(sinkSettings));
 
         services.AddSingleton(TimeProvider.System);
-
-        // Servicios de dominio (lógica pura)
-        services.AddSingleton<TargetCollectionResolver>();
 
         // Cosmos DB: firma de token, cliente HTTP de bajo nivel y adaptador de bulk sink
         services.AddSingleton<ICosmosResourceTokenFactory, CosmosResourceTokenFactory>();
@@ -68,6 +65,8 @@ public static class DependencyInjection
             PartitionKeyPath = configuration.ValueOrDefault("/partitionKey",
                 "LogSink:PartitionKeyPath", "TECH-INT-DB-AUDI_PK_PATH"),
             CosmosTimeoutSeconds = configuration.IntOrDefault(3, "LogSink:CosmosTimeoutSeconds", "COSMOS_TIMEOUT_SECONDS"),
+            AllowUntrustedCertificates = configuration.BoolOrDefault(false,
+                "LogSink:AllowUntrustedCertificates", "TECH-INT-DB-AUDI_ALLOW_UNTRUSTED"),
             KeyVaultEndpoint = configuration.Required("LogSink:KeyVaultEndpoint",
                 "LogSink:KeyVaultEndpoint", "TECH-INT-SECU-VAULT_URL", "TECH_INT_SECU_VAULT_URL"),
             VaultTokenId = configuration.Required("LogSink:VaultTokenId",
@@ -98,18 +97,55 @@ public static class DependencyInjection
         {
             PooledConnectionLifetime = TimeSpan.FromMinutes(15),
             MaxConnectionsPerServer = 200,
-            ConnectTimeout = TimeSpan.FromSeconds(timeoutSeconds),
-            SslOptions = new SslClientAuthenticationOptions
-            {
-                // El emulador local de Cosmos DB usa un certificado autofirmado.
-                RemoteCertificateValidationCallback = (_, _, _, _) => true
-            }
+            ConnectTimeout = TimeSpan.FromSeconds(timeoutSeconds)
         };
+
+        // Por defecto se aplica la validación estándar de certificado de servidor. Sólo cuando la
+        // configuración lo habilita explícitamente (entornos de desarrollo con el emulador local
+        // de Cosmos DB sobre HTTPS) se instala un validador que tolera un certificado autofirmado.
+        if (settings.AllowUntrustedCertificates)
+        {
+            handler.SslOptions = new SslClientAuthenticationOptions
+            {
+                RemoteCertificateValidationCallback = AllowSelfSignedEmulatorCertificate
+            };
+        }
 
         return new HttpClient(handler)
         {
             Timeout = TimeSpan.FromSeconds(timeoutSeconds),
             DefaultRequestVersion = HttpVersion.Version11
         };
+    }
+
+    /// <summary>
+    /// Validación de certificado para el emulador local de Cosmos DB: acepta un certificado
+    /// plenamente válido y, únicamente, los errores propios de un certificado autofirmado sobre
+    /// localhost (cadena no confiable / nombre no coincidente). Cualquier otro error —incluida la
+    /// ausencia de certificado— se rechaza. Sólo se instala cuando
+    /// <see cref="SinkSettings.AllowUntrustedCertificates"/> está activado (entornos de desarrollo);
+    /// en producción la bandera permanece en <c>false</c> y aplica la validación estándar.
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("csharpsquid", "S4830:Server certificates should be verified during SSL/TLS connections",
+        Justification = "Excepción acotada al emulador local de Cosmos DB (certificado autofirmado sobre localhost): " +
+                        "activada por configuración explícita y desactivada por defecto; sólo tolera los errores de un " +
+                        "certificado autofirmado y nunca la ausencia de certificado.")]
+    private static bool AllowSelfSignedEmulatorCertificate(
+        object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors sslPolicyErrors)
+    {
+        if (sslPolicyErrors == SslPolicyErrors.None)
+        {
+            return true;
+        }
+
+        if (certificate is null)
+        {
+            return false;
+        }
+
+        const SslPolicyErrors selfSignedErrors =
+            SslPolicyErrors.RemoteCertificateChainErrors | SslPolicyErrors.RemoteCertificateNameMismatch;
+
+        return (sslPolicyErrors & ~selfSignedErrors) == 0;
     }
 }

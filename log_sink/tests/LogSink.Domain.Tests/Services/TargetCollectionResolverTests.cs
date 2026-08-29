@@ -5,8 +5,6 @@ namespace LogSink.Domain.Tests.Services;
 
 public class TargetCollectionResolverTests
 {
-    private readonly TargetCollectionResolver _resolver = new();
-
     [Fact]
     public void Resolve_WhenExplicitTargetCollectionHeaderPresent_ReturnsItVerbatim()
     {
@@ -17,7 +15,7 @@ public class TargetCollectionResolverTests
             [ObservabilityHeaders.TelemetryType] = "Metric"
         };
 
-        Assert.Equal("Transfer_Mspx_Prometeus_Management_Trace", _resolver.Resolve(headers));
+        Assert.Equal("Transfer_Mspx_Prometeus_Management_Trace", TargetCollectionResolver.Resolve(headers));
     }
 
     [Fact]
@@ -29,7 +27,7 @@ public class TargetCollectionResolverTests
             [ObservabilityHeaders.TelemetryType] = "Trace"
         };
 
-        Assert.Equal("Transfer_Mspx_Prometeus_Management_Trace", _resolver.Resolve(headers));
+        Assert.Equal("Transfer_Mspx_Prometeus_Management_Trace", TargetCollectionResolver.Resolve(headers));
     }
 
     [Theory]
@@ -44,7 +42,7 @@ public class TargetCollectionResolverTests
             [ObservabilityHeaders.TelemetryType] = "Log"
         };
 
-        Assert.Equal("Svc_A_Log", _resolver.Resolve(headers));
+        Assert.Equal("Svc_A_Log", TargetCollectionResolver.Resolve(headers));
     }
 
     [Fact]
@@ -56,18 +54,18 @@ public class TargetCollectionResolverTests
             // sin x-telemetry-type
         };
 
-        Assert.Null(_resolver.Resolve(headers));
+        Assert.Null(TargetCollectionResolver.Resolve(headers));
     }
 
     [Fact]
     public void Resolve_WhenNoHeaders_ReturnsNull()
     {
-        Assert.Null(_resolver.Resolve(new Dictionary<string, string>()));
+        Assert.Null(TargetCollectionResolver.Resolve(new Dictionary<string, string>()));
     }
 
     [Fact]
     public void Resolve_WhenHeadersNull_Throws()
     {
-        Assert.Throws<ArgumentNullException>(() => _resolver.Resolve(null!));
+        Assert.Throws<ArgumentNullException>(() => TargetCollectionResolver.Resolve(null!));
     }
 }

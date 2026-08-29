@@ -1,6 +1,7 @@
 using Confluent.Kafka;
 using ConsumerStreams.Domain.Ports;
 using ConsumerStreams.Infrastructure.Configuration;
+using ConsumerStreams.Infrastructure.Logging;
 using ConsumerStreams.Infrastructure.Messaging;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
@@ -33,10 +34,10 @@ public sealed class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
         };
 
         _producer = new ProducerBuilder<string, byte[]>(config)
-            .SetErrorHandler((_, e) => _logger.LogError("DLQ Producer Kafka Error [{Code}]: {Reason}", e.Code, e.Reason))
+            .SetErrorHandler((_, e) => InfrastructureLog.DlqProducerError(_logger, e.Code, e.Reason))
             .Build();
 
-        _logger.LogInformation("DLQ Producer Adapter inicializado para bootstrap servers: {Servers}", settings.BootstrapServers);
+        InfrastructureLog.DlqProducerInitialized(_logger, settings.BootstrapServers);
     }
 
     public async Task<bool> PublishErrorEnvelopeAsync(
@@ -59,13 +60,12 @@ public sealed class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
         try
         {
             var report = await _producer.ProduceAsync(errorTopic, message, cancellationToken);
-            _logger.LogInformation("⚠️ [DLQ/ERROR PRODUCED] Sobre Protobuf con error publicado en '{Topic}' [Partición {Partition}, Offset {Offset}]",
-                report.Topic, report.Partition.Value, report.Offset.Value);
+            InfrastructureLog.DlqEnvelopePublished(_logger, report.Topic, report.Partition.Value, report.Offset.Value);
             return true;
         }
         catch (ProduceException<string, byte[]> ex)
         {
-            _logger.LogError(ex, "Fallo al publicar sobre Protobuf en cola de error '{Topic}': {Reason}", errorTopic, ex.Error.Reason);
+            InfrastructureLog.DlqPublishFailed(_logger, ex, errorTopic, ex.Error.Reason);
             return false;
         }
     }
@@ -85,7 +85,7 @@ public sealed class KafkaDlqProducerAdapter : IDlqProducerPort, IDisposable
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "Error cerrando el DLQ producer de Kafka");
+            InfrastructureLog.DlqProducerCloseFailed(_logger, ex);
         }
 
         GC.SuppressFinalize(this);

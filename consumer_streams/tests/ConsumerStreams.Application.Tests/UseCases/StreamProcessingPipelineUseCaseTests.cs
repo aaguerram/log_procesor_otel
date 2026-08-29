@@ -63,8 +63,9 @@ public class StreamProcessingPipelineUseCaseTests
         var useCase = new StreamProcessingPipelineUseCase(
             _consumer.Object, _producer.Object, _dlq.Object,
             new TransactionEnricher(new FakeTimeProvider()),
-            _vault.Object, _crypto.Object,
-            new PayloadMaskingService(new PassthroughCache(), new DataProtectionRulesSettings()),
+            new EnvelopeDecryptionService(
+                _vault.Object, _crypto.Object,
+                new PayloadMaskingService(new PassthroughCache(), new DataProtectionRulesSettings())),
             new FakeTimeProvider(),
             NullLogger<StreamProcessingPipelineUseCase>.Instance);
 

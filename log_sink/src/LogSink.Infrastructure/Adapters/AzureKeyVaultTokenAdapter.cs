@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using LogSink.Domain.Ports;
 using LogSink.Infrastructure.Configuration;
+using LogSink.Infrastructure.Logging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -32,7 +33,7 @@ public sealed class AzureKeyVaultTokenAdapter(
             return Task.FromResult(cached.Credentials);
         }
 
-        logger.LogInformation("🌐 [Cache Miss / TTL Expirado] Descargando credenciales de Cosmos DB de Azure Key Vault para Token '{Token}'...", vaultTokenId);
+        InfrastructureLog.VaultCredentialsResolving(logger, vaultTokenId);
 
         var credentials = new CosmosDbCredentials(
             Endpoint: _settings.CosmosEndpoint,
@@ -44,8 +45,7 @@ public sealed class AzureKeyVaultTokenAdapter(
         var expiresAt = now.Add(CacheTtl);
         _credentialsCache[vaultTokenId] = new CachedCredentialsEntry(credentials, expiresAt);
 
-        logger.LogInformation("✔ Credenciales de Cosmos DB almacenadas en RAM con TTL de 1 hora (válidas hasta {Expires}) para Token '{Token}'",
-            expiresAt, vaultTokenId);
+        InfrastructureLog.VaultCredentialsCached(logger, expiresAt, vaultTokenId);
 
         return Task.FromResult(credentials);
     }

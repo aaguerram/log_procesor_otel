@@ -4,6 +4,7 @@ using System.Text;
 using ConsumerStreams.Domain.Contracts;
 using ConsumerStreams.Domain.Models;
 using ConsumerStreams.Domain.Ports;
+using ConsumerStreams.Infrastructure.Logging;
 using Microsoft.Extensions.Logging;
 
 namespace ConsumerStreams.Infrastructure.Adapters;
@@ -46,9 +47,9 @@ public sealed class ThreadSafeContractRulesCacheAdapter : IContractRulesCachePor
         }
 
         var contractKey = ComputeFingerprint(swaggerYaml);
-        var entry = _cache.GetOrAdd(contractKey, _ =>
+        var entry = _cache.GetOrAdd(contractKey, key =>
         {
-            _logger.LogInformation("[CONTRACT CACHE] Compilando nuevo contrato Swagger (Fingerprint: {Key})", contractKey);
+            InfrastructureLog.ContractCompiling(_logger, key);
             return new CachedContractEntry(_compiler.Compile(swaggerYaml), _timeProvider.GetUtcNow());
         });
 
@@ -71,15 +72,13 @@ public sealed class ThreadSafeContractRulesCacheAdapter : IContractRulesCachePor
             if (now - entry.LastAccessedUtc >= SlidingTtl && _cache.TryRemove(key, out var removed))
             {
                 evicted++;
-                _logger.LogInformation(
-                    "[CONTRACT EVICTION] Contrato inactivo >10 min desalojado: {Contract} v{Version}.",
-                    removed.Rules.ServiceName, removed.Rules.Version);
+                InfrastructureLog.ContractEvicted(_logger, removed.Rules.ServiceName, removed.Rules.Version);
             }
         }
 
         if (evicted > 0)
         {
-            _logger.LogInformation("[CONTRACT CACHE] Limpieza completada. Desalojados: {Count}, Activos: {Active}", evicted, _cache.Count);
+            InfrastructureLog.ContractCacheCleanup(_logger, evicted, _cache.Count);
         }
     }
 

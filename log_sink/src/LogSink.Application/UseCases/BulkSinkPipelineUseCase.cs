@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using LogSink.Application.Logging;
 using LogSink.Domain.Ports;
 using LogSink.Domain.Services;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,6 @@ namespace LogSink.Application.UseCases;
 public class BulkSinkPipelineUseCase(
     IBatchConsumerPort consumerPort,
     IDocumentDbBulkSinkPort cosmosSinkPort,
-    TargetCollectionResolver targetCollectionResolver,
     ILogger<BulkSinkPipelineUseCase> logger)
 {
     public const int DefaultBatchSize = 500;
@@ -27,8 +27,7 @@ public class BulkSinkPipelineUseCase(
         TimeSpan waitWindow,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("Iniciando Bulk Sink Pipeline en .NET 10 Native AOT | Tópico: '{Topic}' | Lote Máx: {BatchSize} docs | Ventana: {WaitMs} ms",
-            sourceTopic, batchSize, waitWindow.TotalMilliseconds);
+        PipelineLog.PipelineStarting(logger, sourceTopic, batchSize, waitWindow.TotalMilliseconds);
 
         await consumerPort.StartBatchConsumerAsync(
             sourceTopic,
@@ -56,14 +55,15 @@ public class BulkSinkPipelineUseCase(
         var result = await cosmosSinkPort.BulkInsertRawJsonLogsAsync(sinkItems, cancellationToken);
         stopwatch.Stop();
 
-        logger.LogInformation("💾 [Bulk Sink Cosmos DB] Persistidos: {Success}/{Total} docs | DLQ: {Dlq} docs | RUs: {RUs:F1} | Latencia Bulk: {Latency:F2} ms (Pipeline: {TotalMs:F2} ms)",
-            result.TotalSuccessful, result.TotalProcessed, result.TotalDlqSent, result.RequestUnitsConsumed, result.ElapsedMilliseconds, stopwatch.Elapsed.TotalMilliseconds);
+        PipelineLog.BatchPersisted(
+            logger, result.TotalSuccessful, result.TotalProcessed, result.TotalDlqSent,
+            result.RequestUnitsConsumed, result.ElapsedMilliseconds, stopwatch.Elapsed.TotalMilliseconds);
 
         // Retorna true para confirmar el commit de offsets en Kafka (los fallidos ya fueron dirigidos a DLQ).
         return true;
     }
 
-    private List<LogSinkItem> MapToSinkItems(IReadOnlyList<KafkaBatchItem> batchItems)
+    private static List<LogSinkItem> MapToSinkItems(IReadOnlyList<KafkaBatchItem> batchItems)
     {
         var sinkItems = new List<LogSinkItem>(batchItems.Count);
 
@@ -77,7 +77,7 @@ public class BulkSinkPipelineUseCase(
             sinkItems.Add(new LogSinkItem(
                 RawJson: item.RawJson,
                 PartitionKey: item.Key ?? "default",
-                TargetCollection: targetCollectionResolver.Resolve(item.Headers)));
+                TargetCollection: TargetCollectionResolver.Resolve(item.Headers)));
         }
 
         return sinkItems;

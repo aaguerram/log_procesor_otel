@@ -6,10 +6,10 @@ namespace LogSink.Domain.Services;
 /// <c>{x-service-name con puntos a guiones bajos}_{x-telemetry-type}</c>.
 /// Lógica pura y sin estado, extraída del caso de uso para poder probarla en aislamiento.
 /// </summary>
-public sealed class TargetCollectionResolver
+public static class TargetCollectionResolver
 {
     /// <returns>El nombre de colección resuelto, o <c>null</c> si las cabeceras no permiten deducirlo.</returns>
-    public string? Resolve(IReadOnlyDictionary<string, string> headers)
+    public static string? Resolve(IReadOnlyDictionary<string, string> headers)
     {
         ArgumentNullException.ThrowIfNull(headers);
 

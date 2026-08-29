@@ -1,0 +1,207 @@
+{
+  "project": "log_sink",
+  "scanDate": "2026-08-29 18:27:14",
+  "qualityGate": {
+    "status": "ERROR",
+    "conditions": [
+      {
+        "status": "ERROR",
+        "metricKey": "new_coverage",
+        "comparator": "LT",
+        "errorThreshold": "80",
+        "actualValue": "12.2"
+      },
+      {
+        "status": "OK",
+        "metricKey": "new_duplicated_lines_density",
+        "comparator": "GT",
+        "errorThreshold": "3",
+        "actualValue": "0.0"
+      },
+      {
+        "status": "ERROR",
+        "metricKey": "new_violations",
+        "comparator": "GT",
+        "errorThreshold": "0",
+        "actualValue": "1"
+      }
+    ],
+    "ignoredConditions": false,
+    "period": {
+      "mode": "PREVIOUS_VERSION",
+      "date": "2026-08-29T11:32:20-05:00"
+    },
+    "caycStatus": "compliant"
+  },
+  "measures": [
+    {
+      "metric": "complexity",
+      "value": "281"
+    },
+    {
+      "metric": "duplicated_lines_density",
+      "value": "0.0",
+      "bestValue": true
+    },
+    {
+      "metric": "duplicated_lines",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "sqale_index",
+      "value": "333",
+      "bestValue": false
+    },
+    {
+      "metric": "sqale_rating",
+      "value": "1.0",
+      "bestValue": true
+    },
+    {
+      "metric": "test_execution_time",
+      "value": "0"
+    },
+    {
+      "metric": "bugs",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "test_failures",
+      "value": "8",
+      "bestValue": false
+    },
+    {
+      "metric": "lines_to_cover",
+      "value": "961"
+    },
+    {
+      "metric": "branch_coverage",
+      "value": "48.5",
+      "bestValue": false
+    },
+    {
+      "metric": "duplicated_files",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "ncloc",
+      "value": "2886"
+    },
+    {
+      "metric": "line_coverage",
+      "value": "33.1",
+      "bestValue": false
+    },
+    {
+      "metric": "test_errors",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "coverage",
+      "value": "34.9",
+      "bestValue": false
+    },
+    {
+      "metric": "reliability_rating",
+      "value": "1.0",
+      "bestValue": true
+    },
+    {
+      "metric": "code_smells",
+      "value": "32",
+      "bestValue": false
+    },
+    {
+      "metric": "security_rating",
+      "value": "3.0",
+      "bestValue": false
+    },
+    {
+      "metric": "violations",
+      "value": "35",
+      "bestValue": false
+    },
+    {
+      "metric": "security_hotspots",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "test_success_density",
+      "value": "84.6",
+      "bestValue": false
+    },
+    {
+      "metric": "tests",
+      "value": "52"
+    },
+    {
+      "metric": "uncovered_lines",
+      "value": "643",
+      "bestValue": false
+    },
+    {
+      "metric": "cognitive_complexity",
+      "value": "151",
+      "bestValue": false
+    },
+    {
+      "metric": "duplicated_blocks",
+      "value": "0",
+      "bestValue": true
+    },
+    {
+      "metric": "vulnerabilities",
+      "value": "3",
+      "bestValue": false
+    }
+  ],
+  "activeIssuesCount": 1,
+  "activeIssues": {
+    "key": "5ea3d1ee-8238-4bca-832e-387f9dfa75af",
+    "rule": "external_roslyn:CA1873",
+    "severity": "INFO",
+    "component": "log_sink:log_sink/src/LogSink.Infrastructure/Adapters/KafkaBatchConsumerAdapter.cs",
+    "project": "log_sink",
+    "line": 53,
+    "hash": "731660136c7fa8a115e25c0a355bac06",
+    "textRange": {
+      "startLine": 53,
+      "endLine": 53,
+      "startOffset": 58,
+      "endOffset": 128
+    },
+    "flows": [],
+    "status": "OPEN",
+    "message": "La evaluación de este argumento puede ser costosa e innecesaria si el registro está deshabilitado",
+    "effort": "0min",
+    "debt": "0min",
+    "author": "",
+    "tags": [],
+    "creationDate": "2026-08-29T18:26:33-05:00",
+    "updateDate": "2026-08-29T18:26:33-05:00",
+    "type": "CODE_SMELL",
+    "externalRuleEngine": "roslyn",
+    "scope": "MAIN",
+    "quickFixAvailable": false,
+    "messageFormattings": [],
+    "codeVariants": [],
+    "cleanCodeAttribute": "CONVENTIONAL",
+    "cleanCodeAttributeCategory": "CONSISTENT",
+    "impacts": [
+      {
+        "softwareQuality": "MAINTAINABILITY",
+        "severity": "INFO"
+      }
+    ],
+    "issueStatus": "OPEN",
+    "prioritizedRule": false,
+    "fromSonarQubeUpdate": false,
+    "internalTags": [],
+    "linkedTicketStatus": "NOT_LINKED"
+  }
+}

@@ -43,6 +43,10 @@ public static class ConfigReader
     public static double DoubleOrDefault(this IConfiguration configuration, double defaultValue, params string[] keys)
         => double.TryParse(configuration.FirstValue(keys), out var parsed) ? parsed : defaultValue;
 
+    /// <summary>Bandera booleana que toma el valor por defecto salvo que exista un valor parseable.</summary>
+    public static bool BoolOrDefault(this IConfiguration configuration, bool defaultValue, params string[] keys)
+        => bool.TryParse(configuration.FirstValue(keys), out var parsed) ? parsed : defaultValue;
+
     /// <summary>
     /// Bandera booleana con semántica "activada salvo que se indique <c>false</c> explícitamente".
     /// </summary>

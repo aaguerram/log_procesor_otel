@@ -15,11 +15,20 @@ namespace ConsumerStreams.Domain.Utils;
 /// </summary>
 public static class JsonStreamDataProtectionMasker
 {
-    private static readonly byte[] BodyPreviewPropName = Encoding.UTF8.GetBytes("http.response.body_preview");
-    private static readonly byte[] RequestBodyPropName = Encoding.UTF8.GetBytes("http.request.body_preview");
     private static readonly byte[] MethodPropName = Encoding.UTF8.GetBytes("http.request.method");
     private static readonly byte[] RoutePropName = Encoding.UTF8.GetBytes("http.route");
     private static readonly byte[] NamePropName = Encoding.UTF8.GetBytes("Name");
+
+    /// <summary>
+    /// Contexto inmutable de una operación de enmascaramiento: árbol de reglas, interruptores de
+    /// configuración y metadatos de la ruta OpenAPI resuelta. Se propaga por valor durante el
+    /// recorrido recursivo para no multiplicar la lista de parámetros de cada método auxiliar.
+    /// </summary>
+    private readonly record struct MaskingContext(
+        CompiledContractRules Rules,
+        DataProtectionRulesSettings Settings,
+        string Method,
+        string Route);
 
     public static byte[] MaskPayload(
         ReadOnlySpan<byte> inputUtf8,
@@ -31,16 +40,21 @@ public static class JsonStreamDataProtectionMasker
 
         // 1. Extraer método y ruta en un pase preliminar ultra-rápido de metadatos
         ExtractMetadata(inputUtf8, out string method, out string route);
-        route = OpenApiContractCompiler.NormalizeRoute(route);
+        var context = new MaskingContext(rules, settings, method, OpenApiContractCompiler.NormalizeRoute(route));
 
         // 2. Procesamiento Streaming Recursivo en 1 solo pase
+        return MaskDocument(inputUtf8, context);
+    }
+
+    private static byte[] MaskDocument(ReadOnlySpan<byte> inputUtf8, MaskingContext context)
+    {
         var bufferWriter = new ArrayBufferWriter<byte>(inputUtf8.Length + 256);
         using (var writer = new Utf8JsonWriter(bufferWriter))
         {
             var reader = new Utf8JsonReader(inputUtf8, isFinalBlock: true, state: default);
             if (reader.Read())
             {
-                MaskAndCopy(ref reader, writer, rules, settings, method, route, string.Empty, string.Empty);
+                MaskAndCopy(ref reader, writer, context, string.Empty, string.Empty);
             }
             writer.Flush();
         }
@@ -51,52 +65,18 @@ public static class JsonStreamDataProtectionMasker
     private static void MaskAndCopy(
         ref Utf8JsonReader reader,
         Utf8JsonWriter writer,
-        CompiledContractRules rules,
-        DataProtectionRulesSettings settings,
-        string method,
-        string route,
+        MaskingContext context,
         string parentPath,
         string simplePropName)
     {
         switch (reader.TokenType)
         {
             case JsonTokenType.StartObject:
-                writer.WriteStartObject();
-                while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
-                {
-                    if (reader.TokenType == JsonTokenType.PropertyName)
-                    {
-                        var propNameBytes = reader.ValueSpan;
-                        string propName = reader.GetString() ?? string.Empty;
-                        string fullChildPath = string.IsNullOrEmpty(parentPath) ? propName : $"{parentPath}.{propName}";
-                        var rule = rules.GetRule(method, route, fullChildPath, propName);
-
-                        // Si la regla es Remove y está activa, saltamos la propiedad y su valor por completo
-                        if (rule == DataProtectionRuleType.Remove && settings.Remove)
-                        {
-                            reader.Read(); // Avanzar al valor
-                            if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray)
-                            {
-                                reader.TrySkip();
-                            }
-                            continue; // No escribir la propiedad
-                        }
-
-                        writer.WritePropertyName(propNameBytes);
-                        reader.Read(); // Avanzar al valor
-                        MaskAndCopy(ref reader, writer, rules, settings, method, route, fullChildPath, propName);
-                    }
-                }
-                writer.WriteEndObject();
+                CopyObject(ref reader, writer, context, parentPath);
                 break;
 
             case JsonTokenType.StartArray:
-                writer.WriteStartArray();
-                while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
-                {
-                    MaskAndCopy(ref reader, writer, rules, settings, method, route, parentPath, simplePropName);
-                }
-                writer.WriteEndArray();
+                CopyArray(ref reader, writer, context, parentPath, simplePropName);
                 break;
 
             case JsonTokenType.PropertyName:
@@ -104,63 +84,12 @@ public static class JsonStreamDataProtectionMasker
                 break;
 
             case JsonTokenType.String:
-                // 1. Evaluar si es un preview JSON interno embebido como string
-                if (simplePropName is "http.response.body_preview" or "http.request.body_preview" or "body_preview")
-                {
-                    var innerStr = reader.GetString();
-                    if (!string.IsNullOrEmpty(innerStr) && (innerStr.StartsWith('{') || innerStr.StartsWith('[')))
-                    {
-                        var innerMasked = MaskInnerJsonString(innerStr, rules, settings, method, route);
-                        writer.WriteStringValue(innerMasked);
-                        break;
-                    }
-                }
-
-                // 2. Evaluar si es url.path, http.target o url.full para enmascaramiento de Path Parameters y Query
-                if (settings.MaskUrlPathAndQuery && simplePropName is "url.path" or "http.target" or "url.full" or "http.url")
-                {
-                    var rawUrl = reader.GetString();
-                    if (!string.IsNullOrEmpty(rawUrl))
-                    {
-                        int qIdx = rawUrl.IndexOf('?');
-                        if (qIdx >= 0)
-                        {
-                            string pathPart = rawUrl[..qIdx];
-                            string queryPart = rawUrl[(qIdx + 1)..];
-                            string maskedPath = MaskUrlPath(pathPart, rules, settings, method, route);
-                            string maskedQuery = MaskUrlQuery(queryPart, rules, settings, method, route);
-                            writer.WriteStringValue($"{maskedPath}?{maskedQuery}");
-                            break;
-                        }
-                        else
-                        {
-                            string maskedPath = MaskUrlPath(rawUrl, rules, settings, method, route);
-                            writer.WriteStringValue(maskedPath);
-                            break;
-                        }
-                    }
-                }
-
-                // 3. Evaluar si es url.query
-                if (settings.MaskUrlPathAndQuery && simplePropName is "url.query" or "http.query")
-                {
-                    var rawQuery = reader.GetString();
-                    if (!string.IsNullOrEmpty(rawQuery))
-                    {
-                        string maskedQuery = MaskUrlQuery(rawQuery, rules, settings, method, route);
-                        writer.WriteStringValue(maskedQuery);
-                        break;
-                    }
-                }
-
-                // 4. Evaluar regla estándar jerárquica para la propiedad string
-                var strRule = rules.GetRule(method, route, parentPath, simplePropName);
-                WriteMaskedStringOrNumber(ref reader, writer, strRule, settings);
+                CopyStringValue(ref reader, writer, context, parentPath, simplePropName);
                 break;
 
             case JsonTokenType.Number:
-                var numRule = rules.GetRule(method, route, parentPath, simplePropName);
-                WriteMaskedStringOrNumber(ref reader, writer, numRule, settings);
+                WriteMaskedStringOrNumber(ref reader, writer,
+                    context.Rules.GetRule(context.Method, context.Route, parentPath, simplePropName), context.Settings);
                 break;
 
             case JsonTokenType.True:
@@ -174,12 +103,129 @@ public static class JsonStreamDataProtectionMasker
         }
     }
 
-    private static string MaskInnerJsonString(
-        string innerJson,
-        CompiledContractRules rules,
-        DataProtectionRulesSettings settings,
-        string method,
-        string route)
+    private static void CopyObject(ref Utf8JsonReader reader, Utf8JsonWriter writer, MaskingContext context, string parentPath)
+    {
+        writer.WriteStartObject();
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+        {
+            if (reader.TokenType != JsonTokenType.PropertyName)
+                continue;
+
+            var propNameBytes = reader.ValueSpan;
+            string propName = reader.GetString() ?? string.Empty;
+            string fullChildPath = string.IsNullOrEmpty(parentPath) ? propName : $"{parentPath}.{propName}";
+            var rule = context.Rules.GetRule(context.Method, context.Route, fullChildPath, propName);
+
+            // Si la regla es Remove y está activa, saltamos la propiedad y su valor por completo
+            if (rule == DataProtectionRuleType.Remove && context.Settings.Remove)
+            {
+                SkipPropertyValue(ref reader);
+                continue;
+            }
+
+            writer.WritePropertyName(propNameBytes);
+            reader.Read(); // Avanzar al valor
+            MaskAndCopy(ref reader, writer, context, fullChildPath, propName);
+        }
+        writer.WriteEndObject();
+    }
+
+    private static void SkipPropertyValue(ref Utf8JsonReader reader)
+    {
+        reader.Read(); // Avanzar al valor
+        if (reader.TokenType is JsonTokenType.StartObject or JsonTokenType.StartArray)
+            reader.TrySkip();
+    }
+
+    private static void CopyArray(
+        ref Utf8JsonReader reader, Utf8JsonWriter writer, MaskingContext context, string parentPath, string simplePropName)
+    {
+        writer.WriteStartArray();
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+        {
+            MaskAndCopy(ref reader, writer, context, parentPath, simplePropName);
+        }
+        writer.WriteEndArray();
+    }
+
+    private static void CopyStringValue(
+        ref Utf8JsonReader reader,
+        Utf8JsonWriter writer,
+        MaskingContext context,
+        string parentPath,
+        string simplePropName)
+    {
+        // 1. Preview JSON interno embebido como string
+        if (TryCopyEmbeddedJsonPreview(ref reader, writer, context, simplePropName))
+            return;
+
+        // 2. url.path / http.target / url.full / http.url: enmascarar Path Parameters y Query
+        if (context.Settings.MaskUrlPathAndQuery && TryCopyMaskedUrl(ref reader, writer, context, simplePropName))
+            return;
+
+        // 3. url.query / http.query
+        if (context.Settings.MaskUrlPathAndQuery && TryCopyMaskedQuery(ref reader, writer, context, simplePropName))
+            return;
+
+        // 4. Regla estándar jerárquica para la propiedad string
+        var strRule = context.Rules.GetRule(context.Method, context.Route, parentPath, simplePropName);
+        WriteMaskedStringOrNumber(ref reader, writer, strRule, context.Settings);
+    }
+
+    private static bool TryCopyEmbeddedJsonPreview(
+        ref Utf8JsonReader reader, Utf8JsonWriter writer, MaskingContext context, string simplePropName)
+    {
+        if (simplePropName is not ("http.response.body_preview" or "http.request.body_preview" or "body_preview"))
+            return false;
+
+        var innerStr = reader.GetString();
+        if (string.IsNullOrEmpty(innerStr) || (!innerStr.StartsWith('{') && !innerStr.StartsWith('[')))
+            return false;
+
+        writer.WriteStringValue(MaskInnerJsonString(innerStr, context));
+        return true;
+    }
+
+    private static bool TryCopyMaskedUrl(
+        ref Utf8JsonReader reader, Utf8JsonWriter writer, MaskingContext context, string simplePropName)
+    {
+        if (simplePropName is not ("url.path" or "http.target" or "url.full" or "http.url"))
+            return false;
+
+        var rawUrl = reader.GetString();
+        if (string.IsNullOrEmpty(rawUrl))
+            return false;
+
+        int qIdx = rawUrl.IndexOf('?');
+        if (qIdx >= 0)
+        {
+            string maskedPath = MaskUrlPath(rawUrl[..qIdx], context);
+            string maskedQuery = MaskUrlQuery(rawUrl[(qIdx + 1)..], context);
+            writer.WriteStringValue($"{maskedPath}?{maskedQuery}");
+        }
+        else
+        {
+            writer.WriteStringValue(MaskUrlPath(rawUrl, context));
+        }
+
+        return true;
+    }
+
+    private static bool TryCopyMaskedQuery(
+        ref Utf8JsonReader reader, Utf8JsonWriter writer, MaskingContext context, string simplePropName)
+    {
+        if (simplePropName is not ("url.query" or "http.query"))
+            return false;
+
+        var rawQuery = reader.GetString();
+        if (string.IsNullOrEmpty(rawQuery))
+            return false;
+
+        writer.WriteStringValue(MaskUrlQuery(rawQuery, context));
+        return true;
+    }
+
+    private static string MaskInnerJsonString(string innerJson, MaskingContext context)
     {
         var innerBytes = Encoding.UTF8.GetBytes(innerJson);
         var bufferWriter = new ArrayBufferWriter<byte>(innerBytes.Length + 128);
@@ -188,7 +234,7 @@ public static class JsonStreamDataProtectionMasker
             var reader = new Utf8JsonReader(innerBytes, isFinalBlock: true, state: default);
             if (reader.Read())
             {
-                MaskAndCopy(ref reader, writer, rules, settings, method, route, string.Empty, string.Empty);
+                MaskAndCopy(ref reader, writer, context, string.Empty, string.Empty);
             }
             writer.Flush();
         }
@@ -196,67 +242,73 @@ public static class JsonStreamDataProtectionMasker
         return Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
     }
 
-    private static string MaskUrlPath(
-        string? rawPath,
-        CompiledContractRules rules,
-        DataProtectionRulesSettings settings,
-        string method,
-        string routeTemplate)
+    private static string MaskUrlPath(string? rawPath, MaskingContext context)
     {
         if (string.IsNullOrEmpty(rawPath)) return rawPath ?? string.Empty;
 
-        // 1. Obtener información de parámetros de ruta
-        var routeInfo = rules.FindRouteInfo(method, routeTemplate);
-        if (routeInfo == null || routeInfo.PathParamRules.Length == 0)
-        {
-            // Fallback: Buscar template coincidente entre las rutas compiladas
-            foreach (var info in rules.RouteParameterRules.Values)
-            {
-                if (info.PathParamRules.Length > 0 && PathMatchesTemplate(rawPath, info.TemplateSegments))
-                {
-                    routeInfo = info;
-                    break;
-                }
-            }
-        }
-
+        var routeInfo = ResolvePathRouteInfo(context.Rules, context.Method, context.Route, rawPath);
         if (routeInfo == null || routeInfo.PathParamRules.Length == 0)
             return rawPath;
 
-        // 2. Segmentar la ruta real
         bool hasLeadingSlash = rawPath.StartsWith('/');
         var rawSegments = rawPath.Split('/', StringSplitOptions.RemoveEmptyEntries);
         var tplSegments = routeInfo.TemplateSegments;
 
-        // 3. Alinear offset de sufijo
+        // Alinear el offset de sufijo entre la ruta real y la plantilla
         int offset = rawSegments.Length - tplSegments.Length;
         if (offset < 0) return rawPath;
 
-        // Validar coincidencia en segmentos literales
+        if (!LiteralSegmentsMatch(tplSegments, rawSegments, offset))
+            return rawPath;
+
+        ApplyPathParamMasks(routeInfo, rawSegments, tplSegments.Length, offset, context.Settings);
+
+        return (hasLeadingSlash ? "/" : string.Empty) + string.Join('/', rawSegments);
+    }
+
+    private static CompiledRouteParameterInfo? ResolvePathRouteInfo(
+        CompiledContractRules rules, string method, string routeTemplate, string rawPath)
+    {
+        var routeInfo = rules.FindRouteInfo(method, routeTemplate);
+        if (routeInfo is { PathParamRules.Length: > 0 })
+            return routeInfo;
+
+        // Fallback: buscar una plantilla coincidente entre las rutas compiladas
+        foreach (var info in rules.RouteParameterRules.Values)
+        {
+            if (info.PathParamRules.Length > 0 && PathMatchesTemplate(rawPath, info.TemplateSegments))
+                return info;
+        }
+
+        return routeInfo;
+    }
+
+    private static bool LiteralSegmentsMatch(string[] tplSegments, string[] rawSegments, int offset)
+    {
         for (int t = 0; t < tplSegments.Length; t++)
         {
             var tSeg = tplSegments[t];
-            if (!tSeg.StartsWith('{') && !tSeg.EndsWith('}'))
+            if (!tSeg.StartsWith('{') && !tSeg.EndsWith('}')
+                && !tSeg.Equals(rawSegments[offset + t], StringComparison.OrdinalIgnoreCase))
             {
-                if (!tSeg.Equals(rawSegments[offset + t], StringComparison.OrdinalIgnoreCase))
-                    return rawPath;
+                return false;
             }
         }
+        return true;
+    }
 
-        // 4. Enmascarar segmentos correspondientes a Path Parameters
+    private static void ApplyPathParamMasks(
+        CompiledRouteParameterInfo routeInfo, string[] rawSegments, int tplLength, int offset, DataProtectionRulesSettings settings)
+    {
         foreach (var (tplIndex, _, rule) in routeInfo.PathParamRules)
         {
-            if (tplIndex >= 0 && tplIndex < tplSegments.Length)
-            {
-                int rawIdx = offset + tplIndex;
-                if (rawIdx >= 0 && rawIdx < rawSegments.Length)
-                {
-                    rawSegments[rawIdx] = MaskSingleValue(rawSegments[rawIdx], rule, settings);
-                }
-            }
-        }
+            if (tplIndex < 0 || tplIndex >= tplLength)
+                continue;
 
-        return (hasLeadingSlash ? "/" : "") + string.Join('/', rawSegments);
+            int rawIdx = offset + tplIndex;
+            if (rawIdx >= 0 && rawIdx < rawSegments.Length)
+                rawSegments[rawIdx] = MaskSingleValue(rawSegments[rawIdx], rule, settings);
+        }
     }
 
     private static bool PathMatchesTemplate(string rawPath, string[] tplSegments)
@@ -265,24 +317,10 @@ public static class JsonStreamDataProtectionMasker
         int offset = rawSegments.Length - tplSegments.Length;
         if (offset < 0) return false;
 
-        for (int t = 0; t < tplSegments.Length; t++)
-        {
-            var tSeg = tplSegments[t];
-            if (!tSeg.StartsWith('{') && !tSeg.EndsWith('}'))
-            {
-                if (!tSeg.Equals(rawSegments[offset + t], StringComparison.OrdinalIgnoreCase))
-                    return false;
-            }
-        }
-        return true;
+        return LiteralSegmentsMatch(tplSegments, rawSegments, offset);
     }
 
-    private static string MaskUrlQuery(
-        string? rawQuery,
-        CompiledContractRules rules,
-        DataProtectionRulesSettings settings,
-        string method,
-        string routeTemplate)
+    private static string MaskUrlQuery(string? rawQuery, MaskingContext context)
     {
         if (string.IsNullOrEmpty(rawQuery)) return rawQuery ?? string.Empty;
 
@@ -290,7 +328,7 @@ public static class JsonStreamDataProtectionMasker
         string queryBody = hasLeadingQuestion ? rawQuery[1..] : rawQuery;
 
         var pairs = queryBody.Split('&', StringSplitOptions.RemoveEmptyEntries);
-        var routeInfo = rules.FindRouteInfo(method, routeTemplate);
+        var routeInfo = context.Rules.FindRouteInfo(context.Method, context.Route);
 
         var maskedPairs = new List<string>(pairs.Length);
         foreach (var pair in pairs)
@@ -305,27 +343,24 @@ public static class JsonStreamDataProtectionMasker
             string key = pair[..eqIdx];
             string val = pair[(eqIdx + 1)..];
 
-            var rule = DataProtectionRuleType.Full;
-            if (routeInfo != null && routeInfo.QueryParamRules.TryGetValue(key, out var rRule))
-            {
-                rule = rRule;
-            }
-            else
-            {
-                rule = rules.GetRule(method, routeTemplate, key);
-            }
-
-            if (rule == DataProtectionRuleType.Remove && settings.Remove)
-            {
+            var rule = ResolveQueryRule(context, routeInfo, key);
+            if (rule == DataProtectionRuleType.Remove && context.Settings.Remove)
                 continue;
-            }
 
-            string maskedVal = MaskSingleValue(val, rule, settings);
-            maskedPairs.Add($"{key}={maskedVal}");
+            maskedPairs.Add($"{key}={MaskSingleValue(val, rule, context.Settings)}");
         }
 
         string res = string.Join('&', maskedPairs);
         return hasLeadingQuestion ? $"?{res}" : res;
+    }
+
+    private static DataProtectionRuleType ResolveQueryRule(
+        MaskingContext context, CompiledRouteParameterInfo? routeInfo, string key)
+    {
+        if (routeInfo != null && routeInfo.QueryParamRules.TryGetValue(key, out var rule))
+            return rule;
+
+        return context.Rules.GetRule(context.Method, context.Route, key);
     }
 
     private static string MaskSingleValue(string val, DataProtectionRuleType rule, DataProtectionRulesSettings settings)
@@ -406,39 +441,35 @@ public static class JsonStreamDataProtectionMasker
         var reader = new Utf8JsonReader(utf8, isFinalBlock: true, state: default);
         while (reader.Read())
         {
-            if (reader.TokenType == JsonTokenType.PropertyName)
-            {
-                if (reader.ValueTextEquals(MethodPropName))
-                {
-                    if (reader.Read() && reader.TokenType == JsonTokenType.String)
-                        method = reader.GetString() ?? "GET";
-                }
-                else if (reader.ValueTextEquals(RoutePropName))
-                {
-                    if (reader.Read() && reader.TokenType == JsonTokenType.String)
-                        route = reader.GetString() ?? string.Empty;
-                }
-                else if (reader.ValueTextEquals(NamePropName))
-                {
-                    if (reader.Read() && reader.TokenType == JsonTokenType.String)
-                    {
-                        var nameVal = reader.GetString();
-                        if (!string.IsNullOrEmpty(nameVal) && string.IsNullOrEmpty(route))
-                        {
-                            var parts = nameVal.Split(' ', 2);
-                            if (parts.Length == 2 && (parts[0] is "GET" or "POST" or "PUT" or "DELETE" or "PATCH"))
-                            {
-                                method = parts[0];
-                                route = parts[1];
-                            }
-                            else if (nameVal.StartsWith('/'))
-                            {
-                                route = nameVal;
-                            }
-                        }
-                    }
-                }
-            }
+            if (reader.TokenType != JsonTokenType.PropertyName)
+                continue;
+
+            if (reader.ValueTextEquals(MethodPropName))
+                method = ReadStringToken(ref reader) ?? method;
+            else if (reader.ValueTextEquals(RoutePropName))
+                route = ReadStringToken(ref reader) ?? route;
+            else if (reader.ValueTextEquals(NamePropName))
+                ApplyNameHeuristic(ReadStringToken(ref reader), ref method, ref route);
+        }
+    }
+
+    private static string? ReadStringToken(ref Utf8JsonReader reader)
+        => reader.Read() && reader.TokenType == JsonTokenType.String ? reader.GetString() : null;
+
+    private static void ApplyNameHeuristic(string? nameValue, ref string method, ref string route)
+    {
+        if (string.IsNullOrEmpty(nameValue) || !string.IsNullOrEmpty(route))
+            return;
+
+        var parts = nameValue.Split(' ', 2);
+        if (parts.Length == 2 && parts[0] is "GET" or "POST" or "PUT" or "DELETE" or "PATCH")
+        {
+            method = parts[0];
+            route = parts[1];
+        }
+        else if (nameValue.StartsWith('/'))
+        {
+            route = nameValue;
         }
     }
 }
