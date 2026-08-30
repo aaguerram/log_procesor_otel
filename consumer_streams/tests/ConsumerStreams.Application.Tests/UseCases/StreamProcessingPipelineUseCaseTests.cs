@@ -161,6 +161,33 @@ public class StreamProcessingPipelineUseCaseTests
     }
 
     [Fact]
+    public async Task Handler_LogSignalWithNonTransactionalShape_IsForwardedNotDlq()
+    {
+        // Señal Log de OpenTelemetry: 'eventId' viaja como número, incompatible con el
+        // string RawTransactionEvent.EventId. Debe reenviarse igualmente (no ir a la DLQ),
+        // ya que el JSON original es lo que se persiste en Cosmos DB.
+        const string logJson =
+            """{"timestamp":"2026-08-29T23:00:00Z","level":"Information","category":"Auth","message":"login ok","eventId":1001,"properties":{"userId":"USR-1"}}""";
+        _crypto.Setup(c => c.DecryptEnvelopeToJson(It.IsAny<EncryptedPayloadEnvelope>(), It.IsAny<VaultKeyMaterial>()))
+            .Returns(logJson);
+
+        var handler = await StartAsync();
+        string? forwardedJson = null;
+        _producer.Setup(p => p.ForwardEventAsync("target", It.IsAny<string?>(), It.IsAny<string>(),
+                It.IsAny<IDictionary<string, string>?>(), It.IsAny<CancellationToken>()))
+            .Callback<string, string?, string, IDictionary<string, string>?, CancellationToken>(
+                (_, _, json, _, _) => forwardedJson = json)
+            .ReturnsAsync(true);
+
+        var committed = await handler(
+            "k1", ValidEnvelope(e => e.TelemetryType = TelemetryType.Log).ToByteArray(), null, CancellationToken.None);
+
+        Assert.True(committed);
+        Assert.Equal(logJson, forwardedJson);
+        _dlq.VerifyNoOtherCalls();
+    }
+
+    [Fact]
     public async Task Handler_MalformedNonProtobufBytes_RoutesToDlq()
     {
         var handler = await StartAsync();

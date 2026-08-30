@@ -85,10 +85,39 @@ public class StreamProcessingPipelineUseCase(
 
     private ProcessedTransactionEvent EnrichPayload(string decryptedJson)
     {
-        var rawEvent = JsonSerializer.Deserialize(decryptedJson, StreamJsonContext.Default.RawTransactionEvent)
-            ?? throw new InvalidOperationException($"El mensaje no pudo ser parseado como RawTransactionEvent: {decryptedJson}");
+        RawTransactionEvent? rawEvent;
+        try
+        {
+            rawEvent = JsonSerializer.Deserialize(decryptedJson, StreamJsonContext.Default.RawTransactionEvent);
+        }
+        catch (JsonException) when (IsJsonObject(decryptedJson))
+        {
+            // JSON válido pero con algún campo de tipo incompatible con el esquema transaccional
+            // (señales Metric / Log de OpenTelemetry: p. ej. un eventId numérico). Se enriquece con
+            // valores por defecto; el JSON original ya viaja íntegro en RawPayloadJson, que es lo
+            // que finalmente se reenvía y se persiste. Los bytes que no son JSON siguen yendo a la DLQ.
+            rawEvent = new RawTransactionEvent();
+        }
+
+        if (rawEvent is null)
+        {
+            throw new InvalidOperationException($"El mensaje no pudo ser parseado como RawTransactionEvent: {decryptedJson}");
+        }
 
         return transformer.TransformAndEnrich(rawEvent with { RawPayloadJson = decryptedJson });
+    }
+
+    private static bool IsJsonObject(string json)
+    {
+        try
+        {
+            using var document = JsonDocument.Parse(json);
+            return document.RootElement.ValueKind == JsonValueKind.Object;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
     }
 
     private async Task RouteToErrorTopicAsync(
